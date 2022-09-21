@@ -1,7 +1,10 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\Module_02",
+    "\\Module_02\\Task_01",
+    "\\Module_02\\Task_01\\Module_2_1_2_Net_WinFormsApp"
   ],
-  "SelectedNode": "\\C:\\Users\\Volha_Kviatkouskaya\\Source\\Repos\\Basic_MP",
+  "SelectedNode": "\\Module_02\\Task_01\\Module_2_1_2_Net_WinFormsApp\\StartForm.cs",
   "PreviewInSolutionExplorer": false
 }
