@@ -1,0 +1,12 @@
+C:\Users\Volha_Kviatkouskaya\source\repos\Basic_MP\Module_02\Task_02\StandardLibrary\HelloLibrary\bin\Debug\net6.0\HelloLibrary.deps.json
+C:\Users\Volha_Kviatkouskaya\source\repos\Basic_MP\Module_02\Task_02\StandardLibrary\HelloLibrary\bin\Debug\net6.0\HelloLibrary.dll
+C:\Users\Volha_Kviatkouskaya\source\repos\Basic_MP\Module_02\Task_02\StandardLibrary\HelloLibrary\bin\Debug\net6.0\HelloLibrary.pdb
+C:\Users\Volha_Kviatkouskaya\source\repos\Basic_MP\Module_02\Task_02\StandardLibrary\HelloLibrary\obj\Debug\net6.0\HelloLibrary.csproj.AssemblyReference.cache
+C:\Users\Volha_Kviatkouskaya\source\repos\Basic_MP\Module_02\Task_02\StandardLibrary\HelloLibrary\obj\Debug\net6.0\HelloLibrary.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Volha_Kviatkouskaya\source\repos\Basic_MP\Module_02\Task_02\StandardLibrary\HelloLibrary\obj\Debug\net6.0\HelloLibrary.AssemblyInfoInputs.cache
+C:\Users\Volha_Kviatkouskaya\source\repos\Basic_MP\Module_02\Task_02\StandardLibrary\HelloLibrary\obj\Debug\net6.0\HelloLibrary.AssemblyInfo.cs
+C:\Users\Volha_Kviatkouskaya\source\repos\Basic_MP\Module_02\Task_02\StandardLibrary\HelloLibrary\obj\Debug\net6.0\HelloLibrary.csproj.CoreCompileInputs.cache
+C:\Users\Volha_Kviatkouskaya\source\repos\Basic_MP\Module_02\Task_02\StandardLibrary\HelloLibrary\obj\Debug\net6.0\HelloLibrary.dll
+C:\Users\Volha_Kviatkouskaya\source\repos\Basic_MP\Module_02\Task_02\StandardLibrary\HelloLibrary\obj\Debug\net6.0\refint\HelloLibrary.dll
+C:\Users\Volha_Kviatkouskaya\source\repos\Basic_MP\Module_02\Task_02\StandardLibrary\HelloLibrary\obj\Debug\net6.0\HelloLibrary.pdb
+C:\Users\Volha_Kviatkouskaya\source\repos\Basic_MP\Module_02\Task_02\StandardLibrary\HelloLibrary\obj\Debug\net6.0\ref\HelloLibrary.dll
