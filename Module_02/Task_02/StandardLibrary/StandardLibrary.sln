@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloLibrary", "HelloLibrar
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Module_2_1_ConsoleApp_Net_Core", "..\Module_2_1_ConsoleApp_Net_Core\Module_2_1_ConsoleApp_Net_Core\Module_2_1_ConsoleApp_Net_Core.csproj", "{8A723D76-DA90-460E-B570-25013F9EF0E3}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Module_2_1_3_Net_WpfApp", "..\Module_2_1_3_Net_WpfApp\Module_2_1_3_Net_WpfApp.csproj", "{04877895-FA4C-4C10-A7B3-62C215AF5DAF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{8A723D76-DA90-460E-B570-25013F9EF0E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8A723D76-DA90-460E-B570-25013F9EF0E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8A723D76-DA90-460E-B570-25013F9EF0E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{04877895-FA4C-4C10-A7B3-62C215AF5DAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04877895-FA4C-4C10-A7B3-62C215AF5DAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04877895-FA4C-4C10-A7B3-62C215AF5DAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04877895-FA4C-4C10-A7B3-62C215AF5DAF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
