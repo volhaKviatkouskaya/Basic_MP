@@ -1,0 +1,10 @@
+C:\Users\Volha_Kviatkouskaya\source\repos\Basic_MP\Module_03\Task_01\Task1\bin\Debug\netcoreapp3.1\Task1.deps.json
+C:\Users\Volha_Kviatkouskaya\source\repos\Basic_MP\Module_03\Task_01\Task1\bin\Debug\netcoreapp3.1\Task1.dll
+C:\Users\Volha_Kviatkouskaya\source\repos\Basic_MP\Module_03\Task_01\Task1\bin\Debug\netcoreapp3.1\Task1.pdb
+C:\Users\Volha_Kviatkouskaya\source\repos\Basic_MP\Module_03\Task_01\Task1\obj\Debug\netcoreapp3.1\Task1.csproj.AssemblyReference.cache
+C:\Users\Volha_Kviatkouskaya\source\repos\Basic_MP\Module_03\Task_01\Task1\obj\Debug\netcoreapp3.1\Task1.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Volha_Kviatkouskaya\source\repos\Basic_MP\Module_03\Task_01\Task1\obj\Debug\netcoreapp3.1\Task1.AssemblyInfoInputs.cache
+C:\Users\Volha_Kviatkouskaya\source\repos\Basic_MP\Module_03\Task_01\Task1\obj\Debug\netcoreapp3.1\Task1.AssemblyInfo.cs
+C:\Users\Volha_Kviatkouskaya\source\repos\Basic_MP\Module_03\Task_01\Task1\obj\Debug\netcoreapp3.1\Task1.csproj.CoreCompileInputs.cache
+C:\Users\Volha_Kviatkouskaya\source\repos\Basic_MP\Module_03\Task_01\Task1\obj\Debug\netcoreapp3.1\Task1.dll
+C:\Users\Volha_Kviatkouskaya\source\repos\Basic_MP\Module_03\Task_01\Task1\obj\Debug\netcoreapp3.1\Task1.pdb
