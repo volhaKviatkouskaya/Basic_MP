@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "WArz7rybqDOGZe7xXOBEFATUm+9pGP5FjE3QJucTxBdnr5SVTV96nCTg2zIwDZNwSzbWoJPAQZ2nz74WwEflCg==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Volha_Kviatkouskaya\\source\\repos\\Basic_MP\\Module_03\\Task_01\\Task1\\Task1.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Volha_Kviatkouskaya\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\3.1.10\\microsoft.aspnetcore.app.ref.3.1.10.nupkg.sha512",
+    "C:\\Users\\Volha_Kviatkouskaya\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\3.1.0\\microsoft.windowsdesktop.app.ref.3.1.0.nupkg.sha512",
+    "C:\\Users\\Volha_Kviatkouskaya\\.nuget\\packages\\microsoft.netcore.app.ref\\3.1.0\\microsoft.netcore.app.ref.3.1.0.nupkg.sha512"
+  ],
+  "logs": []
+}
