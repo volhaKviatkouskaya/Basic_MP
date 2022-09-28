@@ -46,9 +46,10 @@ namespace Task1
             for (int i = 0; i < products.Length; i++)
             {
                 var product = products[i];
+                
                 if (predicate(product))
                 {
-                    return ++i;
+                    return i;
                 }
             }
 
