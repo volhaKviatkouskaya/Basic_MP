@@ -15,15 +15,15 @@ namespace Task1
                 throw new ArgumentNullException();
             }
             int temp;
-            for (int i = 0; i < numbers.Length; i++)
+            for (int i = 0; i < numbers.Length - 1; i++)
             {
-                for (int j = i; j < numbers.Length; j++)
+                for (int j = i + 1; j < numbers.Length; j++)
                 {
-                    if (numbers[i] < numbers[j])
+                    if (numbers[i] > numbers[j])
                     {
                         temp = numbers[i];
-                        numbers[i] = temp;
-                        numbers[j] = numbers[i];
+                        numbers[i] = numbers[j];
+                        numbers[j] = temp;
                     }
                 }
             }
