@@ -14,10 +14,14 @@
 
         public override bool Equals(object obj)
         {
-            Product product = obj as Product;
-            var result = this.Name == product.Name && this.Price == product.Price;
+            if (obj != null && obj is Product)
+            {
+                Product product = obj as Product;
+                if (Name == product.Name && Price == product.Price)
+                    return true;
+            }
 
-            return result;
+            return false;
         }
     }
 }

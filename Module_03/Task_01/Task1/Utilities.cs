@@ -14,14 +14,14 @@ namespace Task1
             {
                 throw new ArgumentNullException();
             }
-            int temp;
+
             for (int i = 0; i < numbers.Length - 1; i++)
             {
                 for (int j = i + 1; j < numbers.Length; j++)
                 {
                     if (numbers[i] > numbers[j])
                     {
-                        temp = numbers[i];
+                        int temp = numbers[i];
                         numbers[i] = numbers[j];
                         numbers[j] = temp;
                     }
@@ -43,10 +43,11 @@ namespace Task1
             {
                 throw new ArgumentNullException();
             }
+
             for (int i = 0; i < products.Length; i++)
             {
                 var product = products[i];
-                
+
                 if (predicate(product))
                 {
                     return i;
