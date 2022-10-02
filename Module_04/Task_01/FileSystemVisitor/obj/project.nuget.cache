@@ -1,8 +1,15 @@
 {
   "version": 2,
-  "dgSpecHash": "QX4Pqve3o0KlsVJ++R9zaSSoQws+LWkd/+MDnIt2jO+9BW1tUqTKbEwIDgy6Rg6Y2Mz9swxp/h0Ixt+/+bs+YA==",
+  "dgSpecHash": "iQiomyzq3XCYLYCYK3AD/xsBY4A7otGpLJpdYKGVoVgKNZGmbg8RSIL/0/ds4DdAKeQEFIWkITC0ced+2XNz6g==",
   "success": true,
   "projectFilePath": "C:\\Users\\Volha_Kviatkouskaya\\source\\repos\\Basic_MP\\Module_04\\Task_01\\FileSystemVisitor\\FileSystemVisitor.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\Volha_Kviatkouskaya\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "C:\\Users\\Volha_Kviatkouskaya\\.nuget\\packages\\microsoft.netcore.targets\\1.1.0\\microsoft.netcore.targets.1.1.0.nupkg.sha512",
+    "C:\\Users\\Volha_Kviatkouskaya\\.nuget\\packages\\system.io\\4.3.0\\system.io.4.3.0.nupkg.sha512",
+    "C:\\Users\\Volha_Kviatkouskaya\\.nuget\\packages\\system.runtime\\4.3.0\\system.runtime.4.3.0.nupkg.sha512",
+    "C:\\Users\\Volha_Kviatkouskaya\\.nuget\\packages\\system.text.encoding\\4.3.0\\system.text.encoding.4.3.0.nupkg.sha512",
+    "C:\\Users\\Volha_Kviatkouskaya\\.nuget\\packages\\system.threading.tasks\\4.3.0\\system.threading.tasks.4.3.0.nupkg.sha512"
+  ],
   "logs": []
 }
