@@ -8,30 +8,30 @@ namespace FileSystemVisitor
 {
     public class FileSystem
     {
-        private readonly string Path;
+        private List<string> FolderList;
 
         public FileSystem(string path)
         {
-            Path = path;
+            FolderList = Directory.GetFileSystemEntries(path).ToList();
         }
 
-        public string[] GetFileSystemList()
-        {
-            string[] folderArray = Directory.GetFileSystemEntries(Path);
-            PrintFolderEntries(folderArray);
 
-            foreach (var item in folderArray)
+        public List<string> GetFileSystemList()
+        {
+            PrintFolderEntries(FolderList);
+
+            foreach (var item in FolderList)
             {
                 if (Directory.Exists(item))
                 {
-                    FileSystem fs = new FileSystem(item);
-                    string[] files = fs.GetFileSystemList();
+                    var fs = new FileSystem(item);
+                    var files = fs.GetFileSystemList();
                 }
             }
-            return folderArray;
+            return FolderList;
         }
 
-        public void PrintFolderEntries(string[] folderArray)
+        public void PrintFolderEntries(List<string> folderArray)
         {
             Console.WriteLine();
             foreach (var item in folderArray)
