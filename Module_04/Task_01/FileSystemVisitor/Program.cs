@@ -6,8 +6,11 @@
         {
             var path = @"C:\FileSystem";
             FileSystem fs = new(path);
-            var startFolder = fs.GetFileSystemList();
 
+            foreach (var item in fs.FolderList)
+            {
+                Console.WriteLine(item);
+            }
         }
     }
 }
