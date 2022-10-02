@@ -7,7 +7,10 @@ namespace FileSystemVisitor
     {
         public static void Main(string[] args)
         {
-            
+            var target = @"C:\FileSystem";
+            FileSystem fs = new(target);
+            string[] startFolder = fs.GetFileSystemList();
+
         }
     }
 }
