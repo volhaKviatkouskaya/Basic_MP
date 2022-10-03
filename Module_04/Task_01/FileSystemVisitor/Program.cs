@@ -13,9 +13,10 @@
         public static void Main(string[] args)
         {
             var path = @"C:\FileSystem";
-            FileSystem fs = new();
 
+            FileSystem fs = new();
             List<string> some =fs.GetFileSystemList(path,new List<string>());
+
             PrintToConsole(some.ToArray());
         }
     }

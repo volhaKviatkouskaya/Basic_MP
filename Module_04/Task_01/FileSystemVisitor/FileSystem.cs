@@ -8,9 +8,17 @@ namespace FileSystemVisitor
 {
     public class FileSystem
     {
+        private readonly bool IsFindFilesEnabled;
+
+        public FileSystem() => IsFindFilesEnabled = default;
+        public FileSystem(bool isFindFilesEnabled) => IsFindFilesEnabled = isFindFilesEnabled;
+
         public List<string> GetFileSystemList(string path, List<string> list)
         {
-            var folderArray = Directory.GetFileSystemEntries(path);
+            var folderArray = Directory.GetDirectories(path);
+
+            if (IsFindFilesEnabled)
+                list.AddRange(Directory.GetFiles(path));
 
             foreach (var item in folderArray)
             {
