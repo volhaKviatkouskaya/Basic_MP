@@ -2,15 +2,21 @@
 {
     public static class Program
     {
-        public static void Main(string[] args)
+        public static void PrintToConsole(string[] array)
         {
-            var path = @"C:\FileSystem";
-            FileSystem fs = new(path);
-
-            foreach (var item in fs.FolderList)
+            foreach (var item in array)
             {
                 Console.WriteLine(item);
             }
+        }
+
+        public static void Main(string[] args)
+        {
+            var path = @"C:\FileSystem";
+            FileSystem fs = new();
+
+            List<string> some =fs.GetFileSystemList(path,new List<string>());
+            PrintToConsole(some.ToArray());
         }
     }
 }
