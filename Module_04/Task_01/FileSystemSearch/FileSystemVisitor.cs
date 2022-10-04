@@ -2,23 +2,24 @@
 {
     public class FileSystemVisitor
     {
-        public List<string> GetFileSystemList(string path, List<string> list)
+        public IEnumerable<string> Search(string path)
         {
-            var folderArray = Directory.GetFileSystemEntries(path);
 
-            list.AddRange(Directory.GetFiles(path));
-
-            foreach (var item in folderArray)
+            foreach (var item in Directory.GetFileSystemEntries(path))
             {
-                list.Add(item);
-                if (Directory.Exists(item))
-                {
-                    var l = GetFileSystemList(item, new List<string>());
-                    list.AddRange(l);
-                }
+                yield return item;
             }
 
-            return list;
+            foreach (var directory in Directory.GetFileSystemEntries(path))
+            {
+                if (Directory.Exists(directory))
+                {
+                    foreach (var file in Search(directory))
+                    {
+                        yield return file;
+                    }
+                }
+            }
         }
     }
 }

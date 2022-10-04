@@ -12,9 +12,9 @@
 
         public static void Main(string[] args)
         {
-            FileSystemVisitor visitor = new();
-            List<string> visList = visitor.GetFileSystemList("C://FileSystem", new List<string>());
-            PrintToConsole(visList.ToArray());
+            FileSystemVisitor visitor2 = new();
+            var array = visitor2.Search("C://FileSystem");
+            PrintToConsole(array.ToArray());
         }
     }
 }
