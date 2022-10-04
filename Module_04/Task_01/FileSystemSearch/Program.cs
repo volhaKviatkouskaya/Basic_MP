@@ -2,7 +2,7 @@
 {
     public static class Program
     {
-        public static void PrintToConsole(string[] array)
+        public static void PrintToConsole(IEnumerable<SearchedItem> array)
         {
             foreach (var item in array)
             {
@@ -13,8 +13,8 @@
         public static void Main(string[] args)
         {
             FileSystemVisitor visitor2 = new();
-            var array = visitor2.Search("C://FileSystem");
-            PrintToConsole(array.ToArray());
+            var array = visitor2.Search(@"C:\FileSystem");
+            PrintToConsole(array);
         }
     }
 }
