@@ -14,13 +14,12 @@
         public static void Main(string[] args)
         {
             Console.WriteLine();
-            var filterInput = FilterSetting.GetUserFilter();
+            var filter = FilterSetting.GetFilter();
 
-            Predicate<SearchedItem> predicate = item => item.IsFolder;
-
-            FileSystemVisitor systemVisitor = new(predicate);
+            FileSystemVisitor systemVisitor = new(filter);
             var array = systemVisitor.Search(@"C:\FileSystem");
             PrintToConsole(array);
+
         }
     }
 }

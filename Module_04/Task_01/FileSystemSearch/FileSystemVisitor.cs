@@ -53,6 +53,7 @@
                 Name = item,
                 IsFolder = Directory.Exists(item),
                 NameLength = Path.GetFileName(item).Length,
+                FileType = new FileInfo(item).Extension,
                 Date = File.GetCreationTime(item)
             };
         }
