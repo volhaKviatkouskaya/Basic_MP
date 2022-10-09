@@ -9,13 +9,13 @@
 
         public List<SearchedItem> Search(string path)
         {
-            Action StartNotification = SendStartedNotification;
-            StartNotification();
+            Action startNotification = SendStartedNotification;
+            startNotification();
 
             var result = SearchRecursive(path).ToList();
 
-            Action FinishNotify = SendFinishedNotification;
-            FinishNotify();
+            Action finishNotification = SendFinishedNotification;
+            finishNotification();
 
             return result;
         }
@@ -27,12 +27,24 @@
                 if (Directory.Exists(item))
                 {
                     var folder = CreateDirItem(item);
-                    if (Predicate(folder)) yield return folder;
+                    if (Predicate(folder))
+                    {
+                        Action<string> filteredDir = SendFilteredFoundDirectory;
+                        filteredDir(folder.Name);
+
+                        yield return folder;
+                    }
                 }
                 else
                 {
                     var file = CreateFileItem(item);
-                    if (Predicate(file)) yield return file;
+                    if (Predicate(file))
+                    {
+                        Action<string> filteredFile = SendFilteredFoundFile;
+                        filteredFile(file.Name);
+
+                        yield return file;
+                    }
                 }
             }
 
@@ -50,6 +62,9 @@
 
         private SearchedItem CreateDirItem(string item)
         {
+            Action<string> directoryNotification = SendFoundDirectory;
+            directoryNotification(item);
+
             return new SearchedItem()
             {
                 Name = item,
@@ -61,6 +76,9 @@
 
         private SearchedItem CreateFileItem(string item)
         {
+            Action<string> fileNotification = SendFoundFile;
+            fileNotification(item);
+
             return new SearchedItem()
             {
                 Name = item,
@@ -71,14 +89,34 @@
             };
         }
 
-        private void SendStartedNotification()
+        private static void SendStartedNotification()
         {
             Console.WriteLine("Search started!");
         }
 
-        private void SendFinishedNotification()
+        private static void SendFinishedNotification()
         {
             Console.WriteLine("Search finished!");
+        }
+
+        private static void SendFoundDirectory(string dirName)
+        {
+            Console.WriteLine($"Directory found: {dirName}");
+        }
+
+        private static void SendFoundFile(string fileName)
+        {
+            Console.WriteLine($"File found: {fileName}");
+        }
+
+        private static void SendFilteredFoundDirectory(string dirName)
+        {
+            Console.WriteLine($"Filtered directory found: {dirName}");
+        }
+
+        private static void SendFilteredFoundFile(string fileName)
+        {
+            Console.WriteLine($"Filtered file found: {fileName}");
         }
     }
 }
