@@ -5,15 +5,12 @@
         public event Action StartEvent;
         public event Action FinishEvent;
 
-        public event Action<string> FoundDir;
-        public event Action<string> FoundFile;
+        public event Action<string> FoundItem;
 
-        public event Action<SearchedItem> FoundFilteredDir;
-        public event Action<SearchedItem> FoundFilteredFile;
-
-
+        public event Func<SearchedItem, bool> FoundFilteredItem;
 
         public Predicate<SearchedItem> Predicate;
+
         public FileSystemVisitor() { }
 
         public FileSystemVisitor(Predicate<SearchedItem> predicate) => Predicate = predicate;
@@ -35,8 +32,11 @@
                     var folder = CreateDirItem(item);
                     if (Predicate(folder))
                     {
-                        FoundFilteredDir(folder);
-                        yield return folder;
+                        var res = FoundFilteredItem(folder);
+                        if (res)
+                        {
+                            yield return folder;
+                        }
                     }
                 }
                 else
@@ -44,8 +44,11 @@
                     var file = CreateFileItem(item);
                     if (Predicate(file))
                     {
-                        FoundFilteredFile(file);
-                        yield return file;
+                        var res = FoundFilteredItem(file);
+                        if (res)
+                        {
+                            yield return file;
+                        }
                     }
                 }
             }
@@ -64,7 +67,7 @@
 
         private SearchedItem CreateDirItem(string item)
         {
-            FoundDir(item);
+            FoundItem(item);
 
             return new SearchedItem()
             {
@@ -77,7 +80,7 @@
 
         private SearchedItem CreateFileItem(string item)
         {
-            FoundFile(item);
+            FoundItem(item);
 
             return new SearchedItem()
             {
