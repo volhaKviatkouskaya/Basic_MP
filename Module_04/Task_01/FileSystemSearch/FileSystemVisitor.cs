@@ -7,7 +7,20 @@
 
         public FileSystemVisitor(Predicate<SearchedItem> predicate) => Predicate = predicate;
 
-        public IEnumerable<SearchedItem> Search(string path)
+        public List<SearchedItem> Search(string path)
+        {
+            Action StartNotification = SendStartedNotification;
+            StartNotification();
+
+            var result = SearchRecursive(path).ToList();
+
+            Action FinishNotify = SendFinishedNotification;
+            FinishNotify();
+
+            return result;
+        }
+
+        public IEnumerable<SearchedItem> SearchRecursive(string path)
         {
             foreach (var item in Directory.GetFileSystemEntries(path))
             {
@@ -27,7 +40,7 @@
             {
                 if (Directory.Exists(directory))
                 {
-                    foreach (var item in Search(directory))
+                    foreach (var item in SearchRecursive(directory))
                     {
                         if (Predicate(item)) yield return item;
                     }
@@ -56,6 +69,16 @@
                 FileType = new FileInfo(item).Extension,
                 Date = File.GetCreationTime(item)
             };
+        }
+
+        private void SendStartedNotification()
+        {
+            Console.WriteLine("Search started!");
+        }
+
+        private void SendFinishedNotification()
+        {
+            Console.WriteLine("Search finished!");
         }
     }
 }
