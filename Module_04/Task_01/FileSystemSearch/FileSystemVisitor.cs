@@ -1,17 +1,26 @@
 ﻿namespace FileSystemSearch
 {
+    public enum ActionType
+    {
+        ExcludeItem = 1,
+        KeepItem = 2,
+        AbortSearch = 3
+    }
+
     public class FileSystemVisitor
     {
         public event Action StartEvent;
         public event Action FinishEvent;
 
-        public event Action<string> FoundItem;
+        public event Action<SearchedItem> FoundItem;
 
-        public event Func<SearchedItem, bool> FoundFilteredItem;
+        public event Func<SearchedItem, ActionType> FoundFilteredItem;
 
         public Predicate<SearchedItem> Predicate;
 
-        public FileSystemVisitor() { }
+        public FileSystemVisitor()
+        {
+        }
 
         public FileSystemVisitor(Predicate<SearchedItem> predicate) => Predicate = predicate;
 
@@ -27,29 +36,16 @@
         {
             foreach (var item in Directory.GetFileSystemEntries(path))
             {
-                if (Directory.Exists(item))
+                var foundItem = CreateItem(item);
+                FoundItem(foundItem);
+
+                if (Predicate(foundItem))
                 {
-                    var folder = CreateDirItem(item);
-                    if (Predicate(folder))
-                    {
-                        var res = FoundFilteredItem(folder);
-                        if (res)
-                        {
-                            yield return folder;
-                        }
-                    }
-                }
-                else
-                {
-                    var file = CreateFileItem(item);
-                    if (Predicate(file))
-                    {
-                        var res = FoundFilteredItem(file);
-                        if (res)
-                        {
-                            yield return file;
-                        }
-                    }
+                    var res = FoundFilteredItem(foundItem);
+
+                    if (res == ActionType.ExcludeItem) continue;
+                    if (res == ActionType.KeepItem) yield return foundItem;
+                    if (res == ActionType.AbortSearch) yield break;
                 }
             }
 
@@ -65,31 +61,31 @@
             }
         }
 
-        private SearchedItem CreateDirItem(string item)
+        private SearchedItem CreateItem(string item)
         {
-            FoundItem(item);
+            var isDirExist = Directory.Exists(item);
 
-            return new SearchedItem()
+            if (isDirExist)
             {
-                Name = item,
-                IsFolder = Directory.Exists(item),
-                NameLength = Path.GetDirectoryName(item).Length,
-                Date = Directory.GetCreationTime(item)
-            };
-        }
-
-        private SearchedItem CreateFileItem(string item)
-        {
-            FoundItem(item);
-
-            return new SearchedItem()
+                return new SearchedItem()
+                {
+                    Name = item,
+                    IsFolder = isDirExist,
+                    NameLength = Path.GetDirectoryName(item).Length,
+                    Date = Directory.GetCreationTime(item)
+                };
+            }
+            else
             {
-                Name = item,
-                IsFolder = Directory.Exists(item),
-                NameLength = Path.GetFileName(item).Length,
-                FileType = new FileInfo(item).Extension,
-                Date = File.GetCreationTime(item)
-            };
+                return new SearchedItem()
+                {
+                    Name = item,
+                    IsFolder = isDirExist,
+                    NameLength = Path.GetFileName(item).Length,
+                    FileType = new FileInfo(item).Extension,
+                    Date = File.GetCreationTime(item)
+                };
+            }
         }
     }
 }

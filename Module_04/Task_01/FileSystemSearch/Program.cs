@@ -20,18 +20,17 @@
             systemVisitor.StartEvent += () => Console.WriteLine("Search started!");
             systemVisitor.FinishEvent += () => Console.WriteLine("Search finished!");
 
-            systemVisitor.FoundItem += (x) => Console.WriteLine($"Directory found: {x}");
+            systemVisitor.FoundItem += (x) =>
+            {
+                var itemType = x.IsFolder ? "Directory" : "File";
+                Console.WriteLine($"{itemType}  found: {x.Name}");
+            };
 
             systemVisitor.FoundFilteredItem += (x) =>
             {
-
-                var itemType = "Deirectory";
-                if (!x.IsFolder)
-                {
-                    itemType = "File";
-                }
-                Console.WriteLine($"Filtered {itemType} found: {x}");
-                return (File.GetAttributes(x.Name) & FileAttributes.Hidden) == 0;
+                var itemType = x.IsFolder ? "directory" : "file";
+                Console.WriteLine($"Filtered {itemType} found: {x.Name}");
+                return ActionType.ExcludeItem ;
             };
 
             var array = systemVisitor.Search(@"C:\FileSystem");
