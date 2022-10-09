@@ -55,8 +55,9 @@ namespace FileSystemSearch
                 case 1: return x => !x.IsFolder;
                 case 2: return x => x.IsFolder;
                 case 3: return x => x.FileType == FileType;
-                case 4: return x => x.Date.Year == CreationDate.Year 
-                                            && x.Date.Month == CreationDate.Month 
+                case 4:
+                    return x => x.Date.Year == CreationDate.Year
+                                            && x.Date.Month == CreationDate.Month
                                             && x.Date.Day == CreationDate.Day;
                 case 5: return x => x.NameLength < NameLength;
                 default: return x => x.IsFolder || !x.IsFolder;

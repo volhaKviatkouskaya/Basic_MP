@@ -2,6 +2,17 @@
 {
     public class FileSystemVisitor
     {
+        public event Action StartEvent;
+        public event Action FinishEvent;
+
+        public event Action<string> FoundDir;
+        public event Action<string> FoundFile;
+
+        public event Action<SearchedItem> FoundFilteredDir;
+        public event Action<SearchedItem> FoundFilteredFile;
+
+
+
         public Predicate<SearchedItem> Predicate;
         public FileSystemVisitor() { }
 
@@ -9,14 +20,9 @@
 
         public List<SearchedItem> Search(string path)
         {
-            Action startNotification = SendStartedNotification;
-            startNotification();
-
+            StartEvent();
             var result = SearchRecursive(path).ToList();
-
-            Action finishNotification = SendFinishedNotification;
-            finishNotification();
-
+            FinishEvent();
             return result;
         }
 
@@ -29,9 +35,7 @@
                     var folder = CreateDirItem(item);
                     if (Predicate(folder))
                     {
-                        Action<string> filteredDir = SendFilteredFoundDirectory;
-                        filteredDir(folder.Name);
-
+                        FoundFilteredDir(folder);
                         yield return folder;
                     }
                 }
@@ -40,9 +44,7 @@
                     var file = CreateFileItem(item);
                     if (Predicate(file))
                     {
-                        Action<string> filteredFile = SendFilteredFoundFile;
-                        filteredFile(file.Name);
-
+                        FoundFilteredFile(file);
                         yield return file;
                     }
                 }
@@ -62,8 +64,7 @@
 
         private SearchedItem CreateDirItem(string item)
         {
-            Action<string> directoryNotification = SendFoundDirectory;
-            directoryNotification(item);
+            FoundDir(item);
 
             return new SearchedItem()
             {
@@ -76,8 +77,7 @@
 
         private SearchedItem CreateFileItem(string item)
         {
-            Action<string> fileNotification = SendFoundFile;
-            fileNotification(item);
+            FoundFile(item);
 
             return new SearchedItem()
             {
@@ -87,36 +87,6 @@
                 FileType = new FileInfo(item).Extension,
                 Date = File.GetCreationTime(item)
             };
-        }
-
-        private static void SendStartedNotification()
-        {
-            Console.WriteLine("Search started!");
-        }
-
-        private static void SendFinishedNotification()
-        {
-            Console.WriteLine("Search finished!");
-        }
-
-        private static void SendFoundDirectory(string dirName)
-        {
-            Console.WriteLine($"Directory found: {dirName}");
-        }
-
-        private static void SendFoundFile(string fileName)
-        {
-            Console.WriteLine($"File found: {fileName}");
-        }
-
-        private static void SendFilteredFoundDirectory(string dirName)
-        {
-            Console.WriteLine($"Filtered directory found: {dirName}");
-        }
-
-        private static void SendFilteredFoundFile(string fileName)
-        {
-            Console.WriteLine($"Filtered file found: {fileName}");
         }
     }
 }
