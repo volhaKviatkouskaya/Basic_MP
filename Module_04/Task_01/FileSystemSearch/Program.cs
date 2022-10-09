@@ -30,12 +30,11 @@
             {
                 var itemType = x.IsFolder ? "directory" : "file";
                 Console.WriteLine($"Filtered {itemType} found: {x.Name}");
-                return ActionType.ExcludeItem ;
+                return ActionType.KeepItem;
             };
 
             var array = systemVisitor.Search(@"C:\FileSystem");
             PrintToConsole(array);
         }
-
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace FileSystemSearch
+﻿using System.IO;
+
+namespace FileSystemSearch
 {
     public enum ActionType
     {
@@ -18,9 +20,7 @@
 
         public Predicate<SearchedItem> Predicate;
 
-        public FileSystemVisitor()
-        {
-        }
+        public FileSystemVisitor() { }
 
         public FileSystemVisitor(Predicate<SearchedItem> predicate) => Predicate = predicate;
 
@@ -47,15 +47,12 @@
                     if (res == ActionType.KeepItem) yield return foundItem;
                     if (res == ActionType.AbortSearch) yield break;
                 }
-            }
 
-            foreach (var directory in Directory.GetFileSystemEntries(path))
-            {
-                if (Directory.Exists(directory))
+                if (foundItem.IsFolder)
                 {
-                    foreach (var item in SearchRecursive(directory))
+                    foreach (var foundInDir in SearchRecursive(foundItem.Name))
                     {
-                        if (Predicate(item)) yield return item;
+                        if (Predicate(foundInDir)) yield return foundInDir;
                     }
                 }
             }
