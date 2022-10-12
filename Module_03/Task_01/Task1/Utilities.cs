@@ -10,10 +10,7 @@ namespace Task1
         /// <param name="numbers">Numbers to sort.</param>
         public static void Sort(int[] numbers)
         {
-            if (numbers == null)
-            {
-                throw new ArgumentNullException();
-            }
+            _ = numbers ?? throw new ArgumentNullException();
 
             for (int i = 0; i < numbers.Length - 1; i++)
             {
@@ -39,10 +36,8 @@ namespace Task1
         /// otherwise -1.</returns>
         public static int IndexOf(Product[] products, Predicate<Product> predicate)
         {
-            if (products == null || predicate == null)
-            {
-                throw new ArgumentNullException();
-            }
+            _ = products ?? throw new ArgumentNullException(nameof(products));
+            _ = predicate ?? throw new ArgumentNullException(nameof(predicate));
 
             for (int i = 0; i < products.Length; i++)
             {
