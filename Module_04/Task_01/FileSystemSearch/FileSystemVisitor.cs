@@ -43,11 +43,11 @@ namespace FileSystemSearch
                 {
                     foreach (var foundInDir in SearchRecursive(foundItem.Name))
                     {
-                        if (Predicate(foundInDir)) yield return foundInDir;
+                        if (Predicate == null || Predicate(foundInDir)) yield return foundInDir;
                     }
                 }
 
-                if (Predicate(foundItem))
+                if (Predicate == null || Predicate(foundItem))
                 {
                     var res = FoundFilteredItem(foundItem);
 
