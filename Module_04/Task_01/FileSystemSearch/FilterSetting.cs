@@ -4,63 +4,85 @@ namespace FileSystemSearch
 {
     public static class FilterSetting
     {
+        private static List<string> CommandList = new() { "-help", "-list", "-file", "-folder", "-date",
+                                                          "-nameLength", "-fileType" };
+
         private static string FileType { get; set; }
         private static DateTime CreationDate { get; set; }
         private static int NameLength { get; set; }
-        private static int GetUserInput()
+
+        private static string GetUserInput()
         {
-            Console.WriteLine("Enter filtering parameter from 1 till 5, where: \n" +
-                              "1 - File \n" +
-                              "2 - Folder \n" +
-                              "3 - File type \n" +
-                              "4 - Creation date \n" +
-                              "5 - Size");
-            var input = Convert.ToInt32(Console.ReadLine());
+            var input = Console.ReadLine().ToUpper();
+            var splitLine = input.Split(' ', '.');
 
-            if (input == 3)
+            if (splitLine[0] == "-DATE")
             {
-                Console.WriteLine("Enter file type like: .txt");
-                FileType = Console.ReadLine();
+                var year = Convert.ToInt32(splitLine[1]);
+                var month = Convert.ToInt32(splitLine[2]);
+                var day = Convert.ToInt32(splitLine[3]);
+                CreationDate = new DateTime(year, month, day);
             }
 
-            if (input == 4)
-            {
-                Console.WriteLine("Enter creation year:");
-                var year = Convert.ToInt32(Console.ReadLine());
+            if (splitLine[0] == "-NAMELENGTH")
+                NameLength = NameLength = Convert.ToInt32(splitLine[1]);
 
-                Console.WriteLine("Enter creation month:");
-                var month = Convert.ToInt32(Console.ReadLine());
+            if (splitLine[0] == "-FILETYPE")
+                FileType = $".{splitLine[2]}";
 
-                Console.WriteLine("Enter creation day:");
-                var day = Convert.ToInt32(Console.ReadLine());
-                CreationDate = new(year, month, day);
-            }
-
-            if (input == 5)
-            {
-                Console.WriteLine("Enter max name length:");
-                NameLength = Convert.ToInt32(Console.ReadLine());
-            }
-
-            Console.WriteLine();
-
-            return input;
+            return splitLine[0];
         }
-
         public static Predicate<SearchedItem> GetFilter()
+
         {
             var userInput = GetUserInput();
+            if (userInput == "-HELP")
+            {
+                ShowHelp();
+                userInput = GetUserInput();
+            }
             switch (userInput)
             {
-                case 1: return x => !x.IsFolder;
-                case 2: return x => x.IsFolder;
-                case 3: return x => x.FileType == FileType;
-                case 4:
+                case "-FILE": return x => !x.IsFolder;
+                case "-FOLDER": return x => x.IsFolder;
+                case "-DATE":
                     return x => x.Date.Year == CreationDate.Year
-                                            && x.Date.Month == CreationDate.Month
-                                            && x.Date.Day == CreationDate.Day;
-                case 5: return x => x.NameLength < NameLength;
+                                        && x.Date.Month == CreationDate.Month
+                                        && x.Date.Day == CreationDate.Day;
+                case "-NAMELENGTH": return x => x.NameLength == NameLength;
+                case "-FILETYPE": return x => x.FileType == FileType;
                 default: return x => x.IsFolder || !x.IsFolder;
+            }
+        }
+
+        public static void ShowHelp()
+        {
+            foreach (var item in CommandList)
+            {
+                switch (item)
+                {
+                    case "-HELP":
+                        Console.WriteLine($"{item} -> show command list ");
+                        break;
+                    case "-LIST":
+                        Console.WriteLine($"{item} -> show all results ");
+                        break;
+                    case "-FILE":
+                        Console.WriteLine($"{item} -> search files ");
+                        break;
+                    case "-FOLDER":
+                        Console.WriteLine($"{item} -> search folders ");
+                        break;
+                    case "-DATE":
+                        Console.WriteLine($"{item} -> search files/folders created in that date YYYY.MM.DD");
+                        break;
+                    case "-NAMELENGTH":
+                        Console.WriteLine($"{item} -> search file/folders with name length of XXX");
+                        break;
+                    case "-FILETYPE":
+                        Console.WriteLine($"{item} -> search files with type like .TXT");
+                        break;
+                }
             }
         }
     }

@@ -13,28 +13,31 @@
 
         public static void Main(string[] args)
         {
-            var filter = FilterSetting.GetFilter();
-
-            FileSystemVisitor systemVisitor = new(filter);
-
-            systemVisitor.StartEvent += () => Console.WriteLine("Search started!");
-            systemVisitor.FinishEvent += () => Console.WriteLine("Search finished!");
-
-            systemVisitor.FoundItem += (x) =>
+            do
             {
-                var itemType = x.IsFolder ? "Directory" : "File";
-                Console.WriteLine($"{itemType}  found: {x.Name}");
-            };
+                var filter = FilterSetting.GetFilter();
+                if (filter == default) break;
+                FileSystemVisitor systemVisitor = new(filter);
 
-            systemVisitor.FoundFilteredItem += (x) =>
-            {
-                var itemType = x.IsFolder ? "directory" : "file";
-                Console.WriteLine($"Filtered {itemType} found: {x.Name}");
-                return ActionType.KeepItem;
-            };
+                systemVisitor.StartEvent += () => Console.WriteLine("Search started!");
+                systemVisitor.FinishEvent += () => Console.WriteLine("Search finished!");
 
-            var array = systemVisitor.Search(@"C:\FileSystem");
-            PrintToConsole(array);
+                systemVisitor.FoundItem += (x) =>
+                {
+                    var itemType = x.IsFolder ? "Directory" : "File";
+                    Console.WriteLine($"{itemType}  found: {x.Name}");
+                };
+
+                systemVisitor.FoundFilteredItem += (x) =>
+                {
+                    var itemType = x.IsFolder ? "directory" : "file";
+                    Console.WriteLine($"Filtered {itemType} found: {x.Name}");
+                    return ActionType.KeepItem;
+                };
+
+                var array = systemVisitor.Search(@"C:\FileSystem");
+                PrintToConsole(array);
+            } while (true);
         }
     }
 }

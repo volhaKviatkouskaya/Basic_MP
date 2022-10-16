@@ -79,7 +79,7 @@ namespace FileSystemSearch
                     Name = item,
                     IsFolder = isDirExist,
                     NameLength = Path.GetFileName(item).Length,
-                    FileType = new FileInfo(item).Extension,
+                    FileType = new FileInfo(item).Extension.ToUpper(),
                     Date = File.GetCreationTime(item)
                 };
             }
