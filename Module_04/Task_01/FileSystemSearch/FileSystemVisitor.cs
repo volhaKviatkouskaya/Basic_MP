@@ -39,6 +39,14 @@ namespace FileSystemSearch
                 var foundItem = CreateItem(item);
                 FoundItem(foundItem);
 
+                if (foundItem.IsFolder)
+                {
+                    foreach (var foundInDir in SearchRecursive(foundItem.Name))
+                    {
+                        if (Predicate(foundInDir)) yield return foundInDir;
+                    }
+                }
+
                 if (Predicate(foundItem))
                 {
                     var res = FoundFilteredItem(foundItem);
@@ -46,14 +54,6 @@ namespace FileSystemSearch
                     if (res == ActionType.ExcludeItem) continue;
                     if (res == ActionType.KeepItem) yield return foundItem;
                     if (res == ActionType.AbortSearch) yield break;
-                }
-
-                if (foundItem.IsFolder)
-                {
-                    foreach (var foundInDir in SearchRecursive(foundItem.Name))
-                    {
-                        if (Predicate(foundInDir)) yield return foundInDir;
-                    }
                 }
             }
         }

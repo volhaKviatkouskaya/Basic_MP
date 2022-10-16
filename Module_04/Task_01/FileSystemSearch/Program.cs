@@ -13,10 +13,10 @@
 
         public static void Main(string[] args)
         {
+            var infinitySearch = true;
             do
             {
                 var filter = FilterSetting.GetFilter();
-                if (filter == default) break;
                 FileSystemVisitor systemVisitor = new(filter);
 
                 systemVisitor.StartEvent += () => Console.WriteLine("Search started!");
@@ -32,12 +32,18 @@
                 {
                     var itemType = x.IsFolder ? "directory" : "file";
                     Console.WriteLine($"Filtered {itemType} found: {x.Name}");
-                    return ActionType.KeepItem;
+                    Console.WriteLine("Exclude item(1), Keep item(2), Abort search(3)?");
+                    var userInput = Convert.ToInt32(Console.ReadLine());
+                    if (userInput == (int)ActionType.AbortSearch)
+                        infinitySearch = false;
+                    return (ActionType)userInput;
                 };
 
                 var array = systemVisitor.Search(@"C:\FileSystem");
-                PrintToConsole(array);
-            } while (true);
+
+                if (infinitySearch) PrintToConsole(array);
+
+            } while (infinitySearch);
         }
     }
 }
