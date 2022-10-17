@@ -1,10 +1,20 @@
-﻿namespace Task1
+﻿using System;
+
+namespace Task1
 {
     internal class Program
     {
         private static void Main(string[] args)
         {
-            // TODO: Implement the task here.
+            var input = Console.ReadLine();
+            try
+            {
+                Console.WriteLine(input[0]);
+            }
+            catch (IndexOutOfRangeException)
+            {
+                Console.WriteLine("Attempted to print empty line");
+            }
         }
     }
 }
