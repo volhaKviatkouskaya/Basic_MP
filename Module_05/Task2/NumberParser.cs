@@ -6,7 +6,21 @@ namespace Task2
     {
         public int Parse(string stringValue)
         {
-            throw new NotImplementedException();
+            if (stringValue == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            int number;
+            try
+            {
+                number = Convert.ToInt32(stringValue);
+            }
+            catch (FormatException)
+            {
+                throw new FormatException();
+            }
+            return number;
         }
     }
 }
