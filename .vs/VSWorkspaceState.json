@@ -1,10 +1,10 @@
 {
   "ExpandedNodes": [
     "",
-    "\\Module_02",
-    "\\Module_02\\Task_01",
-    "\\Module_02\\Task_01\\Module_2_1_2_Net_WinFormsApp"
+    "\\Module_04",
+    "\\Module_04\\Task_01",
+    "\\Module_04\\Task_01\\FileSystemSearch"
   ],
-  "SelectedNode": "\\Module_02\\Task_01\\Module_2_1_2_Net_WinFormsApp\\StartForm.cs",
+  "SelectedNode": "\\Module_04\\Task_01\\FileSystemSearch\\FileSystemSearch.sln",
   "PreviewInSolutionExplorer": false
 }
