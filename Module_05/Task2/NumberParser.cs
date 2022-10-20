@@ -4,6 +4,7 @@ namespace Task2
 {
     public class NumberParser : INumberParser
     {
+        private const int Diff = 48;
         public int Parse(string stringValue)
         {
             if (stringValue == null) throw new ArgumentNullException();
@@ -24,16 +25,23 @@ namespace Task2
 
                 if (char.IsNumber(stringValue[i]))
                 {
-                    result *= 10;
-                    result += ((int)stringValue[i] - 48);
+                    checked
+                    {
+                        if (stringValue[0] == '-')
+                        {
+                            result *= 10;
+                            result -= ((int)stringValue[i] - Diff);
+                        }
+                        else
+                        {
+                            result *= 10;
+                            result += ((int)stringValue[i] - Diff);
+                        }
+                    }
                 }
-
                 else
                     throw new FormatException();
             }
-
-            if (stringValue[0] == '-')
-                result *= -1;
 
             return result;
         }
