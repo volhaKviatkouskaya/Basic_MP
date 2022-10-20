@@ -1,0 +1,15 @@
+C:\Users\Volha_Kviatkouskaya\source\repos\Basic_MP\Module_04\Task_01\FileSystemSearch\bin\Debug\net6.0\FileSystemSearch.exe
+C:\Users\Volha_Kviatkouskaya\source\repos\Basic_MP\Module_04\Task_01\FileSystemSearch\bin\Debug\net6.0\FileSystemSearch.deps.json
+C:\Users\Volha_Kviatkouskaya\source\repos\Basic_MP\Module_04\Task_01\FileSystemSearch\bin\Debug\net6.0\FileSystemSearch.runtimeconfig.json
+C:\Users\Volha_Kviatkouskaya\source\repos\Basic_MP\Module_04\Task_01\FileSystemSearch\bin\Debug\net6.0\FileSystemSearch.dll
+C:\Users\Volha_Kviatkouskaya\source\repos\Basic_MP\Module_04\Task_01\FileSystemSearch\bin\Debug\net6.0\FileSystemSearch.pdb
+C:\Users\Volha_Kviatkouskaya\source\repos\Basic_MP\Module_04\Task_01\FileSystemSearch\obj\Debug\net6.0\FileSystemSearch.csproj.AssemblyReference.cache
+C:\Users\Volha_Kviatkouskaya\source\repos\Basic_MP\Module_04\Task_01\FileSystemSearch\obj\Debug\net6.0\FileSystemSearch.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Volha_Kviatkouskaya\source\repos\Basic_MP\Module_04\Task_01\FileSystemSearch\obj\Debug\net6.0\FileSystemSearch.AssemblyInfoInputs.cache
+C:\Users\Volha_Kviatkouskaya\source\repos\Basic_MP\Module_04\Task_01\FileSystemSearch\obj\Debug\net6.0\FileSystemSearch.AssemblyInfo.cs
+C:\Users\Volha_Kviatkouskaya\source\repos\Basic_MP\Module_04\Task_01\FileSystemSearch\obj\Debug\net6.0\FileSystemSearch.csproj.CoreCompileInputs.cache
+C:\Users\Volha_Kviatkouskaya\source\repos\Basic_MP\Module_04\Task_01\FileSystemSearch\obj\Debug\net6.0\FileSystemSearch.dll
+C:\Users\Volha_Kviatkouskaya\source\repos\Basic_MP\Module_04\Task_01\FileSystemSearch\obj\Debug\net6.0\refint\FileSystemSearch.dll
+C:\Users\Volha_Kviatkouskaya\source\repos\Basic_MP\Module_04\Task_01\FileSystemSearch\obj\Debug\net6.0\FileSystemSearch.pdb
+C:\Users\Volha_Kviatkouskaya\source\repos\Basic_MP\Module_04\Task_01\FileSystemSearch\obj\Debug\net6.0\FileSystemSearch.genruntimeconfig.cache
+C:\Users\Volha_Kviatkouskaya\source\repos\Basic_MP\Module_04\Task_01\FileSystemSearch\obj\Debug\net6.0\ref\FileSystemSearch.dll

@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32901.215
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileSystemSearch", "FileSystemSearch.csproj", "{AED25E8F-321A-4339-A25C-9C6F0D92A89E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileSystemSearch", "FileSystemSearch.csproj", "{AED25E8F-321A-4339-A25C-9C6F0D92A89E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileSystemSearchTest", "..\FileSystemSearchTest\FileSystemSearchTest.csproj", "{D7AEB204-DD1B-4F00-B370-2F9C81CB4235}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{AED25E8F-321A-4339-A25C-9C6F0D92A89E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AED25E8F-321A-4339-A25C-9C6F0D92A89E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AED25E8F-321A-4339-A25C-9C6F0D92A89E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7AEB204-DD1B-4F00-B370-2F9C81CB4235}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7AEB204-DD1B-4F00-B370-2F9C81CB4235}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7AEB204-DD1B-4F00-B370-2F9C81CB4235}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7AEB204-DD1B-4F00-B370-2F9C81CB4235}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
