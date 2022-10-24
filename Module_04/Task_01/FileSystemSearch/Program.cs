@@ -1,18 +1,31 @@
-﻿namespace FileSystemSearch
+﻿using System;
+using System.CommandLine;
+using System.CommandLine.Builder;
+using System.CommandLine.Invocation;
+using System.CommandLine.Parsing;
+
+namespace FileSystemSearch
 {
     public static class Program
     {
-        public static void PrintToConsole(IEnumerable<SearchedItem> array)
-        {
-            Console.WriteLine("Search result:");
-            foreach (var item in array)
-            {
-                Console.WriteLine(item);
-            }
-        }
-
         public static void Main(string[] args)
         {
+            FilterSetting.PassConsoleInput(args);
+            /*
+            var allOption = new Option<bool>(name: "--all", "Select all");
+            var foldOption = new Option<bool>(name: "--folder", "Exclude folders from search");
+
+            var rootCommand = new RootCommand("CommandLine app for search");
+            rootCommand.AddOption(allOption);
+            rootCommand.AddOption(foldOption);
+
+            rootCommand.SetHandler((x) =>
+            {
+                Handle(x);
+            });
+            rootCommand.Invoke(args);
+
+            /*
             var infinitySearch = true;
             do
             {
@@ -44,6 +57,15 @@
                 if (infinitySearch) PrintToConsole(array);
 
             } while (infinitySearch);
+            */
+        }
+        public static void PrintToConsole(IEnumerable<SearchedItem> array)
+        {
+            Console.WriteLine("Search result:");
+            foreach (var item in array)
+            {
+                Console.WriteLine(item);
+            }
         }
     }
 }
