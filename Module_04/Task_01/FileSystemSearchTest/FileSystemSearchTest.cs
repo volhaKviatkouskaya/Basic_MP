@@ -9,14 +9,14 @@ namespace FileSystemSearchTest
     public class FileSystemSearchTest
     {
         [TestMethod]
-        [DataRow(ActionType.KeepItem, "TestFolder", 6)]
+        [DataRow(ActionType.KeepItem, "TestFolder", 7)]
         public void SelectAllFromSearch(ActionType action, string path, int expected)
         {
             FileSystemVisitor fileSystemVisitor = new();
             fileSystemVisitor.StartEvent += () => { };
             fileSystemVisitor.FinishEvent += () => { };
             fileSystemVisitor.FoundItem += (x) => { };
-            fileSystemVisitor.FoundFilteredItem += (x) => { return action; };
+            fileSystemVisitor.FoundFilteredItem += (x) => action;
 
             var array = fileSystemVisitor.Search(path);
             var actual = array.Count;
@@ -33,7 +33,7 @@ namespace FileSystemSearchTest
             fileSystemVisitor.StartEvent += () => { };
             fileSystemVisitor.FinishEvent += () => { };
             fileSystemVisitor.FoundItem += (x) => { };
-            fileSystemVisitor.FoundFilteredItem += (x) => { return action; };
+            fileSystemVisitor.FoundFilteredItem += (x) => action;
 
             var array = fileSystemVisitor.Search(path);
             var actual = array.Count;
@@ -50,7 +50,7 @@ namespace FileSystemSearchTest
             fileSystemVisitor.StartEvent += () => { };
             fileSystemVisitor.FinishEvent += () => { };
             fileSystemVisitor.FoundItem += (x) => { };
-            fileSystemVisitor.FoundFilteredItem += (x) => { return action; };
+            fileSystemVisitor.FoundFilteredItem += (x) => action;
 
             var array = fileSystemVisitor.Search(path);
             var actual = array.Count;
@@ -59,7 +59,7 @@ namespace FileSystemSearchTest
         }
 
         [TestMethod]
-        [DataRow(ActionType.KeepItem, "TestFolder", 2)]
+        [DataRow(ActionType.KeepItem, "TestFolder", 3)]
         public void SelectAllFolders(ActionType action, string path, int expected)
         {
             Predicate<SearchedItem> filter = new(x => x.IsFolder);
@@ -67,7 +67,7 @@ namespace FileSystemSearchTest
             fileSystemVisitor.StartEvent += () => { };
             fileSystemVisitor.FinishEvent += () => { };
             fileSystemVisitor.FoundItem += (x) => { };
-            fileSystemVisitor.FoundFilteredItem += (x) => { return action; };
+            fileSystemVisitor.FoundFilteredItem += (x) => action;
 
             var array = fileSystemVisitor.Search(path);
             var actual = array.Count;
@@ -84,7 +84,7 @@ namespace FileSystemSearchTest
             fileSystemVisitor.StartEvent += () => { };
             fileSystemVisitor.FinishEvent += () => { };
             fileSystemVisitor.FoundItem += (x) => { };
-            fileSystemVisitor.FoundFilteredItem += (x) => { return action; };
+            fileSystemVisitor.FoundFilteredItem += (x) => action;
 
             var array = fileSystemVisitor.Search(path);
             var actual = array.Count;
