@@ -2,7 +2,7 @@
   "profiles": {
     "FileSystemSearch": {
       "commandName": "Project",
-      "commandLineArgs": "--all",
+      "commandLineArgs": "C:\\FileSystem --filter filetype --filter-value .txt",
       "workingDirectory": "C:\\FileSystem"
     },
     "Profile 1": {
@@ -12,7 +12,7 @@
     },
     "Profile 2": {
       "commandName": "Project",
-      "commandLineArgs": "-h"
+      "commandLineArgs": "C:\\FileSystem --filter length --filter-value 13"
     }
   }
 }
