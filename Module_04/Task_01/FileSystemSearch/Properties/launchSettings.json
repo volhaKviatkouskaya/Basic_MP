@@ -1,18 +1,7 @@
 {
   "profiles": {
-    "FileSystemSearch": {
-      "commandName": "Project",
-      "commandLineArgs": "C:\\FileSystem --filter filetype --filter-value .txt",
-      "workingDirectory": "C:\\FileSystem"
-    },
     "Profile 1": {
-      "commandName": "Project",
-      "commandLineArgs": "--folder",
-      "workingDirectory": "C:\\FileSystem"
-    },
-    "Profile 2": {
-      "commandName": "Project",
-      "commandLineArgs": "C:\\FileSystem --filter length --filter-value 13"
+      "commandName": "Project"
     }
   }
 }
