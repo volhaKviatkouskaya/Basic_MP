@@ -15,7 +15,6 @@ namespace Task3
 
         public bool AddTaskForUser(int userId, string description, IResponseModel model)
         {
-            string message = null;
             try
             {
                 var task = new UserTask(description);
@@ -23,12 +22,7 @@ namespace Task3
             }
             catch (Exception exception)
             {
-                message = exception.Message;
-            }
-
-            if (message != null)
-            {
-                model.AddAttribute(ActionAttribute, message);
+                model.AddAttribute(ActionAttribute, exception.Message);
                 return false;
             }
 
