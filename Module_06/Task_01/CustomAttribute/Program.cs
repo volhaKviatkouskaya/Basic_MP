@@ -9,10 +9,10 @@ namespace CustomAttribute
     {
         public static void Main(string[] args)
         {
-            var CustomItem = new CustomItem("propName", "propValue");
+            var customItem = new CustomItem("propName", 14);
 
             var customManager = new CustomItemManager();
-            var l = customManager.ReturnItemProperties(typeof(CustomAttribute));
+            customManager.ReturnItemProperties(typeof(CustomItem));
         }
     }
 }

@@ -1,24 +1,34 @@
-﻿namespace CustomAttribute
+﻿using System;
+
+namespace CustomAttribute
 {
     public class CustomItem
     {
-        [Custom(Name = "NameProp")]
-        public string NameProp { get; set; }
+        [CustomAttribute("String of the Prop")]
+        [Obsolete]
+        public string FirstItemProp { get; set; }
 
-        [Custom(Value = "ValueValue")]
-        public string ValueProp { get; set; }
+        [CustomAttribute(10)]
+        public int SecondItemProp { get; set; }
 
-        public CustomItem(string nameProp, string valueProp)
+        public string ThirdItemPropWithoutAttributes { get; set; }
+
+        public CustomItem(string firstItemProp, int secondItemProp)
         {
-            NameProp = nameProp;
-            ValueProp = valueProp;
+            FirstItemProp = firstItemProp;
+            SecondItemProp = secondItemProp;
         }
     }
 
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
     public class CustomAttribute : Attribute
     {
-        public string Name { set; get; }
-        public string Value { set; get; }
+        public CustomAttribute(string value) => SomeStringValue = value;
+
+        public CustomAttribute(int someIntValue) => SomeIntValue = someIntValue;
+
+        public string SomeStringValue { get; set; }
+
+        public int SomeIntValue { get; set; }
     }
 }
