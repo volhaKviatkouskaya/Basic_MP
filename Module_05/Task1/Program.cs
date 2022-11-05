@@ -4,6 +4,8 @@ namespace Task1
 {
     internal class Program
     {
+        private const string message = "Attempted to print empty line";
+
         private static void Main(string[] args)
         {
             var input = Console.ReadLine();
@@ -13,7 +15,7 @@ namespace Task1
             }
             catch (IndexOutOfRangeException)
             {
-                Console.WriteLine("Attempted to print empty line");
+                Console.WriteLine(message);
             }
         }
     }
