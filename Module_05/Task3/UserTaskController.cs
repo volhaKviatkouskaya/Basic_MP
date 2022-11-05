@@ -15,7 +15,17 @@ namespace Task3
 
         public bool AddTaskForUser(int userId, string description, IResponseModel model)
         {
-            string message = GetMessageForModel(userId, description);
+            string message = null;
+            try
+            {
+                var task = new UserTask(description);
+                _taskService.AddTaskForUser(userId, task);
+            }
+            catch (Exception exception)
+            {
+                message = exception.Message;
+            }
+
             if (message != null)
             {
                 model.AddAttribute(ActionAttribute, message);
@@ -23,29 +33,6 @@ namespace Task3
             }
 
             return true;
-        }
-
-        private string GetMessageForModel(int userId, string description)
-        {
-            try
-            {
-                var task = new UserTask(description);
-                _taskService.AddTaskForUser(userId, task);
-            }
-            catch (InvalidUserIdException exception)
-            {
-                return exception.Message;
-            }
-            catch (UserNotFoundException exception)
-            {
-                return exception.Message;
-            }
-            catch (FailedTaskAddingException exception)
-            {
-                return exception.Message;
-            }
-
-            return null;
         }
     }
 }
