@@ -6,6 +6,7 @@ namespace Task3
     public class UserTaskController
     {
         private readonly UserTaskService _taskService;
+        private const string ActionAttribute = "action_result";
 
         public UserTaskController(UserTaskService taskService)
         {
@@ -17,7 +18,7 @@ namespace Task3
             string message = GetMessageForModel(userId, description);
             if (message != null)
             {
-                model.AddAttribute("action_result", message);
+                model.AddAttribute(ActionAttribute, message);
                 return false;
             }
 
@@ -31,11 +32,11 @@ namespace Task3
                 var task = new UserTask(description);
                 _taskService.AddTaskForUser(userId, task);
             }
-            catch (ArgumentException exception)
+            catch (InvalidUserIdException exception)
             {
                 return exception.Message;
             }
-            catch (NullReferenceException exception)
+            catch (UserNotFoundException exception)
             {
                 return exception.Message;
             }
