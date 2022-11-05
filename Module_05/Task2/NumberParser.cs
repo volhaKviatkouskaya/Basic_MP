@@ -8,28 +8,16 @@ namespace Task2
 
         public int Parse(string stringValue)
         {
-            if (stringValue == null)
-            {
-                throw new ArgumentNullException();
-            }
+            CheckStringForException(stringValue);
 
             var length = stringValue.Length;
 
-            if (length == 0)
+            var result = 0;
+
+            for (var i = 0; i < length; i++)
             {
-                throw new FormatException();
-            }
-
-            int result = 0;
-
-            for (int i = 0; i < length; i++)
-            {
-                if ((stringValue[i] == '-' || stringValue[i] == '+') && i == 0)
-                {
-                    continue;
-                }
-
-                if (i != 0 && char.IsWhiteSpace(stringValue[i]))
+                if ((i == 0 && (stringValue[i] == '-' || stringValue[i] == '+'))
+                    || i != 0 && char.IsWhiteSpace(stringValue[i]))
                 {
                     continue;
                 }
@@ -38,16 +26,10 @@ namespace Task2
                 {
                     checked
                     {
-                        if (stringValue[0] == '-')
-                        {
-                            result *= 10;
-                            result -= ((int)stringValue[i] - Diff);
-                        }
-                        else
-                        {
-                            result *= 10;
-                            result += ((int)stringValue[i] - Diff);
-                        }
+                        result *= 10;
+                        _ = stringValue[0] == '-' ?
+                            result -= stringValue[i] - Diff :
+                            result += stringValue[i] - Diff;
                     }
                 }
                 else
@@ -57,6 +39,19 @@ namespace Task2
             }
 
             return result;
+        }
+
+        private void CheckStringForException(string stringValue)
+        {
+            if (stringValue == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            if (stringValue.Length == 0)
+            {
+                throw new FormatException();
+            }
         }
     }
 }
