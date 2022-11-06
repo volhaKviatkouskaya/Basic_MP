@@ -5,19 +5,12 @@ namespace CustomAttribute
     public class CustomItem
     {
         [CustomAttribute("String of the Prop")]
-        [Obsolete]
         public string FirstItemProp { get; set; }
 
         [CustomAttribute(10)]
         public int SecondItemProp { get; set; }
 
         public string ThirdItemPropWithoutAttributes { get; set; }
-
-        public CustomItem(string firstItemProp, int secondItemProp)
-        {
-            FirstItemProp = firstItemProp;
-            SecondItemProp = secondItemProp;
-        }
     }
 
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
