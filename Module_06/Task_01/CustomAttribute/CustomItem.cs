@@ -1,27 +1,28 @@
-﻿using System;
+﻿using System.Text;
 
 namespace CustomAttribute
 {
     public class CustomItem
     {
-        [CustomAttribute("String of the Prop")]
+        [ConfigurationItem("FirstName", "File")]
         public string FirstItemProp { get; set; }
 
-        [CustomAttribute(10)]
-        public int SecondItemProp { get; set; }
+        [ConfigurationItem("SecondName", "File")]
+        [Obsolete]
+        public string SecondItemProp { get; set; }
 
         public string ThirdItemPropWithoutAttributes { get; set; }
-    }
 
-    [AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
-    public class CustomAttribute : Attribute
-    {
-        public CustomAttribute(string value) => SomeStringValue = value;
+        public override string ToString()
+        {
+            StringBuilder sb = new();
 
-        public CustomAttribute(int someIntValue) => SomeIntValue = someIntValue;
+            sb.AppendLine("Object to string: CustomItem");
+            sb.AppendLine($"FirstItemProp: {FirstItemProp}");
+            sb.AppendLine($"SecondItemProp: {SecondItemProp}");
+            sb.AppendLine($"ThirdItemProp: {ThirdItemPropWithoutAttributes}");
 
-        public string SomeStringValue { get; set; }
-
-        public int SomeIntValue { get; set; }
+            return sb.ToString();
+        }
     }
 }
