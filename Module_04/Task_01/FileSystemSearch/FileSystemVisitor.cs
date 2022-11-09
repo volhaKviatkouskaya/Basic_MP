@@ -1,6 +1,4 @@
-﻿using System.IO;
-
-namespace FileSystemSearch
+﻿namespace FileSystemSearch
 {
     public enum ActionType
     {
@@ -11,12 +9,12 @@ namespace FileSystemSearch
 
     public class FileSystemVisitor
     {
-        public event Action StartEvent;
-        public event Action FinishEvent;
+        public event Action StartEvent = delegate { };
+        public event Action FinishEvent = delegate { };
 
-        public event Action<SearchedItem> FoundItem;
+        public event Action<SearchedItem> FoundItem = delegate { };
 
-        public event Func<SearchedItem, ActionType> FoundFilteredItem;
+        public event Func<SearchedItem, ActionType> FoundFilteredItem = (x) => ActionType.KeepItem;
 
         public Predicate<SearchedItem> Predicate;
 
