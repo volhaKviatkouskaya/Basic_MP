@@ -5,17 +5,16 @@ namespace CustomAttribute
 {
     public class CustomItemManager
     {
-        private readonly Dictionary<string, string> appSettings;
+        private readonly Dictionary<string, string> _appSettings;
 
         public CustomItemManager()
         {
-            appSettings = GetAppSettings();
+            _appSettings = GetAppSettings();
         }
 
         public void SetItemProperties(CustomItem item)
         {
             var customTypePropAttributes = ReturnItemProperties(typeof(CustomItem));
-            // PrintPropertyAttributes(customTypePropAttributes);
 
             AssignItemProperties(item, customTypePropAttributes);
         }
@@ -68,18 +67,38 @@ namespace CustomAttribute
             {
                 var pairSettingName = pair.Value.SettingName;
                 var pairValue = GetPropertyValue(pairSettingName);
-                var adjustedValue = Convert(pairValue);
+                var propertyType = obj.GetType().GetProperty(pair.Key).PropertyType;
 
-                if (pairValue != null)
+                var adjustedValue = Convert(pairValue, propertyType);
+
+                if (adjustedValue != null)
                 {
                     obj.GetType().GetProperty(pair.Key).SetValue(obj, adjustedValue);
                 }
             }
         }
 
-        private object Convert(string pairValue) => pairValue;
+        private object? Convert(string pairValue, Type propertyType)
+        {
+            switch (propertyType.Name)
+            {
+                case "String":
+                    return pairValue;
+                case "Int32":
+                    return int.Parse(pairValue);
+                case "Single":
+                    return float.Parse(pairValue);
+                case "TimeSpan":
+                    return TimeSpan.Parse(pairValue);
+                default:
+                    return null;
+            }
+        }
 
-        private string GetPropertyValue(string pairSettingName) => appSettings[pairSettingName];
+        private string GetPropertyValue(string pairSettingName)
+        {
+            return _appSettings[pairSettingName];
+        }
 
         private static void PrintPropertyAttributes(Dictionary<string, CustomAttributeData> pairs)
         {
