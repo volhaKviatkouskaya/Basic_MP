@@ -1,22 +1,20 @@
 ﻿using System.Configuration;
 using System.Reflection;
+using System.Text.Json;
 
 namespace CustomAttribute
 {
     public class CustomItemManager
     {
         private readonly Dictionary<string, string> _appSettings;
+        private readonly Dictionary<string, string> _appJsonFile;
+
+        private const string JsonFilePath = "app_file.json";
 
         public CustomItemManager()
         {
             _appSettings = GetAppSettings();
-        }
-
-        public void SetItemProperties(CustomItem item)
-        {
-            var customTypePropAttributes = ReturnItemProperties(typeof(CustomItem));
-
-            AssignItemProperties(item, customTypePropAttributes);
+            _appJsonFile = GetAppFile();
         }
 
         private Dictionary<string, string> GetAppSettings()
@@ -37,6 +35,21 @@ namespace CustomAttribute
             }
 
             return appSettingsData;
+        }
+
+        private Dictionary<string, string> GetAppFile()
+        {
+            var jsonFile = File.ReadAllText(JsonFilePath);
+            Dictionary<string, string> jsonData = JsonSerializer.Deserialize<Dictionary<string, string>>(jsonFile);
+
+            return jsonData;
+        }
+
+        public void SetItemProperties(CustomItem item)
+        {
+            var customTypePropAttributes = ReturnItemProperties(typeof(CustomItem));
+
+            AssignItemProperties(item, customTypePropAttributes);
         }
 
         private Dictionary<string, ConfigurationItemAttribute> ReturnItemProperties(Type type)
@@ -66,7 +79,7 @@ namespace CustomAttribute
             foreach (var pair in dataOfType)
             {
                 var pairSettingName = pair.Value.SettingName;
-                var pairValue = GetPropertyValue(pairSettingName);
+                var pairValue = GetPropertyValue(pairSettingName, pair.Value.ProviderType);
                 var propertyType = obj.GetType().GetProperty(pair.Key).PropertyType;
 
                 var adjustedValue = Convert(pairValue, propertyType);
@@ -95,17 +108,13 @@ namespace CustomAttribute
             }
         }
 
-        private string GetPropertyValue(string pairSettingName)
+        private string GetPropertyValue(string pairSettingName, string provider)
         {
-            return _appSettings[pairSettingName];
-        }
+            return provider == "ConfigurationProvider" ?
+                                _appSettings[pairSettingName] :
+                                _appJsonFile[pairSettingName];
 
-        private static void PrintPropertyAttributes(Dictionary<string, CustomAttributeData> pairs)
-        {
-            foreach (var customAttributeData in pairs)
-            {
-                Console.WriteLine($"Property: {customAttributeData.Key}, attribute: {customAttributeData.Value}");
-            }
         }
+        
     }
 }
