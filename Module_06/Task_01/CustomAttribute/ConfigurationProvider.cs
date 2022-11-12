@@ -36,7 +36,30 @@ namespace CustomAttribute
             return _configurationProvider[key];
         }
 
-        public void SaveChanges(CustomItem item) => throw new NotImplementedException();
-        public void SetValue(string key, string value, string provider) => throw new NotImplementedException();
+        public void SetValue(string key, string value)
+        {
+            _configurationProvider[key] = value;
+        }
+
+        public void SaveChanges()
+        {
+            Configuration configFile = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            KeyValueConfigurationCollection settings = configFile.AppSettings.Settings;
+
+            foreach (var pair in _configurationProvider)
+            {
+                if (settings[pair.Key] == null)
+                {
+                    settings.Add(pair.Key, pair.Value);
+                }
+                else
+                {
+                    settings.Remove(pair.Key);
+                    settings.Add(pair.Key, pair.Value);
+                }
+            }
+
+            configFile.Save(ConfigurationSaveMode.Modified);
+        }
     }
 }

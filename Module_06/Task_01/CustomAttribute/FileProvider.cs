@@ -25,7 +25,16 @@ namespace CustomAttribute
             return _appJsonFile[key];
         }
 
-        public void SaveChanges(CustomItem item) => throw new NotImplementedException();
-        public void SetValue(string key, string value, string provider) => throw new NotImplementedException();
+
+        public void SetValue(string key, string value)
+        {
+            _appJsonFile[key] = value;
+        }
+
+        public void SaveChanges()
+        {
+            var jsonObject = JsonSerializer.Serialize(_appJsonFile);
+            File.WriteAllText(JsonFilePath,jsonObject);
+        }
     }
 }
