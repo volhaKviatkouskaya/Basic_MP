@@ -1,4 +1,6 @@
-﻿using System.Reflection;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Reflection;
+using System.Reflection.Metadata;
 
 namespace CustomAttribute
 {
@@ -13,13 +15,49 @@ namespace CustomAttribute
             _fileJsonProvider = new FileProvider();
         }
 
-        public void SetItemProperties(CustomItem item)
+        public void ReadFromFile(CustomItem item)
         {
             var customTypePropAttributes = ReturnItemProperties(typeof(CustomItem));
 
             AssignItemProperties(item, customTypePropAttributes);
         }
 
+        public void WriteToFile(CustomItem item)
+        {
+            var customTypePropAttributes = ReturnItemProperties(typeof(CustomItem));
+
+            WriteItemProperties(item, customTypePropAttributes);
+
+        }
+
+        private void WriteItemProperties(CustomItem item, Dictionary<string, ConfigurationItemAttribute> dataOfType)
+        {
+
+
+        }
+
+        /*
+        public void WriteToFile(CustomItem item, string propertyName, string value)
+        {
+            if (value != null)
+            {
+                var propertyInfo = item.GetType().GetProperty(propertyName);
+                var propertyType = propertyInfo.PropertyType;
+                var propertyAttributes = propertyInfo.GetCustomAttributes(typeof(ConfigurationItemAttribute), true);
+                var attributeValue = (ConfigurationItemAttribute)propertyAttributes.FirstOrDefault();
+
+                var adjustedValue = Convert(value, propertyType);
+
+                if (adjustedValue != null)
+                {
+                    propertyInfo.SetValue(item, adjustedValue);
+
+                    SetPropertyValue(attributeValue.SettingName, value, attributeValue.ProviderType);
+                    SavePropertyChanges(attributeValue.SettingName, value, attributeValue.ProviderType);
+                }
+            }
+        }
+*/
         private Dictionary<string, ConfigurationItemAttribute> ReturnItemProperties(Type type)
         {
             var propertyInfo = type.GetProperties();
@@ -76,6 +114,32 @@ namespace CustomAttribute
             }
         }
 
+        public void SavePropertyChanges(string key, string value, string provider)
+        {
+            switch (provider)
+            {
+                case "ConfigurationProvider":
+                    _configurationProvider.SaveChanges(key, value);
+                    break;
+                case "FileProvider":
+                    _fileJsonProvider.SaveChanges(key, value);
+                    break;
+            }
+        }
+
+        public void SetPropertyValue(string key, string value, string provider)
+        {
+            switch (provider)
+            {
+                case "ConfigurationProvider":
+                    _configurationProvider.SetValue(key, value);
+                    break;
+                case "FileProvider":
+                    _fileJsonProvider.SetValue(key, value);
+                    break;
+            }
+        }
+
         private string GetPropertyValue(string pairSettingName, string provider)
         {
             switch (provider)
@@ -86,7 +150,6 @@ namespace CustomAttribute
                     return _fileJsonProvider.GetValue(pairSettingName);
                 default:
                     return null;
-
             }
         }
     }

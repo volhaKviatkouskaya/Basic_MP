@@ -9,7 +9,18 @@
             CustomItem item = new();
             Console.WriteLine(item);
 
-            customManager.SetItemProperties(item);
+            customManager.ReadFromFile(item);
+            Console.WriteLine(item);
+
+
+            item.FifthItemProp = "newwwwww";
+            item.SixthItemProp = 13;
+            customManager.WriteToFile(item);
+
+            CustomItem item2 = new();
+            Console.WriteLine(item2);
+
+            customManager.ReadFromFile(item);
             Console.WriteLine(item);
         }
     }
