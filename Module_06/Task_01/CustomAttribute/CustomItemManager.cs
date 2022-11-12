@@ -1,48 +1,16 @@
-﻿using System.Configuration;
-using System.Reflection;
-using System.Text.Json;
+﻿using System.Reflection;
 
 namespace CustomAttribute
 {
     public class CustomItemManager
     {
-        private readonly Dictionary<string, string> _appSettings;
-        private readonly Dictionary<string, string> _appJsonFile;
-
-        private const string JsonFilePath = "app_file.json";
+        private readonly IProvider _configurationProvider;
+        private readonly IProvider _fileJsonProvider;
 
         public CustomItemManager()
         {
-            _appSettings = GetAppSettings();
-            _appJsonFile = GetAppFile();
-        }
-
-        private Dictionary<string, string> GetAppSettings()
-        {
-            Dictionary<string, string> appSettingsData = new();
-
-            foreach (string key in ConfigurationManager.AppSettings)
-            {
-                if (key != null)
-                {
-                    var value = ConfigurationManager.AppSettings[key];
-
-                    if (value != null)
-                    {
-                        appSettingsData.Add(key, value);
-                    }
-                }
-            }
-
-            return appSettingsData;
-        }
-
-        private Dictionary<string, string> GetAppFile()
-        {
-            var jsonFile = File.ReadAllText(JsonFilePath);
-            Dictionary<string, string> jsonData = JsonSerializer.Deserialize<Dictionary<string, string>>(jsonFile);
-
-            return jsonData;
+            _configurationProvider = new ConfigurationProvider();
+            _fileJsonProvider = new FileProvider();
         }
 
         public void SetItemProperties(CustomItem item)
@@ -110,11 +78,16 @@ namespace CustomAttribute
 
         private string GetPropertyValue(string pairSettingName, string provider)
         {
-            return provider == "ConfigurationProvider" ?
-                                _appSettings[pairSettingName] :
-                                _appJsonFile[pairSettingName];
+            switch (provider)
+            {
+                case "ConfigurationProvider":
+                    return _configurationProvider.GetValue(pairSettingName);
+                case "FileProvider":
+                    return _fileJsonProvider.GetValue(pairSettingName);
+                default:
+                    return null;
 
+            }
         }
-        
     }
 }
