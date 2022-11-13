@@ -34,7 +34,7 @@ namespace CustomAttribute
         public void SaveChanges()
         {
             var jsonObject = JsonSerializer.Serialize(_appJsonFile);
-            File.WriteAllText(JsonFilePath,jsonObject);
+            File.WriteAllText(JsonFilePath, jsonObject);
         }
     }
 }
