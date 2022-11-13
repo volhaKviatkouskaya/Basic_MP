@@ -1,6 +1,7 @@
-﻿using System.Text.Json;
+﻿using IPovider;
+using System.Text.Json;
 
-namespace CustomAttribute
+namespace JsonFileProvider
 {
     public class FileProvider : IProvider
     {

@@ -1,10 +1,16 @@
-﻿namespace CustomAttribute
+﻿using AppConfigurationProvider;
+using CustomAttribute;
+
+namespace JsonFileProvider
 {
     public class Program
     {
         public static void Main(string[] args)
         {
-            var customManager = new CustomItemManager();
+            var confProvider = new ConfigurationProvider();
+            var fileProvider = new FileProvider();
+
+            var customManager = new CustomItemManager(confProvider, fileProvider);
 
             CustomItem item = new();
             Console.WriteLine(item);

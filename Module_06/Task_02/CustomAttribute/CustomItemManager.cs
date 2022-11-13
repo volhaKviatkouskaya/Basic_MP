@@ -1,16 +1,17 @@
 ﻿using System.Reflection;
+using IPovider;
 
 namespace CustomAttribute
 {
     public class CustomItemManager
     {
         private readonly IProvider _configurationProvider;
-        private readonly IProvider _fileJsonProvider;
+        private readonly IProvider _fileJsonConfigProvider;
 
-        public CustomItemManager()
+        public CustomItemManager(IProvider configProvider, IProvider fileProvider)
         {
-            _configurationProvider = new ConfigurationProvider();
-            _fileJsonProvider = new FileProvider();
+            _configurationProvider = configProvider;
+            _fileJsonConfigProvider = fileProvider;
         }
 
         public void ReadFromFile(CustomItem item)
@@ -119,7 +120,7 @@ namespace CustomAttribute
                     _configurationProvider.SaveChanges();
                     break;
                 case "FileProvider":
-                    _fileJsonProvider.SaveChanges();
+                    _fileJsonConfigProvider.SaveChanges();
                     break;
             }
         }
@@ -132,7 +133,7 @@ namespace CustomAttribute
                     _configurationProvider.SetValue(key, value);
                     break;
                 case "FileProvider":
-                    _fileJsonProvider.SetValue(key, value);
+                    _fileJsonConfigProvider.SetValue(key, value);
                     break;
             }
         }
@@ -144,7 +145,7 @@ namespace CustomAttribute
                 case "ConfigurationProvider":
                     return _configurationProvider.GetValue(pairSettingName);
                 case "FileProvider":
-                    return _fileJsonProvider.GetValue(pairSettingName);
+                    return _fileJsonConfigProvider.GetValue(pairSettingName);
                 default:
                     return null;
             }

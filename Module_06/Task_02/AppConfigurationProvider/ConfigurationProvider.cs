@@ -1,6 +1,7 @@
 ﻿using System.Configuration;
+using IPovider;
 
-namespace CustomAttribute
+namespace AppConfigurationProvider
 {
     public class ConfigurationProvider : IProvider
     {
