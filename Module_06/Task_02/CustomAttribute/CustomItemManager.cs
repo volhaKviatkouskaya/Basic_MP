@@ -1,18 +1,22 @@
 ﻿using System.Reflection;
-using IPovider;
 
 namespace CustomAttribute
 {
     public class CustomItemManager
     {
-        private readonly IProvider _configurationProvider;
-        private readonly IProvider _fileJsonConfigProvider;
+        private readonly Dictionary<string, IProvider> _providers;
 
-        public CustomItemManager(IProvider configProvider, IProvider fileProvider)
+        public CustomItemManager()
         {
-            _configurationProvider = configProvider;
-            _fileJsonConfigProvider = fileProvider;
+            _providers = new Dictionary<string, IProvider>();
+            var providersDictionary = ProviderFinder.ReturnProviders();
+
+            foreach (var provider in providersDictionary)
+            {
+                _providers.Add(provider.Key, (IProvider)provider.Value);
+            }
         }
+
 
         public void ReadFromFile(CustomItem item)
         {
@@ -112,43 +116,19 @@ namespace CustomAttribute
             }
         }
 
-        public void SaveChanges(string provider)
+        private void SaveChanges(string provider)
         {
-            switch (provider)
-            {
-                case "ConfigurationProvider":
-                    _configurationProvider.SaveChanges();
-                    break;
-                case "FileProvider":
-                    _fileJsonConfigProvider.SaveChanges();
-                    break;
-            }
+            _providers[provider].SaveChanges();
         }
 
-        public void SetPropertyValue(string key, string value, string provider)
+        private void SetPropertyValue(string key, string value, string provider)
         {
-            switch (provider)
-            {
-                case "ConfigurationProvider":
-                    _configurationProvider.SetValue(key, value);
-                    break;
-                case "FileProvider":
-                    _fileJsonConfigProvider.SetValue(key, value);
-                    break;
-            }
+            _providers[provider].SetValue(key, value);
         }
 
         private string GetPropertyValue(string pairSettingName, string provider)
         {
-            switch (provider)
-            {
-                case "ConfigurationProvider":
-                    return _configurationProvider.GetValue(pairSettingName);
-                case "FileProvider":
-                    return _fileJsonConfigProvider.GetValue(pairSettingName);
-                default:
-                    return null;
-            }
+            return _providers[provider].GetValue(pairSettingName);
         }
     }
 }

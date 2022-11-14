@@ -1,20 +1,14 @@
-﻿using AppConfigurationProvider;
-using CustomAttribute;
+﻿using CustomAttribute;
 using JsonFileProvider;
 
 namespace CustomProgram
 {
     public class Program
     {
-        public static Dictionary<string, object> ProviderDictionary;
         public static void Main(string[] args)
         {
-            var providers = ProviderConstructor.ReturnProviders();
-            
-            var confProvider = new ConfigurationProvider();
-            var fileProvider = new FileProvider();
-
-            var customManager = new CustomItemManager(confProvider, fileProvider);
+            var x = new FileProvider();
+            var customManager = new CustomItemManager();
 
             CustomItem item = new();
             Console.WriteLine(item);

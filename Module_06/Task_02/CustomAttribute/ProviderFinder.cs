@@ -1,13 +1,15 @@
-﻿namespace CustomProgram
+﻿namespace CustomAttribute
 {
-    public static class ProviderConstructor
+    public static class ProviderFinder
     {
-        private const string instanceType = "Provider";
+        private const string InstanceType = "Provider";
+
         public static Dictionary<string, object> ReturnProviders()
         {
             Dictionary<string, object> providers = new();
+
             var assemblies = AppDomain.CurrentDomain.GetAssemblies()
-                .Where(x => x.FullName != null && x.FullName.Contains(instanceType))
+                .Where(x => x.FullName != null && x.FullName.Contains(InstanceType))
                 .ToList();
 
             foreach (var assembly in assemblies)
@@ -15,7 +17,10 @@
                 foreach (var assemblyExportedType in assembly.ExportedTypes)
                 {
                     var provider = CreateProviderInstance(assemblyExportedType);
-                    providers.Add(provider.GetType().Name, provider);
+                    if (provider != null)
+                    {
+                        providers.Add(provider.GetType().Name, provider);
+                    }
                 }
             }
 

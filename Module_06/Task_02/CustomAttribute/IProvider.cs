@@ -1,4 +1,4 @@
-﻿namespace IPovider
+﻿namespace CustomAttribute
 {
     public interface IProvider
     {
