@@ -6,13 +6,16 @@ namespace CustomAttribute
 {
     public class CustomItemManager
     {
-        private readonly IProvider _configurationProvider;
-        private readonly IProvider _fileJsonProvider;
+        private const string ConfigurationProvider = "ConfigurationProvider";
+        private const string FileProvider = "FileProvider";
+
+        private readonly Dictionary<string, IProvider> _providers;
 
         public CustomItemManager()
         {
-            _configurationProvider = new ConfigurationProvider();
-            _fileJsonProvider = new FileProvider();
+            _providers = new Dictionary<string, IProvider>
+                        {{ConfigurationProvider, new ConfigurationProvider() },
+                        { FileProvider, new FileProvider() } };
         }
 
         public void ReadFromFile(CustomItem item)
@@ -113,43 +116,19 @@ namespace CustomAttribute
             }
         }
 
-        public void SaveChanges(string provider)
+        private void SaveChanges(string provider)
         {
-            switch (provider)
-            {
-                case "ConfigurationProvider":
-                    _configurationProvider.SaveChanges();
-                    break;
-                case "FileProvider":
-                    _fileJsonProvider.SaveChanges();
-                    break;
-            }
+            _providers[provider].SaveChanges();
         }
 
-        public void SetPropertyValue(string key, string value, string provider)
+        private void SetPropertyValue(string key, string value, string provider)
         {
-            switch (provider)
-            {
-                case "ConfigurationProvider":
-                    _configurationProvider.SetValue(key, value);
-                    break;
-                case "FileProvider":
-                    _fileJsonProvider.SetValue(key, value);
-                    break;
-            }
+            _providers[provider].SetValue(key, value);
         }
 
         private string GetPropertyValue(string pairSettingName, string provider)
         {
-            switch (provider)
-            {
-                case "ConfigurationProvider":
-                    return _configurationProvider.GetValue(pairSettingName);
-                case "FileProvider":
-                    return _fileJsonProvider.GetValue(pairSettingName);
-                default:
-                    return null;
-            }
+            return _providers[provider].GetValue(pairSettingName);
         }
     }
 }
