@@ -6,17 +6,16 @@ namespace CustomAttribute
     {
         private readonly Dictionary<string, IProvider> _providers;
 
-        public CustomItemManager()
+        public CustomItemManager(string[] pathString)
         {
             _providers = new Dictionary<string, IProvider>();
-            var providersDictionary = ProviderFinder.ReturnProviders();
+            var providersDictionary = ProviderFinder.ReturnProviders(pathString);
 
             foreach (var provider in providersDictionary)
             {
-                _providers.Add(provider.Key, (IProvider)provider.Value);
+                _providers.Add(provider.Key, provider.Value);
             }
         }
-
 
         public void ReadFromFile(CustomItem item)
         {

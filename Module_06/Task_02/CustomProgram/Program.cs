@@ -1,5 +1,4 @@
 ﻿using CustomAttribute;
-using JsonFileProvider;
 
 namespace CustomProgram
 {
@@ -7,8 +6,14 @@ namespace CustomProgram
     {
         public static void Main(string[] args)
         {
-            var x = new FileProvider();
-            var customManager = new CustomItemManager();
+
+            string[] pathString = new string[]
+            {
+                "C:\\Users\\Volha_Kviatkouskaya\\source\\repos\\Basic_MP\\Module_06\\Task_02\\Plugins\\AppConfigurationProvider.dll",
+                "C:\\Users\\Volha_Kviatkouskaya\\source\\repos\\Basic_MP\\Module_06\\Task_02\\Plugins\\JsonFileProvider.dll"
+            };
+
+            var customManager = new CustomItemManager(pathString);
 
             CustomItem item = new();
             Console.WriteLine(item);
