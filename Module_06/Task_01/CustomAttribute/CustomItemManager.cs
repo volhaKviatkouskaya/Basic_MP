@@ -6,8 +6,7 @@ namespace CustomAttribute
 {
     public class CustomItemManager
     {
-        private readonly IProvider _configurationProvider;
-        private readonly IProvider _fileJsonProvider;
+        private readonly Dictionary<string, IProvider> _providers;
 
         public CustomItemManager()
         {
@@ -116,7 +115,7 @@ namespace CustomAttribute
         public void SaveChanges(string provider)
         {
             switch (provider)
-            {
+        {
                 case "ConfigurationProvider":
                     _configurationProvider.SaveChanges();
                     break;
