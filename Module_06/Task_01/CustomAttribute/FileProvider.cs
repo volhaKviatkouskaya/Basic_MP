@@ -15,7 +15,7 @@ namespace CustomAttribute
         private Dictionary<string, string> GetAppFile()
         {
             var jsonFile = File.ReadAllText(JsonFilePath);
-            Dictionary<string, string> jsonData = JsonSerializer.Deserialize<Dictionary<string, string>>(jsonFile);
+            var jsonData = JsonSerializer.Deserialize<Dictionary<string, string>>(jsonFile);
 
             return jsonData;
         }
