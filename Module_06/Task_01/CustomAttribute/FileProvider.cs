@@ -25,7 +25,6 @@ namespace CustomAttribute
             return _appJsonFile[key];
         }
 
-
         public void SetValue(string key, string value)
         {
             _appJsonFile[key] = value;

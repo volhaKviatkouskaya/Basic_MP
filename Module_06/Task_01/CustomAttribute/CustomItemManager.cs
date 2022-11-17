@@ -1,6 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
 using System.Reflection;
-using System.Reflection.Metadata;
 
 namespace CustomAttribute
 {
@@ -87,7 +86,7 @@ namespace CustomAttribute
                 var pairValue = GetPropertyValue(pairSettingName, providerType);
                 var propertyType = obj.GetType().GetProperty(pair.Key).PropertyType;
 
-                var adjustedValue = Convert(pairValue, propertyType);
+                var adjustedValue = ConvertValue(pairValue, propertyType);
 
                 if (adjustedValue != null)
                 {
@@ -96,21 +95,10 @@ namespace CustomAttribute
             }
         }
 
-        private object? Convert(string pairValue, Type propertyType)
+        private object? ConvertValue(string pairValue, Type propertyType)
         {
-            switch (propertyType.Name)
-            {
-                case "String":
-                    return pairValue;
-                case "Int32":
-                    return int.Parse(pairValue);
-                case "Single":
-                    return float.Parse(pairValue);
-                case "TimeSpan":
-                    return TimeSpan.Parse(pairValue);
-                default:
-                    return null;
-            }
+            var converter = TypeDescriptor.GetConverter(propertyType);
+            return converter.ConvertFromString(pairValue);
         }
 
         private void SaveChanges(Enum provider)
