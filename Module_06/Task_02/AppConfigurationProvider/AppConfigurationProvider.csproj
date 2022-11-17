@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -13,5 +13,15 @@
   <ItemGroup>
     <ProjectReference Include="..\CustomAttribute\CustomAttribute.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="ConfigurationProvider.cs">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Compile>
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="copy bin\Debug\net6.0\AppConfigurationProvider.dll ..\Plugins\AppConfigurationProvider.dll" />
+  </Target>
 
 </Project>

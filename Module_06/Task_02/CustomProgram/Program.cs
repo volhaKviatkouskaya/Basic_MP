@@ -6,14 +6,7 @@ namespace CustomProgram
     {
         public static void Main(string[] args)
         {
-
-            string[] pathString = new string[]
-            {
-                "C:\\Users\\Volha_Kviatkouskaya\\source\\repos\\Basic_MP\\Module_06\\Task_02\\Plugins\\AppConfigurationProvider.dll",
-                "C:\\Users\\Volha_Kviatkouskaya\\source\\repos\\Basic_MP\\Module_06\\Task_02\\Plugins\\JsonFileProvider.dll"
-            };
-
-            var customManager = new CustomItemManager(pathString);
+            var customManager = new CustomItemManager(args.FirstOrDefault());
 
             CustomItem item = new();
             Console.WriteLine(item);

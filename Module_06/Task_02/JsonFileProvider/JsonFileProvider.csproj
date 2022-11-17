@@ -17,4 +17,8 @@
     </None>
   </ItemGroup>
 
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="copy bin\Debug\net6.0\JsonFileProvider.dll ..\Plugins\JsonFileProvider.dll" />
+  </Target>
+
 </Project>

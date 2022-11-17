@@ -1,28 +1,27 @@
-﻿using System.Reflection;
+﻿using System.IO;
+using System.Reflection;
 
 namespace CustomAttribute
 {
     public static class ProviderFinder
     {
-        public static Dictionary<string, IProvider> ReturnProviders(string[] pathString)
+        public static Dictionary<string, IProvider> ReturnProviders(string pathString)
         {
             Dictionary<string, IProvider> providers = new();
+            var directoryFiles = ReturnDirectoryFiles(pathString);
 
-            foreach (var pluginPath in pathString)
+            foreach (var file in directoryFiles)
             {
-                var pluginAssembly = LoadPlugin(pluginPath);
-
+                var pluginAssembly = LoadPlugin(file);
                 var provider = CreateProvider(pluginAssembly);
-                if (provider != null)
-                {
-                    providers.Add(provider.GetType().Name, (IProvider)provider);
-                }
+
+                providers.Add(provider.GetType().Name, provider);
             }
 
             return providers;
         }
 
-        public static IProvider CreateProvider(Assembly assembly)
+        private static IProvider CreateProvider(Assembly assembly)
         {
             foreach (Type type in assembly.GetTypes())
             {
@@ -39,22 +38,27 @@ namespace CustomAttribute
             return null;
         }
 
-        public static Assembly LoadPlugin(string path)
+        private static Assembly LoadPlugin(string pluginLocation)
         {
-            string root = Path.GetFullPath(Path.Combine(
+            ProviderLoadContext loadContext = new(pluginLocation);
+            var plugin = loadContext.LoadFromAssemblyName(new AssemblyName(Path.GetFileNameWithoutExtension(pluginLocation)));
+
+            return plugin;
+        }
+
+        private static List<string> ReturnDirectoryFiles(string shortPath)
+        {
+            var root = Path.GetFullPath(Path.Combine(
                 Path.GetDirectoryName(
                     Path.GetDirectoryName(
                         Path.GetDirectoryName(
                             Path.GetDirectoryName(
                                 Path.GetDirectoryName(typeof(ProviderFinder).Assembly.Location)))))));
 
-            var pluginLocation = Path.GetFullPath(Path.Combine(root, path.Replace('\\', Path.DirectorySeparatorChar)));
+            var pluginLocation = Path.GetFullPath(Path.Combine(root, shortPath.Replace('\\', Path.DirectorySeparatorChar)));
+            var directoryFiles = Directory.GetFiles(pluginLocation).ToList();
 
-            Console.WriteLine($"Loading providers from: {pluginLocation}");
-
-            ProviderLoadContext loadContext = new(pluginLocation);
-
-            return loadContext.LoadFromAssemblyName(new AssemblyName(Path.GetFileNameWithoutExtension(pluginLocation)));
+            return directoryFiles;
         }
     }
 }

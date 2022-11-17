@@ -6,7 +6,7 @@ namespace CustomAttribute
     {
         private readonly Dictionary<string, IProvider> _providers;
 
-        public CustomItemManager(string[] pathString)
+        public CustomItemManager(string pathString)
         {
             _providers = new Dictionary<string, IProvider>();
             var providersDictionary = ProviderFinder.ReturnProviders(pathString);
