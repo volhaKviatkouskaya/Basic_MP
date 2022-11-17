@@ -2,7 +2,7 @@
   "profiles": {
     "CustomProgram": {
       "commandName": "Project",
-      "commandLineArgs": "CustomAttribute\\\\Plugins"
+      "commandLineArgs": "Plugins"
     }
   }
 }
