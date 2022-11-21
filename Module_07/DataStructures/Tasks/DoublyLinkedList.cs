@@ -55,12 +55,33 @@ namespace Tasks
 
         public void AddAt(int index, T e)
         {
-            throw new NotImplementedException();
+            
+        }
+
+        private void FindNodeByIndex(int index, T e)
+        {
+
         }
 
         public T ElementAt(int index)
         {
-            throw new NotImplementedException();
+            var headNode = FindFirstNode(this.HeadNode);
+            var count = 0;
+            var element = headNode.Data;
+
+            while (count!=index)
+            {
+                headNode = headNode.Next;
+                count++;
+
+                if (count == index)
+                {
+                    element = headNode.Data;
+                    break;
+                }
+            }
+
+            return element;
         }
 
         private Node<T> FindFirstNode(Node<T> node)
@@ -140,13 +161,13 @@ namespace Tasks
         private Node<T> _headNode;
         private Node<T> _currentNode;
 
-        private int _length;
+        private int _position;
 
         public MyEnumerator(Node<T> headNode, Node<T> tailNode)
         {
             _headNode = headNode;
             _currentNode = null;
-            _length = 0;
+            _position = 0;
         }
 
         public T Current => _currentNode.Data;
@@ -166,6 +187,7 @@ namespace Tasks
             else
             {
                 _currentNode = _currentNode.Next;
+                _position++;
             }
             return _currentNode != null;
         }
@@ -173,6 +195,7 @@ namespace Tasks
         public void Reset()
         {
             _currentNode = _headNode;
+            _position = 0;
         }
     }
 }
