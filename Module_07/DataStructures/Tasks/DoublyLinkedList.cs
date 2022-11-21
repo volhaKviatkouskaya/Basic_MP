@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using Tasks.DoNotChange;
 
 namespace Tasks
@@ -15,22 +14,21 @@ namespace Tasks
 
         public override bool Equals(object obj)
         {
-            var toCompare = (Node<T>)obj;
+            var node = (Node<T>)obj;
 
-            return Data.Equals(toCompare.Data);
+            return Data.Equals(node.Data);
         }
     }
 
     public class DoublyLinkedList<T> : IDoublyLinkedList<T>
     {
         public Node<T> HeadNode;
-        public Node<T> TailNode;
         public int Length { get; set; }
 
         public DoublyLinkedList()
         {
-            this.HeadNode = this.TailNode = null;
-            this.Length = 0;
+            HeadNode = null;
+            Length = 0;
         }
 
         public void Add(T e)
@@ -41,13 +39,7 @@ namespace Tasks
             }
             else
             {
-                TailNode = new Node<T>(e)
-                {
-                    Previous = HeadNode
-                };
-                HeadNode.Next = TailNode;
-                HeadNode = TailNode;
-                TailNode = null;
+                AddToTail(e);
             }
 
             Length++;
@@ -55,47 +47,62 @@ namespace Tasks
 
         public void AddAt(int index, T e)
         {
-            var addedNode = new Node<T>(e);
-            var next = FindNodeByIndex(index);
-
-            if (next == null)
+            if (index == 0)
             {
-                var tail = FindNodeByIndex(index - 1);
-                tail.Next = addedNode;
-                addedNode.Previous = tail;
+                var next = HeadNode;
+                HeadNode = new Node<T>(e)
+                {
+                    Next = next
+                };
+                next.Previous = HeadNode;
+            }
+            else if (index == Length)
+            {
+                AddToTail(e);
             }
             else
             {
+                var addedNode = new Node<T>(e);
+                var next = FindNodeByIndex(index);
                 var previous = next.Previous;
 
-                if (previous != null)
-                {
-                    addedNode.Previous = previous;
-                    previous.Next = addedNode;
-                }
-
                 addedNode.Next = next;
+                addedNode.Previous = previous;
+
                 next.Previous = addedNode;
+                previous.Next = addedNode;
             }
 
             Length++;
         }
 
+        private Node<T> FindTailNode(Node<T> node)
+        {
+            return node.Next == null ? node : FindTailNode(node.Next);
+        }
+
+        private void AddToTail(T e)
+        {
+            var tailNode = FindTailNode(HeadNode);
+            var latestNode = new Node<T>(e)
+            {
+                Previous = tailNode
+            };
+            tailNode.Next = latestNode;
+        }
+
         private Node<T> FindNodeByIndex(int index)
         {
-            var headNode = FindFirstNode(HeadNode);
-            var count = 0;
-            var element = headNode;
+            var element = HeadNode;
 
-            while (count != index && count <= Length)
+            for (var count = 0; count <= Length; count++)
             {
-                headNode = headNode.Next;
-                count++;
-
                 if (count == index)
                 {
-                    element = headNode;
+                    break;
                 }
+
+                element = element.Next;
             }
 
             return element;
@@ -111,56 +118,42 @@ namespace Tasks
             return FindNodeByIndex(index).Data;
         }
 
-        private Node<T> FindFirstNode(Node<T> node)
-        {
-            if (node.Previous == null)
-            {
-                return node;
-            }
-
-            return FindFirstNode(node.Previous);
-        }
-
         private Node<T> FindNode(Node<T> headNode, T item)
         {
             if (item != null && headNode.Equals(new Node<T>(item)))
             {
                 return headNode;
             }
-            if (headNode.Next == null)
-            {
-                return null;
-            }
-            return FindNode(headNode.Next, item);
+
+            return headNode.Next == null ? null : FindNode(headNode.Next, item);
         }
 
         public void Remove(T item)
         {
-            var firstNode = FindFirstNode(HeadNode);
-            var removedNode = FindNode(firstNode, item);
+            var removedNode = FindNode(HeadNode, item);
 
-            if (removedNode == null) return;
-
-            var previousNode = removedNode.Previous;
-            var nextNode = removedNode.Next;
-
-            if (removedNode.Equals(firstNode))
+            if (removedNode == null)
             {
-                firstNode = nextNode;
-                firstNode.Previous = null;
-                removedNode.Next = null;
-                Length--;
                 return;
             }
-
-            if (nextNode == null)
+            if (removedNode.Equals(HeadNode))
             {
-                previousNode.Next = null;
-                Length--;
-                return;
+                RemoveHeadNode();
             }
-            previousNode.Next = nextNode;
-            nextNode.Previous = previousNode;
+            else
+            {
+                var previousNode = removedNode.Previous;
+                var nextNode = removedNode.Next;
+                if (nextNode == null)
+                {
+                    previousNode.Next = null;
+                    Length--;
+                    return;
+                }
+
+                previousNode.Next = nextNode;
+                nextNode.Previous = previousNode;
+            }
 
             Length--;
         }
@@ -173,28 +166,34 @@ namespace Tasks
             }
 
             var removedNode = FindNodeByIndex(index);
+
+            if (removedNode.Equals(HeadNode))
+            {
+                RemoveHeadNode();
+            }
+
             var previousNode = removedNode.Previous;
 
-            if (removedNode.Next == null)
+            var nextNode = removedNode.Next;
+            previousNode.Next = nextNode;
+            if (nextNode != null)
             {
-                previousNode.Next = null;
-            }
-            else
-            {
-                var nextNode = removedNode.Next;
                 nextNode.Previous = previousNode;
-                previousNode.Next = nextNode;
             }
 
             Length--;
             return removedNode.Data;
         }
 
+        private void RemoveHeadNode()
+        {
+            HeadNode = HeadNode.Next;
+            HeadNode.Previous = null;
+        }
 
         public IEnumerator<T> GetEnumerator()
         {
-            var firstNode = FindFirstNode(this.HeadNode);
-            return new MyEnumerator<T>(firstNode, HeadNode);
+            return new MyEnumerator<T>(HeadNode);
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -208,41 +207,24 @@ namespace Tasks
         private Node<T> _headNode;
         private Node<T> _currentNode;
 
-        private int _position;
-
-        public MyEnumerator(Node<T> headNode, Node<T> tailNode)
+        public MyEnumerator(Node<T> headNode)
         {
             _headNode = headNode;
-            _currentNode = null;
-            _position = 0;
         }
 
         public T Current => _currentNode.Data;
         object IEnumerator.Current => _currentNode.Data;
+        public void Dispose() { }
 
-        public void Dispose()
-        {
-            _headNode = null;
-            _headNode = null;
-        }
         public bool MoveNext()
         {
-            if (_currentNode == null)
-            {
-                _currentNode = _headNode;
-            }
-            else
-            {
-                _currentNode = _currentNode.Next;
-                _position++;
-            }
+            _currentNode = _currentNode == null ? _headNode : _currentNode.Next;
             return _currentNode != null;
         }
 
         public void Reset()
         {
             _currentNode = _headNode;
-            _position = 0;
         }
     }
 }
