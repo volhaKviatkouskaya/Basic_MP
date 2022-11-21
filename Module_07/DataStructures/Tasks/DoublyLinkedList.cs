@@ -55,7 +55,7 @@ namespace Tasks
 
         public void AddAt(int index, T e)
         {
-            
+
         }
 
         private void FindNodeByIndex(int index, T e)
@@ -69,7 +69,7 @@ namespace Tasks
             var count = 0;
             var element = headNode.Data;
 
-            while (count!=index)
+            while (count != index)
             {
                 headNode = headNode.Next;
                 count++;
@@ -77,7 +77,6 @@ namespace Tasks
                 if (count == index)
                 {
                     element = headNode.Data;
-                    break;
                 }
             }
 
