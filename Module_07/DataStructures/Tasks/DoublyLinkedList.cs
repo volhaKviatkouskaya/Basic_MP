@@ -38,7 +38,6 @@ namespace Tasks
             if (HeadNode == null)
             {
                 HeadNode = new Node<T>(e);
-                Length++;
             }
             else
             {
@@ -49,38 +48,67 @@ namespace Tasks
                 HeadNode.Next = TailNode;
                 HeadNode = TailNode;
                 TailNode = null;
-                Length++;
             }
+
+            Length++;
         }
 
         public void AddAt(int index, T e)
         {
+            var addedNode = new Node<T>(e);
+            var next = FindNodeByIndex(index);
 
+            if (next == null)
+            {
+                var tail = FindNodeByIndex(index - 1);
+                tail.Next = addedNode;
+                addedNode.Previous = tail;
+            }
+            else
+            {
+                var previous = next.Previous;
+
+                if (previous != null)
+                {
+                    addedNode.Previous = previous;
+                    previous.Next = addedNode;
+                }
+
+                addedNode.Next = next;
+                next.Previous = addedNode;
+            }
+
+            Length++;
         }
 
-        private void FindNodeByIndex(int index, T e)
+        private Node<T> FindNodeByIndex(int index)
         {
-
-        }
-
-        public T ElementAt(int index)
-        {
-            var headNode = FindFirstNode(this.HeadNode);
+            var headNode = FindFirstNode(HeadNode);
             var count = 0;
-            var element = headNode.Data;
+            var element = headNode;
 
-            while (count != index)
+            while (count != index && count <= Length)
             {
                 headNode = headNode.Next;
                 count++;
 
                 if (count == index)
                 {
-                    element = headNode.Data;
+                    element = headNode;
                 }
             }
 
             return element;
+        }
+
+        public T ElementAt(int index)
+        {
+            if (index >= Length || index < 0)
+            {
+                throw new IndexOutOfRangeException();
+            }
+
+            return FindNodeByIndex(index).Data;
         }
 
         private Node<T> FindFirstNode(Node<T> node)
@@ -109,18 +137,18 @@ namespace Tasks
         public void Remove(T item)
         {
             var firstNode = FindFirstNode(HeadNode);
-            var removingNode = FindNode(firstNode, item);
+            var removedNode = FindNode(firstNode, item);
 
-            if (removingNode == null) return;
+            if (removedNode == null) return;
 
-            var previousNode = removingNode.Previous;
-            var nextNode = removingNode.Next;
+            var previousNode = removedNode.Previous;
+            var nextNode = removedNode.Next;
 
-            if (removingNode.Equals(firstNode))
+            if (removedNode.Equals(firstNode))
             {
                 firstNode = nextNode;
                 firstNode.Previous = null;
-                removingNode.Next = null;
+                removedNode.Next = null;
                 Length--;
                 return;
             }
@@ -139,7 +167,27 @@ namespace Tasks
 
         public T RemoveAt(int index)
         {
-            throw new NotImplementedException();
+            if (index >= Length || index < 0)
+            {
+                throw new IndexOutOfRangeException();
+            }
+
+            var removedNode = FindNodeByIndex(index);
+            var previousNode = removedNode.Previous;
+
+            if (removedNode.Next == null)
+            {
+                previousNode.Next = null;
+            }
+            else
+            {
+                var nextNode = removedNode.Next;
+                nextNode.Previous = previousNode;
+                previousNode.Next = nextNode;
+            }
+
+            Length--;
+            return removedNode.Data;
         }
 
 
