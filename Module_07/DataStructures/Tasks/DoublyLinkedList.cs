@@ -5,24 +5,9 @@ using Tasks.DoNotChange;
 
 namespace Tasks
 {
-    public class Node<T>
-    {
-        public T Data { get; set; }
-        public Node<T> Previous { get; set; }
-        public Node<T> Next { get; set; }
-        public Node(T value) => Data = value;
-
-        public override bool Equals(object obj)
-        {
-            var node = (Node<T>)obj;
-
-            return Data.Equals(node.Data);
-        }
-    }
-
     public class DoublyLinkedList<T> : IDoublyLinkedList<T>
     {
-        public Node<T> HeadNode;
+        private Node<T> HeadNode;
         public int Length { get; set; }
 
         public DoublyLinkedList()
@@ -76,14 +61,10 @@ namespace Tasks
             Length++;
         }
 
-        private Node<T> FindTailNode(Node<T> node)
-        {
-            return node.Next == null ? node : FindTailNode(node.Next);
-        }
-
         private void AddToTail(T e)
         {
-            var tailNode = FindTailNode(HeadNode);
+            var tailNode = FindNodeByIndex(Length - 1);
+
             var latestNode = new Node<T>(e)
             {
                 Previous = tailNode
@@ -136,6 +117,7 @@ namespace Tasks
             {
                 return;
             }
+
             if (removedNode.Equals(HeadNode))
             {
                 RemoveHeadNode();
@@ -200,31 +182,46 @@ namespace Tasks
         {
             return GetEnumerator();
         }
-    }
 
-    public class MyEnumerator<T> : IEnumerator<T>
-    {
-        private Node<T> _headNode;
-        private Node<T> _currentNode;
-
-        public MyEnumerator(Node<T> headNode)
+        private class Node<T>
         {
-            _headNode = headNode;
+            internal T Data;
+            internal Node<T> Previous;
+            internal Node<T> Next;
+            internal Node(T value) => Data = value;
+
+            public override bool Equals(object obj)
+            {
+                var node = (Node<T>)obj;
+
+                return node != null && Data.Equals(node.Data);
+            }
         }
 
-        public T Current => _currentNode.Data;
-        object IEnumerator.Current => _currentNode.Data;
-        public void Dispose() { }
-
-        public bool MoveNext()
+        private class MyEnumerator<T> : IEnumerator<T>
         {
-            _currentNode = _currentNode == null ? _headNode : _currentNode.Next;
-            return _currentNode != null;
-        }
+            private Node<T> _headNode;
+            private Node<T> _currentNode;
 
-        public void Reset()
-        {
-            _currentNode = _headNode;
+            internal MyEnumerator(Node<T> headNode)
+            {
+                _headNode = headNode;
+            }
+
+            public T Current => _currentNode.Data;
+            object IEnumerator.Current => _currentNode.Data;
+            public void Dispose() { }
+
+            public bool MoveNext()
+            {
+                _currentNode = _currentNode == null ? _headNode : _currentNode.Next;
+                return _currentNode != null;
+            }
+
+            public void Reset()
+            {
+                _currentNode = _headNode;
+            }
         }
     }
 }
