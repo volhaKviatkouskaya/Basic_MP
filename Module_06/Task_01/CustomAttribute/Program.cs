@@ -6,27 +6,22 @@
         {
             var customManager = new CustomItemManager();
 
-            ConfigurationProviderItem configProvider = new();
-            Console.WriteLine(configProvider);
+            CustomItem item = new();
+            Console.WriteLine(item);
 
-            customManager.ReadFromFile(configProvider);
-            Console.WriteLine(configProvider);
+            customManager.ReadFromFile(item);
+            Console.WriteLine(item);
 
-            configProvider.IntValue = 2345;
-            customManager.WriteToFile(configProvider);
+            item.SecondItemProp = 2345;
+            item.FifthItemProp = "set new string to json";
+            item.SixthItemProp = 222222222;
+            customManager.WriteToFile(item);
 
-            FileProviderItem fileProvider = new();
-            Console.WriteLine(fileProvider);
-
-            customManager.ReadFromFile(fileProvider);
-
-
-            ConfigurationProviderItem item2 = new();
+            CustomItem item2 = new();
             Console.WriteLine(item2);
 
-            customManager.ReadFromFile(configProvider);
-            Console.WriteLine(configProvider);
-
+            customManager.ReadFromFile(item);
+            Console.WriteLine(item);
         }
     }
 }

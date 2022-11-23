@@ -5,30 +5,30 @@ namespace CustomAttribute
 {
     public class CustomItemManager
     {
-        private readonly Dictionary<ProviderTypes, IProvider> _providers;
+        private readonly Dictionary<Enum, IProvider> _providers;
 
         public CustomItemManager()
         {
-            _providers = new Dictionary<ProviderTypes, IProvider>
+            _providers = new Dictionary<Enum, IProvider>
                         {{ProviderTypes.ConfigurationProvider, new ConfigurationProvider() },
                         { ProviderTypes.FileProvider, new FileProvider() } };
         }
 
-        public void ReadFromFile(ConfigurationProviderItem item)
+        public void ReadFromFile(CustomItem item)
         {
-            var customTypePropAttributes = ReturnItemProperties(typeof(ConfigurationProviderItem));
+            var customTypePropAttributes = ReturnItemProperties(typeof(CustomItem));
 
             AssignItemProperties(item, customTypePropAttributes);
         }
 
-        public void WriteToFile(ConfigurationProviderItem item)
+        public void WriteToFile(CustomItem item)
         {
-            var customTypePropAttributes = ReturnItemProperties(typeof(ConfigurationProviderItem));
+            var customTypePropAttributes = ReturnItemProperties(typeof(CustomItem));
 
             WriteItemProperties(item, customTypePropAttributes);
         }
 
-        private void WriteItemProperties(ConfigurationProviderItem item, Dictionary<string, ConfigurationItemAttribute> dataOfType)
+        private void WriteItemProperties(CustomItem item, Dictionary<string, ConfigurationItemAttribute> dataOfType)
         {
             foreach (var keyValuePair in dataOfType)
             {
@@ -101,24 +101,24 @@ namespace CustomAttribute
             return converter.ConvertFromString(pairValue);
         }
 
-        private void SaveChanges(ProviderTypes provider)
+        private void SaveChanges(Enum provider)
         {
             _providers[provider].SaveChanges();
         }
 
-        private void SetPropertyValue(string key, string value, ProviderTypes provider)
+        private void SetPropertyValue(string key, string value, Enum provider)
         {
             _providers[provider].SetValue(key, value);
         }
 
-        private string GetPropertyValue(string pairSettingName, ProviderTypes provider)
+        private string GetPropertyValue(string pairSettingName, Enum provider)
         {
             return _providers[provider].GetValue(pairSettingName);
         }
 
-        private static ProviderTypes GetProviderType(ProviderTypes provider)
+        private static Enum GetProviderType(string provider)
         {
-            return provider == ProviderTypes.ConfigurationProvider
+            return provider == ProviderTypes.ConfigurationProvider.ToString()
                 ? ProviderTypes.ConfigurationProvider
                 : ProviderTypes.FileProvider;
         }
