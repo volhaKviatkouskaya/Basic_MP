@@ -1,0 +1,6 @@
+{
+  "StringValue": "some string from json file",
+  "IntValue": "22222",
+  "FloatValue": "1.40282347E+38",
+  "TimeSpanValue": "13:12:11"
+}

@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "CustomProgram": {
+      "commandName": "Project",
+      "commandLineArgs": "Plugins"
+    }
+  }
+}
