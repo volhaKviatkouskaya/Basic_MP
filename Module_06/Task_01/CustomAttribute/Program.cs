@@ -6,22 +6,37 @@
         {
             var customManager = new CustomItemManager();
 
-            CustomItem item = new();
-            Console.WriteLine(item);
+            Console.WriteLine("Using Configuration Provider");
+            ConfigurationProviderItem configProvider = new();
+            Console.WriteLine(configProvider);
+            customManager.ReadFromFile(configProvider);
+            Console.WriteLine(configProvider);
 
-            customManager.ReadFromFile(item);
-            Console.WriteLine(item);
+            configProvider.IntValue = 2345;
+            configProvider.FloatValue = float.Epsilon;
+            configProvider.StringValue = "some string";
+            configProvider.TimeSpanValue = TimeSpan.MinValue;
+            customManager.WriteToFile(configProvider);
+            customManager.ReadFromFile(configProvider);
+            Console.WriteLine(configProvider);
 
-            item.SecondItemProp = 2345;
-            item.FifthItemProp = "set new string to json";
-            item.SixthItemProp = 222222222;
-            customManager.WriteToFile(item);
+            Console.WriteLine("Using Configuration Provider");
+            FileProviderItem fileProvider = new();
+            Console.WriteLine(fileProvider);
+            customManager.ReadFromFile(fileProvider);
+            Console.WriteLine(customManager);
 
-            CustomItem item2 = new();
-            Console.WriteLine(item2);
+            fileProvider.IntValue = 2345;
+            fileProvider.FloatValue = float.Epsilon;
+            fileProvider.StringValue = "some string";
+            fileProvider.TimeSpanValue = TimeSpan.MinValue;
+            customManager.WriteToFile(fileProvider);
+            customManager.ReadFromFile(fileProvider);
+            Console.WriteLine(fileProvider);
 
-            customManager.ReadFromFile(item);
-            Console.WriteLine(item);
+            customManager.ReadFromFile(fileProvider);
+            Console.WriteLine(fileProvider);
+
         }
     }
 }

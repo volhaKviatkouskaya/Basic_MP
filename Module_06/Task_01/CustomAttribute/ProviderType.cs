@@ -1,6 +1,6 @@
 ﻿namespace CustomAttribute
 {
-    internal enum ProviderTypes
+    public enum ProviderType
     {
         ConfigurationProvider = 0,
         FileProvider = 1
