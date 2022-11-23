@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Diagnostics;
+using System.IO;
 using System.Reflection;
 
 namespace CustomAttribute
@@ -48,13 +49,7 @@ namespace CustomAttribute
 
         private static List<string> ReturnDirectoryFiles(string shortPath)
         {
-            var root = Path.GetFullPath(Path.Combine(
-                Path.GetDirectoryName(
-                    Path.GetDirectoryName(
-                        Path.GetDirectoryName(
-                            Path.GetDirectoryName(
-                                Path.GetDirectoryName(typeof(ProviderFinder).Assembly.Location)))))));
-
+            var root = Environment.CurrentDirectory;
             var pluginLocation = Path.GetFullPath(Path.Combine(root, shortPath.Replace('\\', Path.DirectorySeparatorChar)));
             var directoryFiles = Directory.GetFiles(pluginLocation).ToList();
 
