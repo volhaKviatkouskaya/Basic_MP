@@ -7,20 +7,20 @@ namespace Tasks
 {
     public class DoublyLinkedList<T> : IDoublyLinkedList<T>
     {
-        private Node<T> HeadNode;
+        private Node<T> _headNode;
         public int Length { get; set; }
 
         public DoublyLinkedList()
         {
-            HeadNode = null;
+            _headNode = null;
             Length = 0;
         }
 
         public void Add(T e)
         {
-            if (HeadNode == null)
+            if (_headNode == null)
             {
-                HeadNode = new Node<T>(e);
+                _headNode = new Node<T>(e);
             }
             else
             {
@@ -34,12 +34,12 @@ namespace Tasks
         {
             if (index == 0)
             {
-                var next = HeadNode;
-                HeadNode = new Node<T>(e)
+                var next = _headNode;
+                _headNode = new Node<T>(e)
                 {
                     Next = next
                 };
-                next.Previous = HeadNode;
+                next.Previous = _headNode;
             }
             else if (index == Length)
             {
@@ -74,7 +74,7 @@ namespace Tasks
 
         private Node<T> FindNodeByIndex(int index)
         {
-            var element = HeadNode;
+            var element = _headNode;
 
             for (var count = 0; count <= Length; count++)
             {
@@ -111,14 +111,14 @@ namespace Tasks
 
         public void Remove(T item)
         {
-            var removedNode = FindNode(HeadNode, item);
+            var removedNode = FindNode(_headNode, item);
 
             if (removedNode == null)
             {
                 return;
             }
 
-            if (removedNode.Equals(HeadNode))
+            if (removedNode.Equals(_headNode))
             {
                 RemoveHeadNode();
             }
@@ -149,7 +149,7 @@ namespace Tasks
 
             var removedNode = FindNodeByIndex(index);
 
-            if (removedNode.Equals(HeadNode))
+            if (removedNode.Equals(_headNode))
             {
                 RemoveHeadNode();
             }
@@ -169,13 +169,13 @@ namespace Tasks
 
         private void RemoveHeadNode()
         {
-            HeadNode = HeadNode.Next;
-            HeadNode.Previous = null;
+            _headNode = _headNode.Next;
+            _headNode.Previous = null;
         }
 
         public IEnumerator<T> GetEnumerator()
         {
-            return new MyEnumerator<T>(HeadNode);
+            return new MyEnumerator<T>(_headNode);
         }
 
         IEnumerator IEnumerable.GetEnumerator()
