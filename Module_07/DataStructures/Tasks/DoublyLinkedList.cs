@@ -153,14 +153,16 @@ namespace Tasks
             {
                 RemoveHeadNode();
             }
-
-            var previousNode = removedNode.Previous;
-
-            var nextNode = removedNode.Next;
-            previousNode.Next = nextNode;
-            if (nextNode != null)
+            else
             {
-                nextNode.Previous = previousNode;
+                var previousNode = removedNode.Previous;
+
+                var nextNode = removedNode.Next;
+                previousNode.Next = nextNode;
+                if (nextNode != null)
+                {
+                    nextNode.Previous = previousNode;
+                }
             }
 
             Length--;
