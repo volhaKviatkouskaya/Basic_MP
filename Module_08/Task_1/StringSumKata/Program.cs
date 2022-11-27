@@ -14,27 +14,25 @@ namespace StringSumKata
             var firstNum = int.Parse(num1);
             var secondNum = int.Parse(num2);
 
-            if (firstNum <= 0)
-            {
-                firstNum = 0;
-            }
-
-            if (secondNum <= 0)
-            {
-                secondNum = 0;
-            }
+            firstNum = firstNum <= 0 ? 0 : firstNum;
+            secondNum = secondNum <= 0 ? 0 : secondNum;
 
             return (firstNum + secondNum).ToString();
         }
 
-        public static void CheckNumber(string number)
+        public static void CheckNumber(string inputString)
         {
-            if (number == null)
+            if (inputString == null)
             {
                 throw new ArgumentNullException();
             }
 
-            if (number.Any(sign => char.IsLetter(sign) || char.IsWhiteSpace(sign)))
+            if (inputString.Length == 0)
+            {
+                throw new FormatException();
+            }
+
+            if (inputString.Any(sign => char.IsLetter(sign) || char.IsWhiteSpace(sign)))
             {
                 throw new FormatException();
             }
