@@ -34,6 +34,11 @@ namespace StringSumKata
                 throw new ArgumentNullException();
             }
 
+            if (number.Length == 0)
+            {
+                throw new FormatException();
+            }
+
             if (number.Any(sign => char.IsLetter(sign) || char.IsWhiteSpace(sign)))
             {
                 throw new FormatException();

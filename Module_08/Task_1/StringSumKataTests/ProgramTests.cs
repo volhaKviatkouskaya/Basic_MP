@@ -39,6 +39,7 @@ namespace StringSumKata.Tests
         [TestMethod]
         [DataRow("1", "1A")]
         [DataRow("1", "1 1")]
+        [DataRow("1","")]
         public void Should_Throw_FormatException(string num1, string num2)
         {
             Assert.ThrowsException<FormatException>(() => Program.Sum(num1, num2));
