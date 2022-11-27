@@ -1,6 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Diagnostics;
-
 
 namespace StringSumKata.Tests
 {
@@ -8,7 +6,6 @@ namespace StringSumKata.Tests
     public class ProgramTests
     {
         [TestMethod]
-
         [DataRow("1", "2", "3")]
         [DataRow("2", "2", "4")]
         [DataRow("2", "3", "5")]
@@ -39,7 +36,7 @@ namespace StringSumKata.Tests
         [TestMethod]
         [DataRow("1", "1A")]
         [DataRow("1", "1 1")]
-        [DataRow("1","")]
+        [DataRow("1", "")]
         public void Should_Throw_FormatException(string num1, string num2)
         {
             Assert.ThrowsException<FormatException>(() => Program.Sum(num1, num2));

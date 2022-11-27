@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace StringSumKata
+﻿namespace StringSumKata
 {
     public class Program
     {
