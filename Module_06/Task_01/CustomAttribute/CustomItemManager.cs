@@ -41,7 +41,7 @@ namespace CustomAttribute
                     {
                         var key = keyValuePair.Value.SettingName;
                         var value = propertyInfo.GetValue(item).ToString();
-                        var provider = GetProviderType(keyValuePair.Value.ProviderType);
+                        var provider = keyValuePair.Value.ProviderType;
 
                         SetPropertyValue(key, value, provider);
                     }
@@ -51,7 +51,7 @@ namespace CustomAttribute
             var providers = dataOfType.Values.Select(x => x.ProviderType).Distinct();
             foreach (var provider in providers)
             {
-                SaveChanges(GetProviderType(provider));
+                SaveChanges(provider);
             }
         }
 
@@ -82,7 +82,7 @@ namespace CustomAttribute
             foreach (var pair in dataOfType)
             {
                 var pairSettingName = pair.Value.SettingName;
-                var providerType = GetProviderType(pair.Value.ProviderType);
+                var providerType = pair.Value.ProviderType;
                 var pairValue = GetPropertyValue(pairSettingName, providerType);
                 var propertyType = obj.GetType().GetProperty(pair.Key).PropertyType;
 
