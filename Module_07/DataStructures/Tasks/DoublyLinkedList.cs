@@ -7,41 +7,223 @@ namespace Tasks
 {
     public class DoublyLinkedList<T> : IDoublyLinkedList<T>
     {
-        public int Length => throw new NotImplementedException();
+        private Node<T> _headNode;
+        public int Length { get; set; }
+
+        public DoublyLinkedList()
+        {
+            _headNode = null;
+            Length = 0;
+        }
 
         public void Add(T e)
         {
-            throw new NotImplementedException();
+            if (_headNode == null)
+            {
+                _headNode = new Node<T>(e);
+            }
+            else
+            {
+                AddToTail(e);
+            }
+
+            Length++;
         }
 
         public void AddAt(int index, T e)
         {
-            throw new NotImplementedException();
+            if (index == 0)
+            {
+                var next = _headNode;
+                _headNode = new Node<T>(e)
+                {
+                    Next = next
+                };
+                next.Previous = _headNode;
+            }
+            else if (index == Length)
+            {
+                AddToTail(e);
+            }
+            else
+            {
+                var addedNode = new Node<T>(e);
+                var next = FindNodeByIndex(index);
+                var previous = next.Previous;
+
+                addedNode.Next = next;
+                addedNode.Previous = previous;
+
+                next.Previous = addedNode;
+                previous.Next = addedNode;
+            }
+
+            Length++;
+        }
+
+        private void AddToTail(T e)
+        {
+            var tailNode = FindNodeByIndex(Length - 1);
+
+            var latestNode = new Node<T>(e)
+            {
+                Previous = tailNode
+            };
+            tailNode.Next = latestNode;
+        }
+
+        private Node<T> FindNodeByIndex(int index)
+        {
+            var element = _headNode;
+
+            for (var count = 0; count <= Length; count++)
+            {
+                if (count == index)
+                {
+                    break;
+                }
+
+                element = element.Next;
+            }
+
+            return element;
         }
 
         public T ElementAt(int index)
         {
-            throw new NotImplementedException();
+            if (index >= Length || index < 0)
+            {
+                throw new IndexOutOfRangeException();
+            }
+
+            return FindNodeByIndex(index).Data;
         }
 
-        public IEnumerator<T> GetEnumerator()
+        private Node<T> FindNode(Node<T> headNode, T item)
         {
-            throw new NotImplementedException();
+            if (item != null && headNode.Equals(new Node<T>(item)))
+            {
+                return headNode;
+            }
+
+            return headNode.Next == null ? null : FindNode(headNode.Next, item);
         }
 
         public void Remove(T item)
         {
-            throw new NotImplementedException();
+            var removedNode = FindNode(_headNode, item);
+
+            if (removedNode == null)
+            {
+                return;
+            }
+
+            if (removedNode.Equals(_headNode))
+            {
+                RemoveHeadNode();
+            }
+            else
+            {
+                var previousNode = removedNode.Previous;
+                var nextNode = removedNode.Next;
+                if (nextNode == null)
+                {
+                    previousNode.Next = null;
+                    Length--;
+                    return;
+                }
+
+                previousNode.Next = nextNode;
+                nextNode.Previous = previousNode;
+            }
+
+            Length--;
         }
 
         public T RemoveAt(int index)
         {
-            throw new NotImplementedException();
+            if (index >= Length || index < 0)
+            {
+                throw new IndexOutOfRangeException();
+            }
+
+            var removedNode = FindNodeByIndex(index);
+
+            if (removedNode.Equals(_headNode))
+            {
+                RemoveHeadNode();
+            }
+            else
+            {
+                var previousNode = removedNode.Previous;
+
+                var nextNode = removedNode.Next;
+                previousNode.Next = nextNode;
+                if (nextNode != null)
+                {
+                    nextNode.Previous = previousNode;
+                }
+            }
+
+            Length--;
+            return removedNode.Data;
+        }
+
+        private void RemoveHeadNode()
+        {
+            _headNode = _headNode.Next;
+            _headNode.Previous = null;
+        }
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            return new MyEnumerator<T>(_headNode);
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            throw new NotImplementedException();
+            return GetEnumerator();
+        }
+
+        private class Node<T>
+        {
+            internal T Data;
+            internal Node<T> Previous;
+            internal Node<T> Next;
+            internal Node(T value) => Data = value;
+
+            public override bool Equals(object obj)
+            {
+                var node = (Node<T>)obj;
+
+                return node != null && Data.Equals(node.Data);
+            }
+        }
+
+        private class MyEnumerator<T> : IEnumerator<T>
+        {
+            private Node<T> _headNode;
+            private Node<T> _currentNode;
+
+            internal MyEnumerator(Node<T> headNode)
+            {
+                _headNode = headNode;
+            }
+
+            public T Current => _currentNode.Data;
+            object IEnumerator.Current => _currentNode.Data;
+            public void Dispose() { }
+
+            public bool MoveNext()
+            {
+                _currentNode = _currentNode == null ? _headNode : _currentNode.Next;
+                return _currentNode != null;
+            }
+
+            public void Reset()
+            {
+                _currentNode = _headNode;
+            }
         }
     }
 }
