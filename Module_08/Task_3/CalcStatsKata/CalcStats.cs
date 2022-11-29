@@ -6,12 +6,7 @@
 
         public CalcStats(params int[] number)
         {
-
-            if (number != null)
-            {
-                _sequence = number;
-            }
-
+            _sequence = number;
         }
 
         public int GetMinNumber()
