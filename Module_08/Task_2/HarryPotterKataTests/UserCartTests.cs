@@ -92,7 +92,7 @@ namespace HarryPotterKata.Tests
         }
 
         [TestMethod]
-        [DataRow(1, 2, 3, 3, 30.4)]
+        [DataRow(1, 2, 3, 3, 28.8)]
         public void User_Have_Ten_Percent_Discount(int bookIndex1, int bookIndex2, int bookIndex3, int bookIndex4, double expected)
         {
             var userCart = new UserCart();
