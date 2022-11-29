@@ -6,7 +6,12 @@
 
         public CalcStats(params int[] number)
         {
-            _sequence = number;
+
+            if (number != null)
+            {
+                _sequence = number;
+            }
+
         }
 
         public int GetMinNumber()
@@ -42,7 +47,6 @@
         public int GetSequenceCount()
         {
             var count = 0;
-
             foreach (var number in _sequence)
             {
                 count++;
@@ -51,10 +55,10 @@
             return count;
         }
 
-        public decimal GetSequenceAverage()
+        public double GetSequenceAverage()
         {
             var count = this.GetSequenceCount();
-            decimal sum = 0;
+            double sum = 0;
 
             foreach (var number in _sequence)
             {
