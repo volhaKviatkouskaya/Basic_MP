@@ -10,6 +10,19 @@
 
 AS
 	BEGIN
+		DECLARE @letter_expression varchar(10) SET @letter_expression = '[A-Za-z]%'
+	
+		SET @EmployeeName = (CASE WHEN (@EmployeeName IS NULL OR TRIM(@EmployeeName) LIKE '') THEN ' ' 
+									ELSE @EmployeeName END)
+
+		SET @FirstName = (CASE WHEN (@FirstName IS NULL OR TRIM(@FirstName) LIKE '') THEN ' ' 
+								ELSE @FirstName END)
+
+		SET @LastName = (CASE WHEN (@LastName IS NULL OR TRIM(@LastName) LIKE '') THEN ' '
+								ELSE @LastName END)
+
+	IF(@EmployeeName LIKE @letter_expression OR @FirstName LIKE @letter_expression OR @LastName LIKE @letter_expression)
+		BEGIN
 			DECLARE @PersonId INT 
 			DECLARE @AddressId INT
 			DECLARE @EmployeeId INT
@@ -42,5 +55,5 @@ AS
 			INSERT INTO dbo.[company]
 						([company_id], [name], [address_id])
 			VALUES (@CompanyId, @CompanyName, @AddressId)
-		
+		END
 END
