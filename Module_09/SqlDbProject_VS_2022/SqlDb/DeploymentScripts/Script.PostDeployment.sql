@@ -19,3 +19,6 @@ GO
 :r .\PostDeploymentScripts\CreateStoredProcedureScripts\Insert_Employee_Info.sql
 
 GO
+:r .\PostDeploymentScripts\CreateTriggerScripts\On_Insert_Employee.sql
+
+GO

@@ -68,6 +68,7 @@
     <Folder Include="DeploymentScripts\PostDeploymentScripts\InsertDataScripts" />
     <Folder Include="DeploymentScripts\PostDeploymentScripts\CreateViewScripts" />
     <Folder Include="DeploymentScripts\PostDeploymentScripts\CreateStoredProcedureScripts" />
+    <Folder Include="DeploymentScripts\PostDeploymentScripts\CreateTriggerScripts" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\Person.sql" />
@@ -77,6 +78,7 @@
     <None Include="DeploymentScripts\PostDeploymentScripts\InsertDataScripts\Insert_Data.sql" />
     <None Include="DeploymentScripts\PostDeploymentScripts\CreateViewScripts\Employee_Info.sql" />
     <None Include="DeploymentScripts\PostDeploymentScripts\CreateStoredProcedureScripts\Insert_Employee_Info.sql" />
+    <Build Include="DeploymentScripts\PostDeploymentScripts\CreateTriggerScripts\On_Insert_Employee.sql" />
   </ItemGroup>
   <ItemGroup>
     <SqlCmdVariable Include="Release">
