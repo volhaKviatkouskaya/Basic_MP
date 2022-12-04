@@ -51,3 +51,51 @@ CREATE VIEW EmployeeInfo AS
   ORDER BY Employee.CompanyName, Address.City ASC offset 0 ROWS
 
 GO
+CREATE PROCEDURE InsertEmployeeInfo (@EmployeeName VARCHAR(100),
+									@FirstName VARCHAR(50),
+									@LastName VARCHAR(50),
+									@CompanyName VARCHAR(20),
+									@Position VARCHAR(30),
+									@Street VARCHAR(50),
+									@City VARCHAR(20),
+									@State VARCHAR(50),
+									@ZipCode VARCHAR(50))
+
+AS
+	BEGIN
+			DECLARE @PersonId INT 
+			DECLARE @AddressId INT
+			DECLARE @EmployeeId INT
+			DECLARE @CompanyId INT
+
+			SET @PersonId = (SELECT MAX(Id) + 1
+							 FROM dbo.Person)
+
+			SET @AddressId = (SELECT MAX(Id) + 1
+							  FROM dbo.Address)
+
+			SET @EmployeeId = (SELECT MAX(Id) + 1
+							   FROM dbo.Employee)
+
+			SET @CompanyId = (SELECT MAX(Id) + 1
+							   FROM dbo.Company)
+
+			INSERT INTO dbo.Person
+						(Id, FirstName, LastName)
+			VALUES(@PersonId, @FirstName, @LastName)
+
+			INSERT INTO dbo.Address
+						(Id, Street, City, State, ZipCode)
+			VALUES (@AddressId, @Street, @City, @State, @ZipCode)
+
+			INSERT INTO dbo.Employee
+						(Id, AddressId, PersonId, CompanyName, Position, EmployeeName)
+			VALUES (@EmployeeId, @AddressId, @PersonId, @CompanyName, @Position, @EmployeeName)
+
+			INSERT INTO dbo.Company
+						(Id, Name, AddressId)
+			VALUES (@CompanyId, @CompanyName, @AddressId)
+		
+END
+
+GO
