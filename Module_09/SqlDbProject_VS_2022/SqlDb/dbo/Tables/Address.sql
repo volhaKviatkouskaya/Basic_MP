@@ -1,9 +1,9 @@
-﻿CREATE TABLE [dbo].[Address] (
-    [Id]      INT           NOT NULL,
-    [Street]  NVARCHAR (50) NOT NULL,
-    [City]    NVARCHAR (20) NULL,
-    [State]   NVARCHAR (50) NULL,
-    [ZipCode] NVARCHAR (50) NULL,
-    CONSTRAINT [PK_address_id] PRIMARY KEY CLUSTERED ([Id] ASC)
+﻿CREATE TABLE [dbo].[address] (
+    [address_id]      INT           NOT NULL,
+    [street]  NVARCHAR (50) NOT NULL,
+    [city]    NVARCHAR (20) NULL,
+    [state]   NVARCHAR (50) NULL,
+    [zip_code] NVARCHAR (50) NULL,
+    CONSTRAINT [PK_address_id] PRIMARY KEY CLUSTERED ([address_id] ASC)
 );
 
