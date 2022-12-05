@@ -26,37 +26,42 @@ AS
 
 	IF(@EmployeeName LIKE @letter_expression OR @FirstName LIKE @letter_expression OR @LastName LIKE @letter_expression)
 		BEGIN
-			DECLARE @PersonId INT 
-			DECLARE @AddressId INT
-			DECLARE @EmployeeId INT
-			DECLARE @CompanyId INT
-
-			SET @PersonId = (SELECT MAX([peson_id]) + 1
-							 FROM dbo.[person])
-
-			SET @AddressId = (SELECT MAX([address_id]) + 1
-							  FROM dbo.[address])
-
-			SET @EmployeeId = (SELECT MAX([employee_id]) + 1
-							   FROM dbo.[employee])
-
-			SET @CompanyId = (SELECT MAX([company_id]) + 1
-							   FROM dbo.[company])
-
 			INSERT INTO dbo.[person]
-						([peson_id], [first_name], [last_name])
-			VALUES(@PersonId, @FirstName, @LastName)
+						([first_name], 
+						[last_name])
+			VALUES(@FirstName, 
+					@LastName)
 
 			INSERT INTO dbo.[address]
-						([address_id], [street], [city], [state], [zip_code])
-			VALUES (@AddressId, @Street, @City, @State, @ZipCode)
+						([street], 
+						[city], 
+						[state], 
+						[zip_code])
+			VALUES (@Street, 
+					@City, 
+					@State, 
+					@ZipCode)
 
 			INSERT INTO dbo.[employee]
-						([employee_id], [address_id], [person_id], [company_name], [position], [employee_name])
-			VALUES (@EmployeeId, @AddressId, @PersonId, @CompanyName, @Position, @EmployeeName)
+						([address_id], 
+						[person_id], 
+						[company_name], 
+						[position], 
+						[employee_name])
+			VALUES ((SELECT MAX(address_id)
+					FROM dbo.[address]), 
+					(SELECt person_id 
+					 FROM dbo.person
+					 WHERE @EmployeeName = first_name + ' ' + last_name), 
+					@CompanyName, 
+					@Position, 
+					@EmployeeName)
 
 			INSERT INTO dbo.[company]
-						([company_id], [name], [address_id])
-			VALUES (@CompanyId, @CompanyName, @AddressId)
+						([name], 
+						[address_id])
+			VALUES (@CompanyName, 
+					(SELECT MAX(address_id)
+					 FROM dbo.[address]))
 		END
 END

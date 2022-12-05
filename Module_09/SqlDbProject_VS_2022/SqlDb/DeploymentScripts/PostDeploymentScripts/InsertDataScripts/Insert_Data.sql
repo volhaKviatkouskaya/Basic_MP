@@ -1,25 +1,38 @@
-﻿    PRINT 'Insert data to Person table';
+﻿PRINT 'Insert data to Person table'
     INSERT dbo.[person]
-    VALUES (1, 'Harry', 'Potter'),
-           (2, 'Hermione', 'Granger'),
-           (3, 'Ron', 'Weasley'),
-           (4, 'Albus', 'Dumbledore'),
-           (5, 'Draco', 'Malfoy');
+    VALUES ('Harry', 'Potter'),
+           ('Hermione', 'Granger'),
+           ('Ron', 'Weasley'),
+           ('Albus', 'Dumbledore'),
+           ('Draco', 'Malfoy')
 
-    PRINT 'Insert data to Address table';      
+PRINT 'Insert data to Address table'     
     INSERT dbo.[address]
-    VALUES (1, 'Great Scotland Yard', 'London', 'Red Box', '01-001'),
-           (2, 'Hogwarts Castle', 'Highlands', 'Scottish', '07-007');
+    VALUES ('Great Scotland Yard', 'London', 'Red Box', '01-001'),
+           ('Hogwarts Castle', 'Highlands', 'Scottish', '07-007')
 
-    PRINT 'Insert data to Employee table';
+PRINT 'Insert data to Employee table'
+	DECLARE @Address_first INT SET @Address_first = 1
+	DECLARE @Address_second INT SET @Address_second = 2
+
     INSERT dbo.[employee]
-    VALUES (1, 1, 1, 'Ministry of Magic', 'Head', 'Harry Potter'),
-           (2, 1, 2, 'Ministry of Magic', 'Minister', 'Hermione Granger'),
-           (3, 1, 3, 'Ministry of Magic', 'Auror', 'Ron Weasley'),
-           (4, 2, 4, 'Hogwarts', 'Director', 'Albus Dumbledore'),
-           (5, 1, 5, 'Ministry of Magic', 'Employee', 'Draco Malfoy');
+    VALUES (@Address_first, (SELECT person_id 
+				FROM dbo.[person]
+				WHERE first_name + ' ' + last_name = 'Harry Potter'), 'Ministry of Magic', 'Head', 'Harry Potter'),
+           (@Address_first, (SELECT person_id 
+				FROM dbo.[person]
+				WHERE first_name + ' ' + last_name = 'Hermione Granger'), 'Ministry of Magic', 'Minister', 'Hermione Granger'),
+           (@Address_first, (SELECT person_id 
+				FROM dbo.[person]
+				WHERE first_name + ' ' + last_name = 'Ron Weasley'), 'Ministry of Magic', 'Auror', 'Ron Weasley'),
+           (@Address_second, (SELECT person_id 
+				FROM dbo.[person]
+				WHERE first_name + ' ' + last_name = 'Albus Dumbledore'), 'Hogwarts', 'Director', 'Albus Dumbledore'),
+           (@Address_first, (SELECT person_id 
+				FROM dbo.[person]
+				WHERE first_name + ' ' + last_name = 'Draco Malfoy'), 'Ministry of Magic', 'Employee', 'Draco Malfoy')
         
-    PRINT 'Insert data to Company table';
+PRINT 'Insert data to Company table'
     INSERT dbo.[company]
-    VALUES (1, 'Ministry of Magic', 1),
-           (2, 'Hogwarts', 2);
+    VALUES ('Ministry of Magic', @Address_first),
+           ('Hogwarts', @Address_second)

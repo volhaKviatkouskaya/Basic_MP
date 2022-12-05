@@ -78,7 +78,7 @@
     <None Include="DeploymentScripts\PostDeploymentScripts\InsertDataScripts\Insert_Data.sql" />
     <None Include="DeploymentScripts\PostDeploymentScripts\CreateViewScripts\Employee_Info.sql" />
     <None Include="DeploymentScripts\PostDeploymentScripts\CreateStoredProcedureScripts\Insert_Employee_Info.sql" />
-    <Build Include="DeploymentScripts\PostDeploymentScripts\CreateTriggerScripts\On_Insert_Employee.sql" />
+    <None Include="DeploymentScripts\PostDeploymentScripts\CreateTriggerScripts\On_Insert_Employee.sql" />
   </ItemGroup>
   <ItemGroup>
     <SqlCmdVariable Include="Release">
