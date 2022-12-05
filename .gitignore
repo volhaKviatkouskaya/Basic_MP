@@ -18,3 +18,4 @@ Version.h
 Version.cpp
 /Module_09/SqlDbProject_VS_2022/SqlDb/SqlDb.jfm
 /Module_09/SqlDbProject_VS_2022/SqlDb/SqlDb.dbmdl
+*.refactorlog
