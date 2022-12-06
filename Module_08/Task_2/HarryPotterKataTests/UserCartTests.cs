@@ -58,7 +58,7 @@ namespace HarryPotterKata.Tests
         [DataRow(1, 8)]
         [DataRow(2, 16)]
         [DataRow(3, 24)]
-        public void User_Have_No_Discount(int insertion, double expected)
+        public void User_Has_No_Discount(int insertion, double expected)
         {
             var userCart = new UserCart();
             var testBook = _testBooks[insertion];
@@ -76,9 +76,9 @@ namespace HarryPotterKata.Tests
         }
 
         [TestMethod]
-        [DataRow(1, 1, 2, 22.8)]
-        [DataRow(1, 2, 2, 22.8)]
-        public void User_Have_Five_Percent_Discount(int bookIndex1, int bookIndex2, int bookIndex3, double expected)
+        [DataRow(1, 1, 2, 23.2)]
+        public void User_Has_Five_Percent_Discount(int bookIndex1, int bookIndex2, int bookIndex3,
+                                                    double expected)
         {
             var userCart = new UserCart();
             userCart.AddToCart(_testBooks[bookIndex1]);
@@ -91,8 +91,9 @@ namespace HarryPotterKata.Tests
         }
 
         [TestMethod]
-        [DataRow(1, 2, 3, 3, 28.8)]
-        public void User_Have_Ten_Percent_Discount(int bookIndex1, int bookIndex2, int bookIndex3, int bookIndex4, double expected)
+        [DataRow(1, 2, 3, 3, 29.6)]
+        public void User_Has_Ten_Percent_Discount(int bookIndex1, int bookIndex2, int bookIndex3,
+                                                    int bookIndex4, double expected)
         {
             var userCart = new UserCart();
 
@@ -108,7 +109,8 @@ namespace HarryPotterKata.Tests
 
         [TestMethod]
         [DataRow(1, 2, 3, 4, 25.6)]
-        public void User_Have_Twenty_Percent_Discount(int bookIndex1, int bookIndex2, int bookIndex3, int bookIndex4, double expected)
+        public void User_Has_Twenty_Percent_Discount(int bookIndex1, int bookIndex2, int bookIndex3,
+                                                        int bookIndex4, double expected)
         {
             var userCart = new UserCart();
 
@@ -124,8 +126,8 @@ namespace HarryPotterKata.Tests
 
         [TestMethod]
         [DataRow(1, 2, 3, 4, 5, 30.0)]
-        public void User_Have_Twenty_Five_Percent_Discount(int bookIndex1, int bookIndex2, int bookIndex3, int bookIndex4,
-                                                            int bookIndex5, double expected)
+        public void User_Has_Twenty_Five_Percent_Discount(int bookIndex1, int bookIndex2, int bookIndex3,
+                                                            int bookIndex4, int bookIndex5, double expected)
         {
             var userCart = new UserCart();
 
@@ -134,6 +136,28 @@ namespace HarryPotterKata.Tests
             userCart.AddToCart(_testBooks[bookIndex3]);
             userCart.AddToCart(_testBooks[bookIndex4]);
             userCart.AddToCart(_testBooks[bookIndex5]);
+
+            var actual = userCart.CalculateDiscount();
+
+            Assert.AreEqual((decimal)expected, actual);
+        }
+
+        [TestMethod]
+        [DataRow(1, 1, 2, 2, 3, 3, 4, 5, 51.60)]
+        public void User_Has_Several_Discounts(int bookIndex1, int bookIndex2, int bookIndex3,
+                                                int bookIndex4, int bookIndex5, int bookIndex6,
+                                                int bookIndex7, int bookIndex8, double expected)
+        {
+            var userCart = new UserCart();
+
+            userCart.AddToCart(_testBooks[bookIndex1]);
+            userCart.AddToCart(_testBooks[bookIndex2]);
+            userCart.AddToCart(_testBooks[bookIndex3]);
+            userCart.AddToCart(_testBooks[bookIndex4]);
+            userCart.AddToCart(_testBooks[bookIndex5]);
+            userCart.AddToCart(_testBooks[bookIndex6]);
+            userCart.AddToCart(_testBooks[bookIndex7]);
+            userCart.AddToCart(_testBooks[bookIndex8]);
 
             var actual = userCart.CalculateDiscount();
 

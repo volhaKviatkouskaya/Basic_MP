@@ -21,14 +21,38 @@
 
         public decimal CalculateDiscount()
         {
-            var uniqueBooks = Cart.DistinctBy(b => b.Title).Count();
+            var uniqueBooks = ReturnUniqueBooksList();
+            decimal resultPrice = 0;
 
-            var resultPrice = Cart.Sum(book => book.Price);
+            foreach (var books in uniqueBooks)
+            {
+                var percent = ReturnDiscountPercent(books.Length);
+                var price = books.Sum(s => s.Price);
+                var discount = percent * price / 100;
+                resultPrice += (price - discount);
+            }
 
-            var percent = ReturnDiscountPercent(uniqueBooks);
-            var discount = percent * resultPrice / 100;
+            return resultPrice;
+        }
 
-            return discount == 0 ? resultPrice : resultPrice - discount;
+        private List<Book[]> ReturnUniqueBooksList()
+        {
+            var tempCart = new List<Book>();
+            tempCart.AddRange(Cart);
+            var uniqueBooks = new List<Book[]>();
+
+            do
+            {
+                var books = tempCart.DistinctBy(b => b.Title).ToArray();
+                uniqueBooks.Add(books);
+
+                foreach (var book in books)
+                {
+                    tempCart.Remove(book);
+                }
+            } while (tempCart.Count > 0);
+
+            return uniqueBooks;
         }
 
         private decimal ReturnDiscountPercent(int count)
