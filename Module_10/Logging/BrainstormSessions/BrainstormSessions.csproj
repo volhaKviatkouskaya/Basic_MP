@@ -6,6 +6,16 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="3.0.1" />
+    <PackageReference Include="Serilog.AspNetCore" Version="6.1.0" />
+    <PackageReference Include="Serilog.Extensions.Logging" Version="3.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EditorConfigFiles Remove="C:\Users\Volha_Kviatkouskaya\source\repos\Basic_MP\Module_10\Logging\BrainstormSessions\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="C:\Users\Volha_Kviatkouskaya\source\repos\Basic_MP\Module_10\Logging\BrainstormSessions\.editorconfig" />
   </ItemGroup>
 
 </Project>
