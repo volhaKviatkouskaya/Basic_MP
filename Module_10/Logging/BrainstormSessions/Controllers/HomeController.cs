@@ -17,7 +17,7 @@ namespace BrainstormSessions.Controllers
         {
             _sessionRepository = sessionRepository;
         }
-
+        
         public async Task<IActionResult> Index()
         {
             var sessionList = await _sessionRepository.ListAsync();
