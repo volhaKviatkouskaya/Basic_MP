@@ -18,19 +18,19 @@ PRINT 'Insert data to Employee table'
     INSERT dbo.[employee]
     VALUES (@Address_first, (SELECT person_id 
 				FROM dbo.[person]
-				WHERE first_name + ' ' + last_name = 'Harry Potter'), 'Ministry of Magic', 'Head', 'Harry Potter'),
+				WHERE CONCAT(first_name, ' ', last_name) = 'Harry Potter'), 'Ministry of Magic', 'Head', 'Harry Potter'),
            (@Address_first, (SELECT person_id 
 				FROM dbo.[person]
-				WHERE first_name + ' ' + last_name = 'Hermione Granger'), 'Ministry of Magic', 'Minister', 'Hermione Granger'),
+				WHERE CONCAT(first_name, ' ', last_name) = 'Hermione Granger'), 'Ministry of Magic', 'Minister', 'Hermione Granger'),
            (@Address_first, (SELECT person_id 
 				FROM dbo.[person]
-				WHERE first_name + ' ' + last_name = 'Ron Weasley'), 'Ministry of Magic', 'Auror', 'Ron Weasley'),
+				WHERE CONCAT(first_name, ' ', last_name) = 'Ron Weasley'), 'Ministry of Magic', 'Auror', 'Ron Weasley'),
            (@Address_second, (SELECT person_id 
 				FROM dbo.[person]
-				WHERE first_name + ' ' + last_name = 'Albus Dumbledore'), 'Hogwarts', 'Director', 'Albus Dumbledore'),
+				WHERE CONCAT(first_name, ' ', last_name) = 'Albus Dumbledore'), 'Hogwarts', 'Director', 'Albus Dumbledore'),
            (@Address_first, (SELECT person_id 
 				FROM dbo.[person]
-				WHERE first_name + ' ' + last_name = 'Draco Malfoy'), 'Ministry of Magic', 'Employee', 'Draco Malfoy')
+				WHERE CONCAT(first_name, ' ', last_name) = 'Draco Malfoy'), 'Ministry of Magic', 'Employee', 'Draco Malfoy')
         
 PRINT 'Insert data to Company table'
     INSERT dbo.[company]
