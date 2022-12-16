@@ -5,8 +5,8 @@
 														FROM [person])
 				ELSE [employee].[employee_name]
 				END) AS EmployeeFullName,
-		 ([address].[zip_code] + '_' + [address].[state] + ',' + [address].[city] + '-' + [address].[street]) AS EmployeeFullAddress,
-		 ([employee].[company_name] + '(' + [employee].[position] + ')') AS EmployeeCompanyInfo
+				CONCAT([address].[zip_code], '_', [address].[state], ',', [address].[city], '-', [address].[street]) AS EmployeeFullAddress,
+				CONCAT([employee].[company_name], '(', [employee].[position], ')') AS EmployeeCompanyInfo
   FROM [employee]
   JOIN [address] ON [employee].[address_id] = [address].[address_id]
   JOIN [person] ON [employee].[person_id] = [person].[person_id]
