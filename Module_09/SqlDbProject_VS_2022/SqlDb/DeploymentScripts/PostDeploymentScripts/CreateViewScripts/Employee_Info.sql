@@ -1,6 +1,11 @@
-﻿CREATE VIEW vv_employee_info AS
+﻿CREATE VIEW v_employee_info AS
 		SELECT [employee].[employee_id] AS EmployeeId, 
-				[employee].[employee_name] AS EmployeeFullName,
+				EmployeeFullName = CASE 
+										WHEN [employee].[employee_name] = NULL THEN (SELECT CONCAT(first_name, ' ', last_name)
+																					FROM [dbo].[person]
+																					JOIN [dbo].[employee] ON [dbo].[person].person_id = [dbo].[employee].person_id)
+										ELSE [employee].[employee_name]
+									END,
 				CONCAT([address].[zip_code], '_', [address].[state], ',', [address].[city], '-', [address].[street]) AS EmployeeFullAddress,
 				CONCAT([employee].[company_name], '(', [employee].[position], ')') AS EmployeeCompanyInfo
 		FROM [employee]
