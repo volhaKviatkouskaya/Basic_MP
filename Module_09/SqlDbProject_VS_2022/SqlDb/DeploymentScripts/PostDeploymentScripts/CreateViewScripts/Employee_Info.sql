@@ -1,6 +1,8 @@
 ﻿CREATE VIEW v_employee_info AS
 		SELECT [employee].[employee_id] AS EmployeeId,
-				CONCAT(p.first_name, p.last_name) AS EmployeeFullName,
+				(CASE WHEN [employee].[employee_name] = NULL THEN CONCAT(p.first_name, ' ', p.last_name)
+						ELSE [employee].[employee_name]
+						END) AS EmployeeFullName,
 				CONCAT(a.[zip_code], '_', a.[state], ',', a.[city], '-', a.[street]) AS EmployeeFullAddress,
 				CONCAT([employee].[company_name], '(', [employee].[position], ')') AS EmployeeCompanyInfo
 		FROM [employee]
