@@ -1,4 +1,7 @@
 /build/
+*.dbmdl
+*.refactorlog
+*.jfm
 *.suo
 *.user
 _ReSharper.*/
