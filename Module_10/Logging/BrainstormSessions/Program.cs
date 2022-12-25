@@ -1,8 +1,10 @@
+using System;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Serilog;
-using System.IO;
-using log4net.Config;
+using System.Net;
+using Serilog.Events;
+using Serilog.Sinks.Email;
 
 namespace BrainstormSessions
 {
@@ -10,14 +12,27 @@ namespace BrainstormSessions
     {
         public static void Main(string[] args)
         {
-            FileInfo configFile = new FileInfo("web.config");
-            XmlConfigurator.Configure(configFile);
+            var senderEmail = Environment.GetEnvironmentVariable("SENDER");
+            var password = Environment.GetEnvironmentVariable("PASSWORD");
+            var receiverEmail = Environment.GetEnvironmentVariable("RECEIVER");
 
             Log.Logger = new LoggerConfiguration()
                 .Enrich.WithProperty("Logging", "Program")
                 .MinimumLevel.Information()
-                .WriteTo.Log4Net()
-                .WriteTo.File("Logs/structuredLog.log")
+                .WriteTo.File("Logs/structuredLog.json")
+                .WriteTo.Email(restrictedToMinimumLevel: LogEventLevel.Information,
+                    period: TimeSpan.FromSeconds(5), 
+                    batchPostingLimit:2,
+                    connectionInfo: new EmailConnectionInfo
+                    {
+                        EmailSubject = "APP Logs",
+                        NetworkCredentials = new NetworkCredential(senderEmail, password),
+                        FromEmail = senderEmail,
+                        ToEmail = receiverEmail,
+                        MailServer = "smtp.gmail.com",
+                        EnableSsl = true,
+                        Port = 465
+                    })
                 .CreateLogger();
 
             CreateHostBuilder(args).Build().Run();
@@ -28,6 +43,7 @@ namespace BrainstormSessions
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                });
+                })
+                .UseSerilog();
     }
 }
