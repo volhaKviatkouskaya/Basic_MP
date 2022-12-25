@@ -1,4 +1,0 @@
-{"Timestamp":"2022-12-15T21:42:55.4901462+01:00","Level":"Information","MessageTemplate":"Application Starting.","Properties":{"ApplicationName":"Serilog.WebApplication"}}
-{"Timestamp":"2022-12-15T21:50:30.6036288+01:00","Level":"Information","MessageTemplate":"Application Starting.","Properties":{"ApplicationName":"Logging"}}
-{"Timestamp":"2022-12-15T21:52:14.6248633+01:00","Level":"Information","MessageTemplate":"Application Starting.","Properties":{"ApplicationName":"Logging"}}
-{"Timestamp":"2022-12-15T21:54:18.1089232+01:00","Level":"Information","MessageTemplate":"Application Starting.","Properties":{"ApplicationName":"Logging"}}

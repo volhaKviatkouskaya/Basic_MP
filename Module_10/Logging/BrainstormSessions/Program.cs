@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Serilog;
-using System;
+using System.IO;
+using log4net.Config;
 
 namespace BrainstormSessions
 {
@@ -10,28 +10,16 @@ namespace BrainstormSessions
     {
         public static void Main(string[] args)
         {
-            var config = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json").Build();
+            FileInfo configFile = new FileInfo("web.config");
+            XmlConfigurator.Configure(configFile);
 
             Log.Logger = new LoggerConfiguration()
+                .Enrich.WithProperty("Logging", "Program")
                 .MinimumLevel.Information()
-                .ReadFrom.Configuration(config)
-                .WriteTo.File("Logs/structuredLog.json")
+                .WriteTo.Log4Net()
+                .WriteTo.File("Logs/structuredLog.log")
                 .CreateLogger();
 
-            try
-            {
-                Log.Information("Application Starting.");
-                CreateHostBuilder(args).Build().Run();
-            }
-            catch (Exception ex)
-            {
-                Log.Fatal(ex, "The Application failed to start.");
-            }
-            finally
-            {
-                Log.CloseAndFlush();
-            }
             CreateHostBuilder(args).Build().Run();
         }
 
@@ -40,7 +28,6 @@ namespace BrainstormSessions
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                })
-                .UseSerilog();
+                });
     }
 }
