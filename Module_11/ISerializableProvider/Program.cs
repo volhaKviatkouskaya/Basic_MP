@@ -1,34 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Runtime.Serialization;
 
-namespace Binary
+namespace ISerializableProvider
 {
     internal class Program
     {
-        private const string FileName = "Department.bin";
+        private const string FileName = "Person.bin";
 
         static void Main(string[] args)
         {
-            var employee = new Employee { EmployeeName = "Volha Kviatkouskaya" };
-            var employee1 = new Employee { EmployeeName = "Unknown Employee" };
-            var department = new Department
+            var person = new Person
             {
-                DepartmentName = "DotNet",
-                Employees = new List<Employee> { employee, employee1 }
+                FirstName = "Unknown",
+                LastName = "Person"
             };
 
-            Console.WriteLine($"Before serialization:\n{department}");
+            Console.WriteLine($"Before serialization:\n{person}");
 
             IFormatter formatter = new BinaryFormatter();
             Stream streamWriter = new FileStream(FileName, FileMode.Create, FileAccess.Write, FileShare.None);
-            formatter.Serialize(streamWriter, department);
+            formatter.Serialize(streamWriter, person);
             streamWriter.Close();
 
             Stream streamReader = new FileStream(FileName, FileMode.Open, FileAccess.Read, FileShare.Read);
-            Department deserializedDepartment = (Department)formatter.Deserialize(streamReader);
+            Person deserializedDepartment = (Person)formatter.Deserialize(streamReader);
             streamReader.Close();
 
             Console.WriteLine($"After serialization:\n{deserializedDepartment}");
