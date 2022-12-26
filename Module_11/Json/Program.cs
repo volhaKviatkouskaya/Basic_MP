@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text.Json;
 using System.Threading.Tasks;
 
@@ -7,6 +8,8 @@ namespace Json
 {
     internal class Program
     {
+        private const string FileName = "Department.json";
+
         static async Task Main(string[] args)
         {
             var employee = new Employee { EmployeeName = "Volha Kviatkouskaya" };
@@ -24,11 +27,15 @@ namespace Json
                 AllowTrailingCommas = true,
                 WriteIndented = true
             };
+
+            
             var jsonString = JsonSerializer.Serialize(department, options);
+            File.WriteAllText(FileName, jsonString);
             Console.WriteLine($"Serialized department:\n{jsonString}\n");
 
-            var deserializedDepartment = JsonSerializer.Deserialize<Department>(jsonString);
-            Console.WriteLine($"After serialization:\n{deserializedDepartment}");
+            var jsonString1 = File.ReadAllText(FileName);
+            var deserializedDepartment = JsonSerializer.Deserialize<Department>(jsonString1);
+            Console.WriteLine($"After deserialization:\n{deserializedDepartment}");
         }
     }
 }

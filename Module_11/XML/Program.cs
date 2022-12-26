@@ -7,7 +7,7 @@ namespace XML
 {
     internal class Program
     {
-        private const string Path = @"c:\temp\Department.xml";
+        private const string FileName = "Department.xml";
         static void Main(string[] args)
         {
             var employee = new Employee { EmployeeName = "Volha Kviatkouskaya" };
@@ -21,11 +21,11 @@ namespace XML
 
             XmlSerializer xmlSerializer = new(typeof(Department));
 
-            StreamWriter fileWriter = new(Path);
+            StreamWriter fileWriter = new(FileName);
             xmlSerializer.Serialize(fileWriter, department);
             fileWriter.Close();
 
-            StreamReader fileReader = new(Path);
+            StreamReader fileReader = new(FileName);
             var deserializedDepartment = (Department)xmlSerializer.Deserialize(fileReader);
             fileReader.Close();
 
