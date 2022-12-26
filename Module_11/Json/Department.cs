@@ -1,12 +1,18 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace Json
 {
     public class Department
     {
-        public string DepartmentName;
-        public List<Employee> Employees;
+        [JsonRequired]
+        [JsonPropertyName("Department Name")]
+        public string DepartmentName { get; set; }
+
+        [JsonRequired]
+        public List<Employee> Employees { get; set; }
 
         public override string ToString()
         {
