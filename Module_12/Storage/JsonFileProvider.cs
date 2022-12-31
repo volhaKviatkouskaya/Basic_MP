@@ -3,44 +3,47 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Reflection.Metadata;
 using System.Text;
 using System.Text.Json;
-using Model;
 
 namespace Storage
 {
-    public class JsonFileProvider : IProvider
+    public class JsonFileProvider<T> : IProvider<T>
     {
         private const string FileType = ".json";
         private const string ModelDll = "Model.dll";
 
-        public void SaveItem(DocumentBase doc)
+        public void SaveItem(T item)
         {
-            var typeName = doc.GetType().FullName;
-            var fileName = CreateFileName(typeName, doc.Id);
-            var jsonString = JsonSerializer.Serialize(doc);
+            var typeName = item.GetType().FullName;
+            var propertyInfo = item.GetType().GetProperty("Id");
+            var idValue = (int)propertyInfo.GetValue(item);
+            var fileName = CreateFileName(typeName, idValue);
+
+            var jsonString = JsonSerializer.Serialize(item, item.GetType());
 
             File.WriteAllText(fileName, jsonString);
         }
 
-        public List<DocumentBase> SearchItemById(int id)
+        public List<T> SearchItemById(int id)
         {
             var directoryFiles = GetDirectoryFiles(FileType);
             var filesList = directoryFiles.Where(file => file.Contains(id.ToString())).ToList();
 
-            var result = new List<DocumentBase>();
+            var result = new List<T>();
 
             foreach (var stringPath in filesList)
             {
                 var name = Path.GetFileName(stringPath).Split('_').FirstOrDefault();
-                ////TODO determine type and create it
                 var itemType = GetItemType(name);
 
-                var jsonString = File.ReadAllText(stringPath);
+                if (itemType != null)
+                {
+                    var jsonString = File.ReadAllText(stringPath);
+                    var doc = JsonSerializer.Deserialize(jsonString, itemType);
 
-                var doc = JsonSerializer.Deserialize<DocumentBase>(jsonString);
-                result.Add(doc);
+                    result.Add((T)doc);
+                }
             }
 
             return result;
@@ -55,7 +58,7 @@ namespace Storage
             {
                 if (typeName == type.FullName)
                 {
-                    return type;
+                    return type.GetTypeInfo().AsType();
                 }
             }
 

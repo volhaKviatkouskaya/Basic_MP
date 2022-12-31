@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata;
-using System.Text;
-using System.Threading.Tasks;
-using Model;
+﻿using System.Collections.Generic;
 
 namespace Storage
 {
-    public interface IProvider
+    public interface IProvider<T>
     {
-        public void SaveItem(DocumentBase doc);
-        public List<DocumentBase> SearchItemById(int id);
+        public void SaveItem(T item);
+        public List<T> SearchItemById(int id);
     }
 }

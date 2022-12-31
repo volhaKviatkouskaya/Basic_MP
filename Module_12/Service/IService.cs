@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Model;
-using Storage;
+﻿using System.Collections.Generic;
 
 namespace Service
 {
-    public interface IService
+    public interface IService<T>
     {
-        public void SaveItem(DocumentBase doc);
-        public List<DocumentBase> SearchItemById(int id);
+        public void SaveItem(T document);
+        public List<T> SearchItemById(int itemId);
     }
 }

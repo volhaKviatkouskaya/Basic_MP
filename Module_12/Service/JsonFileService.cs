@@ -1,21 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using Model;
+﻿using System.Collections.Generic;
 using Storage;
 
 namespace Service
 {
-    public class JsonFileService : IService
+    public class JsonFileService<T> : IService<T>
     {
-        public IProvider _storageProvider;
-        public JsonFileService() => _storageProvider = new JsonFileProvider();
+        public IProvider<T> _storageProvider;
+        public JsonFileService() => _storageProvider = new JsonFileProvider<T>();
 
-        public void SaveItem(DocumentBase doc)
+        public void SaveItem(T doc)
         {
             _storageProvider.SaveItem(doc);
         }
 
-        public List<DocumentBase> SearchItemById(int id)
+        public List<T> SearchItemById(int id)
         {
             return _storageProvider.SearchItemById(id);
         }
