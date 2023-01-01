@@ -6,6 +6,7 @@ namespace Model
 {
     public class Book : DocumentBase
     {
+        public long ISBN { get; set; }
         public int NumberOfPages { get; set; }
         public string Publisher { get; set; }
 
@@ -23,6 +24,7 @@ namespace Model
 
             sb.AppendLine($"Author: {authors}");
             sb.AppendLine($"DatePublished: {DatePublished}");
+            sb.AppendLine($"ISBN: {ISBN}");
             sb.AppendLine($"NumberOfPages: {NumberOfPages}");
             sb.AppendLine($"Publisher: {Publisher}");
 

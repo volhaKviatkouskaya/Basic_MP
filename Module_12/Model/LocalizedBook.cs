@@ -25,6 +25,7 @@ namespace Model
 
             sb.AppendLine($"Author: {authors}");
             sb.AppendLine($"DatePublished: {DatePublished}");
+            sb.AppendLine($"ISBN: {ISBN}");
             sb.AppendLine($"NumberOfPages: {NumberOfPages}");
             sb.AppendLine($"Publisher: {Publisher}");
             sb.AppendLine($"CountryOfLocalization: {CountryOfLocalization}");

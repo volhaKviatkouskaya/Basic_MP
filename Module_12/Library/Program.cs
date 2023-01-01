@@ -21,15 +21,16 @@ namespace Library
             {
                 Id = 100,
                 Title = "My first document",
-                Author = new List<string>() { { "Volha" }, { "Toma" } },
+                Author = new List<string>() { "Volha", "Toma" },
                 DatePublished = DateTime.Now
             };
 
             Book book = new()
             {
                 Id = 1001,
+                ISBN = 1000000000000,
                 Title = "My first Book",
-                Author = new List<string>() { { "Volha" } },
+                Author = new List<string>() { "Volha" },
                 NumberOfPages = 13,
                 DatePublished = DateTime.Now,
                 Publisher = "Some publisher"
@@ -38,8 +39,9 @@ namespace Library
             LocalizedBook localized = new()
             {
                 Id = 100111,
+                ISBN = 1000000000001,
                 Title = "My first Localized Book",
-                Author = new List<string>() { { "Volha" } },
+                Author = new List<string>() { "Volha" },
                 NumberOfPages = 13,
                 DatePublished = DateTime.Now,
                 Publisher = "Some publisher",
@@ -51,9 +53,19 @@ namespace Library
             {
                 Id = 10011,
                 Title = "My first patent",
-                Author = new List<string>() { { "Volha" } },
+                Author = new List<string>() { "Volha" },
                 DatePublished = DateTime.Today,
                 ExpirationDate = DateTime.Today
+            };
+
+            Magazine magazine = new()
+            {
+                Id = 11100,
+                Title = "My first magazine",
+                Author = new List<string>() { "Volha", "Toma" },
+                DatePublished = DateTime.Now,
+                ReleaseNumber = "14.100.1",
+                Publisher = "EPAM publisher"
             };
 
             IService<DocumentBase> service = new JsonFileService<DocumentBase>();
@@ -62,6 +74,7 @@ namespace Library
             service.SaveItem(book);
             service.SaveItem(localized);
             service.SaveItem(patent);
+            service.SaveItem(magazine);
 
             var doc2 = service.SearchItemById(100);
 
