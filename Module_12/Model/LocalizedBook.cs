@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 
 namespace Model
 {
@@ -18,17 +14,17 @@ namespace Model
             sb.AppendLine($"Title: {Title}");
 
             var authors = string.Empty;
-            foreach (var item in Author)
+            foreach (var item in Authors)
             {
                 authors = string.Concat(authors, $"{item} ");
             }
 
-            sb.AppendLine($"Author: {authors}");
-            sb.AppendLine($"DatePublished: {DatePublished}");
+            sb.AppendLine($"Authors: {authors}");
+            sb.AppendLine($"Date Published: {DatePublished}");
             sb.AppendLine($"ISBN: {ISBN}");
-            sb.AppendLine($"NumberOfPages: {NumberOfPages}");
+            sb.AppendLine($"Number Of Pages: {NumberOfPages}");
             sb.AppendLine($"Publisher: {Publisher}");
-            sb.AppendLine($"CountryOfLocalization: {CountryOfLocalization}");
+            sb.AppendLine($"Country Of Localization: {CountryOfLocalization}");
 
             return sb.ToString();
         }

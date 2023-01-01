@@ -7,7 +7,7 @@ namespace Library
 {
     public class Program
     {
-        public static void ShowItems(List<DocumentBase> itemsList)
+        private static void ShowItems(List<Document> itemsList)
         {
             foreach (var item in itemsList)
             {
@@ -17,20 +17,12 @@ namespace Library
 
         static void Main(string[] args)
         {
-            DocumentBase doc = new()
-            {
-                Id = 100,
-                Title = "My first document",
-                Author = new List<string>() { "Volha", "Toma" },
-                DatePublished = DateTime.Now
-            };
-
             Book book = new()
             {
-                Id = 1001,
+                Id = 1,
                 ISBN = 1000000000000,
                 Title = "My first Book",
-                Author = new List<string>() { "Volha" },
+                Authors = new List<string>() { "Volha" },
                 NumberOfPages = 13,
                 DatePublished = DateTime.Now,
                 Publisher = "Some publisher"
@@ -38,10 +30,10 @@ namespace Library
 
             LocalizedBook localized = new()
             {
-                Id = 100111,
+                Id = 10,
                 ISBN = 1000000000001,
                 Title = "My first Localized Book",
-                Author = new List<string>() { "Volha" },
+                Authors = new List<string>() { "Volha", "Toma" },
                 NumberOfPages = 13,
                 DatePublished = DateTime.Now,
                 Publisher = "Some publisher",
@@ -51,32 +43,30 @@ namespace Library
 
             Patent patent = new()
             {
-                Id = 10011,
+                Id = 101,
                 Title = "My first patent",
-                Author = new List<string>() { "Volha" },
+                Authors = new List<string>() { "Volha" },
                 DatePublished = DateTime.Today,
                 ExpirationDate = DateTime.Today
             };
 
             Magazine magazine = new()
             {
-                Id = 11100,
+                Id = 1010,
                 Title = "My first magazine",
-                Author = new List<string>() { "Volha", "Toma" },
                 DatePublished = DateTime.Now,
                 ReleaseNumber = "14.100.1",
                 Publisher = "EPAM publisher"
             };
 
-            IService<DocumentBase> service = new JsonFileService<DocumentBase>();
+            IService<Document> service = new FileService<Document>();
 
-            service.SaveItem(doc);
             service.SaveItem(book);
             service.SaveItem(localized);
             service.SaveItem(patent);
             service.SaveItem(magazine);
 
-            var doc2 = service.SearchItemById(100);
+            var doc2 = service.SearchItemById(1);
 
             ShowItems(doc2);
         }

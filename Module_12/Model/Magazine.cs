@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Model
 {
-    public class Magazine : DocumentBase
+    public class Magazine : Document
     {
         public string ReleaseNumber { get; set; }
         public string Publisher { get; set; }
+        public DateTime DatePublished { get; set; }
 
         public override string ToString()
         {
@@ -17,8 +15,8 @@ namespace Model
             sb.AppendLine($"Id: {Id}");
             sb.AppendLine($"Title: {Title}");
             sb.AppendLine($"Publisher: {Publisher}");
-            sb.AppendLine($"ReleaseNumber: {ReleaseNumber}");
-            sb.AppendLine($"DatePublished: {DatePublished}");
+            sb.AppendLine($"Release Number: {ReleaseNumber}");
+            sb.AppendLine($"Date Published: {DatePublished}");
 
             return sb.ToString();
         }

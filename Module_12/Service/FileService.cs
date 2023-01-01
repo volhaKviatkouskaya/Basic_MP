@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
+using Model;
 using Storage;
 
 namespace Service
 {
-    public class JsonFileService<T> : IService<T>
+    public class FileService<T> : IService<T> where T : Document
     {
-        public IProvider<T> _storageProvider;
-        public JsonFileService() => _storageProvider = new JsonFileProvider<T>();
+        private IProvider<T> _storageProvider;
+        public FileService() => _storageProvider = new JsonFileProvider<T>();
 
         public void SaveItem(T doc)
         {

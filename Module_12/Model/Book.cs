@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Globalization;
 using System.Text;
 
 namespace Model
 {
-    public class Book : DocumentBase
+    public class Book : BookBase
     {
-        public long ISBN { get; set; }
-        public int NumberOfPages { get; set; }
-        public string Publisher { get; set; }
-
+        public DateTime DatePublished { get; set; }
         public override string ToString()
         {
             var sb = new StringBuilder();
@@ -17,15 +13,15 @@ namespace Model
             sb.AppendLine($"Title: {Title}");
 
             var authors = string.Empty;
-            foreach (var item in Author)
+            foreach (var item in Authors)
             {
                 authors = string.Concat(authors, $"{item} ");
             }
 
-            sb.AppendLine($"Author: {authors}");
-            sb.AppendLine($"DatePublished: {DatePublished}");
+            sb.AppendLine($"Authors: {authors}");
+            sb.AppendLine($"Date Published: {DatePublished}");
             sb.AppendLine($"ISBN: {ISBN}");
-            sb.AppendLine($"NumberOfPages: {NumberOfPages}");
+            sb.AppendLine($"Number Of Pages: {NumberOfPages}");
             sb.AppendLine($"Publisher: {Publisher}");
 
             return sb.ToString();

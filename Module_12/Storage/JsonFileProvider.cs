@@ -1,24 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Text.Json;
+using Model;
 
 namespace Storage
 {
-    public class JsonFileProvider<T> : IProvider<T>
+    public class JsonFileProvider<T> : IProvider<T> where T : Document
     {
         private const string FileType = ".json";
-        private const string ModelDll = "Model.dll";
+        private const string ModelDll = "Model.dll"; //Dll with derived types
 
         public void SaveItem(T item)
         {
             var typeName = item.GetType().FullName;
-            var propertyInfo = item.GetType().GetProperty("Id");
-            var idValue = (int)propertyInfo.GetValue(item);
-            var fileName = CreateFileName(typeName, idValue);
+            var fileName = CreateFileName(typeName, item.Id).ToLower();
 
             var jsonString = JsonSerializer.Serialize(item, item.GetType());
 
@@ -28,28 +28,35 @@ namespace Storage
         public List<T> SearchItemById(int id)
         {
             var directoryFiles = GetDirectoryFiles(FileType);
-            var filesList = directoryFiles.Where(file => file.Contains(id.ToString())).ToList();
 
             var result = new List<T>();
 
-            foreach (var stringPath in filesList)
+            foreach (var stringPath in directoryFiles)
             {
-                var name = Path.GetFileName(stringPath).Split('_').FirstOrDefault();
-                var itemType = GetItemType(name);
-
-                if (itemType != null)
+                var fullFileName = Path.GetFileNameWithoutExtension(stringPath).Split('_', '#');
+                if (fullFileName.Contains(id.ToString()))
                 {
-                    var jsonString = File.ReadAllText(stringPath);
-                    var doc = JsonSerializer.Deserialize(jsonString, itemType);
+                    var fileId = Convert.ToInt32(fullFileName.LastOrDefault());
 
-                    result.Add((T)doc);
+                    TextInfo txtInfo = new CultureInfo("en-en", false).TextInfo;
+                    var typeName = txtInfo.ToTitleCase(fullFileName.FirstOrDefault());
+
+                    if (id == fileId && typeName != null)
+                    {
+                        var itemType = GetItemType(typeName);
+
+                        var jsonString = File.ReadAllText(stringPath);
+                        var doc = JsonSerializer.Deserialize(jsonString, itemType);
+
+                        result.Add((T)doc);
+                    }
                 }
             }
 
             return result;
         }
 
-        public Type GetItemType(string typeName)
+        private Type GetItemType(string typeName)
         {
             var modelDll = GetDirectoryFiles(ModelDll).FirstOrDefault();
             var assembly = Assembly.LoadFrom(modelDll);

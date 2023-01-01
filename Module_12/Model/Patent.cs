@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Model
 {
-    public class Patent : DocumentBase
+    public class Patent : Book
     {
         public DateTime ExpirationDate { get; set; }
 
@@ -17,14 +14,14 @@ namespace Model
             sb.AppendLine($"Title: {Title}");
 
             var authors = string.Empty;
-            foreach (var item in Author)
+            foreach (var item in Authors)
             {
                 authors = string.Concat(authors, $"{item} ");
             }
 
-            sb.AppendLine($"Author: {authors}");
-            sb.AppendLine($"DatePublished: {DatePublished}");
-            sb.AppendLine($"ExpirationDate: {ExpirationDate}");
+            sb.AppendLine($"Authors: {authors}");
+            sb.AppendLine($"Date Published: {DatePublished}");
+            sb.AppendLine($"Expiration Date: {ExpirationDate}");
 
             return sb.ToString();
         }
