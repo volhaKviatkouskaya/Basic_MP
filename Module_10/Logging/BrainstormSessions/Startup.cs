@@ -21,8 +21,7 @@ namespace BrainstormSessions
 
             services.AddControllersWithViews();
 
-            services.AddScoped<IBrainstormSessionRepository,
-                EFStormSessionRepository>();
+            services.AddScoped<IBrainstormSessionRepository, EFStormSessionRepository>();
         }
 
         public void Configure(IApplicationBuilder app,

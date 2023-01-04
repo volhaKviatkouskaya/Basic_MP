@@ -6,6 +6,7 @@ using BrainstormSessions.Core.Interfaces;
 using BrainstormSessions.Core.Model;
 using BrainstormSessions.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 
 namespace BrainstormSessions.Controllers
 {
@@ -17,7 +18,7 @@ namespace BrainstormSessions.Controllers
         {
             _sessionRepository = sessionRepository;
         }
-
+        
         public async Task<IActionResult> Index()
         {
             var sessionList = await _sessionRepository.ListAsync();
@@ -29,6 +30,8 @@ namespace BrainstormSessions.Controllers
                 Name = session.Name,
                 IdeaCount = session.Ideas.Count
             });
+
+            Log.Information("Expected Info messages in the logs");
 
             return View(model);
         }
@@ -44,6 +47,7 @@ namespace BrainstormSessions.Controllers
         {
             if (!ModelState.IsValid)
             {
+                Log.Warning("Expected Warn messages in the logs");
                 return BadRequest(ModelState);
             }
             else

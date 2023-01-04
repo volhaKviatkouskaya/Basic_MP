@@ -10,6 +10,7 @@ using log4net.Appender;
 using log4net.Config;
 using log4net.Core;
 using Moq;
+using Serilog;
 using Xunit;
 
 namespace BrainstormSessions.Test.UnitTests
@@ -22,6 +23,12 @@ namespace BrainstormSessions.Test.UnitTests
         {
             _appender = new MemoryAppender();
             BasicConfigurator.Configure(_appender);
+
+            Log.Logger = new LoggerConfiguration()
+                .Enrich.WithProperty("Logging", "Program")
+                .MinimumLevel.Debug()
+                .WriteTo.Log4Net()
+                .CreateLogger();
         }
 
         public void Dispose()
