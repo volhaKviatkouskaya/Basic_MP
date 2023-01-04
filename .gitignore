@@ -1,4 +1,7 @@
 /build/
+*.dbmdl
+*.refactorlog
+*.jfm
 *.suo
 *.user
 _ReSharper.*/
@@ -20,4 +23,3 @@ Version.cpp
 /Module_09/SqlDbProject_VS_2022/SqlDb/SqlDb.dbmdl
 *.refactorlog
 /Module_10/Logging/BrainstormSessions/Logs/structuredLog.json
-/Module_10/Logging/BrainstormSessions/Properties/launchSettings.json
