@@ -119,10 +119,6 @@ namespace Task1
                 });
         }
 
-        //Group the products by “cheap”, “average” and “expensive” following the rules:
-        //a.From 0 to cheap inclusive                                  p >0&& p<=cheap
-        //     b.From cheap exclusive to average inclusive                              p >cheap&& p<=middle
-        //    c. From average exclusive to expensive inclusive                                                 p>middle && p<=expensive
         public static IEnumerable<(decimal category, IEnumerable<Product> products)> Linq8(
             IEnumerable<Product> products,
             decimal cheap,
@@ -135,10 +131,13 @@ namespace Task1
                 throw new ArgumentNullException(nameof(products));
             }
 
-            throw new NotImplementedException();
+            return products.GroupBy(product => product.UnitPrice <= cheap ? cheap :
+                                (product.UnitPrice > cheap && product.UnitPrice <= middle ? middle : expensive))
+                            .Select(group => (group.Key, group.AsEnumerable()))
+                            .OrderBy(x => x.Item1).ToList();
+
         }
-        //Calculate the average profitability of each city (average amount of orders per customer)
-        //and average rate (average number of orders per customer from each city).
+
         public static IEnumerable<(string city, int averageIncome, int averageIntensity)> Linq9(
             IEnumerable<Customer> customers
         )
@@ -148,7 +147,13 @@ namespace Task1
                 throw new ArgumentNullException(nameof(customers));
             }
 
-            throw new NotImplementedException();
+            return customers.Select(item => new ValueTuple<string, int, int>(item.City,
+                    Convert.ToInt32(customers.Where(x => x.City == item.City)
+                            .Select(x => x.Orders.Sum(order => order.Total)).Average()),
+                    Convert.ToInt32(customers.Where(x => x.City == item.City).Average(x => x.Orders.Length))))
+                .Distinct()
+                .ToList();
+
         }
 
         public static string Linq10(IEnumerable<Supplier> suppliers)

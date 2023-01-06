@@ -68,7 +68,7 @@ namespace Task1.Tests
             Assert.That(() => LinqTask.Linq2UsingGroup(null, null).ToList(), Throws.ArgumentNullException);
         }
 
-        [TestCase(800, ExpectedResult = 4)]//is 2 correct value?
+        [TestCase(800, ExpectedResult = 4)]  //is 2 correct value?
         [TestCase(0, ExpectedResult = 6)]
         [TestCase(-1, ExpectedResult = 6)]
         [TestCase(1, ExpectedResult = 5)]
