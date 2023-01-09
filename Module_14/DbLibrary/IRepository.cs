@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace DbLibrary
 {
     public interface IRepository<T> where T : class
     {
-        void CreateItem(T product);
-        T SelectItemById(int productId);
+        void CreateItem(T item);
+        T SelectItemById(int itemId);
         List<T> SelectAll();
-        void UpdateItem(T product);
-        void DeleteItem(int productId);
+        void UpdateItem(T item);
+        void DeleteItem(int itemId);
     }
 }

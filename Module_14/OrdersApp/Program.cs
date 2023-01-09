@@ -1,4 +1,5 @@
 ﻿using DbLibrary;
+using System;
 
 namespace OrdersApp
 {
@@ -6,6 +7,7 @@ namespace OrdersApp
     {
         static void Main(string[] args)
         {
+            /*
             var product = new ProductEntity()
             {
                 Name = "Green apple",
@@ -16,8 +18,9 @@ namespace OrdersApp
                 Width = 0
             };
 
-            DbAccess.CreateProduct(product);
-            DbAccess.UpdateProduct(new ProductEntity()
+            var repo = new ProductRepository<ProductEntity>();
+            repo.CreateItem(product);
+            repo.UpdateItem(new ProductEntity()
             {
                 ProductId = 5,
                 Name = "Green apple",
@@ -28,9 +31,31 @@ namespace OrdersApp
                 Width = 1
             });
 
-            var result = DbAccess.SelectProduct(6);
-            var all = DbAccess.SelectAllProducts();
-            DbAccess.DeleteProduct(6);
+            var result = repo.SelectItemById(6);
+            var all = repo.SelectAll();
+            repo.DeleteItem(6);
+            */
+            var order = new OrderEntity()
+            {
+                Status = 1,
+                CreatedDate = DateTime.Now,
+                UpdatedDate = DateTime.Now,
+                ProductId = 1
+            };
+
+            var repo = new OrderRepository<OrderEntity>();
+            repo.CreateItem(order);
+            repo.UpdateItem(new OrderEntity()
+            {
+                OrderId = 5,
+                Status = 2,
+                UpdatedDate = DateTime.Today,
+                ProductId = 3
+            });
+
+            var result = repo.SelectItemById(1);
+            var all = repo.SelectAll();
+            repo.DeleteItem(1);
         }
     }
 }

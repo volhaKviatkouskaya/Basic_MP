@@ -1,23 +1,31 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using System.ComponentModel.DataAnnotations;
 
 namespace DbLibrary
 {
     public class OrderEntity
     {
-        [Required]
         public int OrderId { get; set; }
-        [Required]
+
         public int Status { get; set; }
-        [Required]
+
         public DateTime CreatedDate { get; set; }
-        [Required]
+
         public DateTime UpdatedDate { get; set; }
-        [Required]
+
         public int ProductId { get; set; }
+
+        public override string ToString()
+        {
+            var sb = new StringBuilder();
+            sb.AppendLine("Order:");
+            sb.AppendLine($"Id: {OrderId}");
+            sb.AppendLine($"Status: {Status}");
+            sb.AppendLine($"Created date: {CreatedDate}");
+            sb.AppendLine($"Updated date: {UpdatedDate}");
+            sb.AppendLine($"Product id: {ProductId}");
+
+            return sb.ToString();
+        }
     }
 }

@@ -1,37 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.SqlClient;
 
 namespace DbLibrary
 {
     public class ProductRepository<T> : IRepository<T> where T : ProductEntity
     {
-        private const string ConnectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=Order;Integrated Security=True;Connect Timeout=5;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;";
+        private readonly string _connString = Properties.Settings.Default.OrderConnectionString;
 
         private void ExecuteQuery(string query)
         {
-            var sqlConnection = new SqlConnection(ConnectionString);
+            var sqlConnection = new SqlConnection(_connString);
             sqlConnection.Open();
             var command = new SqlCommand(query, sqlConnection);
             command.ExecuteNonQuery();
             sqlConnection.Close();
         }
 
-        public void CreateItem(T product)
+        public void CreateItem(T item)
         {
             var query = "INSERT INTO dbo.Products " +
                         "(name, description, weight, height, width, length) " +
-                        $"VALUES ('{product.Name}', '{product.Description}', {product.Weight}, {product.Height}, {product.Width}, {product.Length})";
+                        $"VALUES ('{item.Name}', '{item.Description}', {item.Weight}, {item.Height}, {item.Width}, {item.Length})";
 
             ExecuteQuery(query);
         }
 
-        public T SelectItemById(int productId)
+        public T SelectItemById(int itemId)
         {
             var query = "SELECT * FROM dbo.Products " +
-                        $"WHERE product_id = {productId}";
+                        $"WHERE product_id = {itemId}";
 
-            var sqlConnection = new SqlConnection(ConnectionString);
+            var sqlConnection = new SqlConnection(_connString);
             sqlConnection.Open();
             var command = new SqlCommand(query, sqlConnection);
 
@@ -62,7 +63,7 @@ namespace DbLibrary
             var query = "SELECT * " +
                         "FROM dbo.Products";
 
-            var sqlConnection = new SqlConnection(ConnectionString);
+            var sqlConnection = new SqlConnection(_connString);
             var command = new SqlCommand(query, sqlConnection);
             sqlConnection.Open();
             var productsList = new List<T>();
@@ -106,20 +107,20 @@ namespace DbLibrary
             return (T)product;
         }
 
-        public void UpdateItem(T product)
+        public void UpdateItem(T item)
         {
             var query = "UPDATE dbo.Products " +
-                        $"SET name = '{product.Name}', description = '{product.Description}', weight = {product.Weight}," +
-                        $" height = {product.Height}, width = {product.Width}, length = {product.Length}" +
-                        $"WHERE product_id = {product.ProductId}";
+                        $"SET name = '{item.Name}', description = '{item.Description}', weight = {item.Weight}," +
+                        $" height = {item.Height}, width = {item.Width}, length = {item.Length}" +
+                        $"WHERE product_id = {item.ProductId}";
 
             ExecuteQuery(query);
         }
 
-        public void DeleteItem(int productId)
+        public void DeleteItem(int itemId)
         {
             var query = "DELETE FROM dbo.Products " +
-                        $"WHERE product_id = {productId}";
+                        $"WHERE product_id = {itemId}";
 
             ExecuteQuery(query);
         }
