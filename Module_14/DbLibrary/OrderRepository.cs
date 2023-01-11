@@ -1,24 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Configuration;
 
 namespace DbLibrary
 {
+    //Connected approach
     public class OrderRepository<T> : IRepository<T> where T : OrderEntity
     {
-        private readonly string _connString = Properties.Settings.Default.OrderConnectionString;
+        private static readonly string _connString = Properties.Settings.Default.OrderConnectionString;
+        private readonly SqlConnection _sqlConnection = new SqlConnection(_connString);
 
         private void ExecuteQuery(string query)
         {
-            var sqlConnection = new SqlConnection(_connString);
-            sqlConnection.Open();
-            var command = new SqlCommand(query, sqlConnection);
+            _sqlConnection.Open();
+            var command = new SqlCommand(query, _sqlConnection);
             command.ExecuteNonQuery();
-            sqlConnection.Close();
+            _sqlConnection.Close();
         }
 
-        public void CreateItem(T item)
+        public void InsertItem(T item)
         {
             var query = "INSERT INTO dbo.Orders " +
                         "(status, created_date, updated_date, product_id) " +
@@ -32,9 +32,8 @@ namespace DbLibrary
             var query = "SELECT * FROM dbo.Orders " +
                         $"WHERE order_id = {itemId}";
 
-            var sqlConnection = new SqlConnection(_connString);
-            sqlConnection.Open();
-            var command = new SqlCommand(query, sqlConnection);
+            _sqlConnection.Open();
+            var command = new SqlCommand(query, _sqlConnection);
 
             var dataReader = command.ExecuteReader();
             OrderEntity order = null;
@@ -51,7 +50,7 @@ namespace DbLibrary
                 };
             }
 
-            sqlConnection.Close();
+            _sqlConnection.Close();
 
             return (T)order;
         }
@@ -61,9 +60,8 @@ namespace DbLibrary
             var query = "SELECT * " +
                         "FROM dbo.Orders";
 
-            var sqlConnection = new SqlConnection(_connString);
-            var command = new SqlCommand(query, sqlConnection);
-            sqlConnection.Open();
+            var command = new SqlCommand(query, _sqlConnection);
+            _sqlConnection.Open();
             var ordersList = new List<T>();
 
             using (SqlDataReader reader = command.ExecuteReader())
@@ -83,6 +81,8 @@ namespace DbLibrary
                     ordersList.Add((T)product);
                 }
             }
+
+            _sqlConnection.Close();
 
             return ordersList;
         }

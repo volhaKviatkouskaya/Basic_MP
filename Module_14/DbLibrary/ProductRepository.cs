@@ -1,128 +1,144 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
 using System.Data.SqlClient;
 
 namespace DbLibrary
 {
+    //Disconnected approach
     public class ProductRepository<T> : IRepository<T> where T : ProductEntity
     {
         private readonly string _connString = Properties.Settings.Default.OrderConnectionString;
+        private SqlConnection _connection;
+        private SqlDataAdapter _dataAdapter;
+        private DataSet _dataSet;
+        private const string TableName = "Products";
 
-        private void ExecuteQuery(string query)
+        private void Connect()
         {
-            var sqlConnection = new SqlConnection(_connString);
-            sqlConnection.Open();
-            var command = new SqlCommand(query, sqlConnection);
-            command.ExecuteNonQuery();
-            sqlConnection.Close();
+            _connection = new SqlConnection(_connString);
+            _connection.Open();
         }
 
-        public void CreateItem(T item)
+        private void FetchData()
         {
-            var query = "INSERT INTO dbo.Products " +
-                        "(name, description, weight, height, width, length) " +
-                        $"VALUES ('{item.Name}', '{item.Description}', {item.Weight}, {item.Height}, {item.Width}, {item.Length})";
+            Connect();
+            _dataAdapter = new SqlDataAdapter($"SELECT * FROM {TableName}", _connection);
+            _dataSet = new DataSet();
+            _dataAdapter.Fill(_dataSet, TableName);
+        }
 
-            ExecuteQuery(query);
+        public void InsertItem(T item)
+        {
+            FetchData();
+            DataRow dataRow = _dataSet.Tables[TableName].NewRow();
+
+            dataRow[0] = item.ProductId;
+            dataRow[1] = item.Name;
+            dataRow[2] = item.Description;
+            dataRow[3] = item.Weight;
+            dataRow[4] = item.Height;
+            dataRow[5] = item.Length;
+            dataRow[6] = item.Width;
+
+            _dataSet.Tables[TableName].Rows.Add(dataRow);
+
+            var builder = new SqlCommandBuilder(_dataAdapter);
+            builder.GetInsertCommand();
+            _dataAdapter.Update(_dataSet, TableName);
+
+            _connection.Close();
         }
 
         public T SelectItemById(int itemId)
         {
-            var query = "SELECT * FROM dbo.Products " +
-                        $"WHERE product_id = {itemId}";
-
-            var sqlConnection = new SqlConnection(_connString);
-            sqlConnection.Open();
-            var command = new SqlCommand(query, sqlConnection);
-
-            var dataReader = command.ExecuteReader();
+            FetchData();
             ProductEntity product = null;
 
-            if (dataReader.Read())
+            foreach (DataRow dataRow in _dataSet.Tables[TableName].Rows)
             {
-                product = new ProductEntity()
-                {
-                    ProductId = (int)dataReader[0],
-                    Name = dataReader[1].ToString(),
-                    Description = dataReader[2].ToString(),
-                    Height = (int)dataReader[3],
-                    Weight = (int)dataReader[4],
-                    Length = (int)dataReader[5],
-                    Width = (int)dataReader[6],
-                };
-            }
+                var id = dataRow[0] == null ? 0 : Convert.ToInt32(dataRow[0]);
 
-            sqlConnection.Close();
+                if (id == itemId)
+                {
+                    product = ConvertToProductEntity(dataRow.ItemArray);
+                }
+            }
 
             return (T)product;
         }
 
         public List<T> SelectAll()
         {
-            var query = "SELECT * " +
-                        "FROM dbo.Products";
+            FetchData();
+            var productList = new List<T>();
 
-            var sqlConnection = new SqlConnection(_connString);
-            var command = new SqlCommand(query, sqlConnection);
-            sqlConnection.Open();
-            var productsList = new List<T>();
-
-            using (SqlDataReader reader = command.ExecuteReader())
+            foreach (DataRow dataRow in _dataSet.Tables[0].Rows)
             {
-                while (reader.Read())
-                {
-                    var item = new[]
-                    {
-                        reader[0].ToString(),
-                        reader[1].ToString(),
-                        reader[2].ToString(),
-                        reader[3].ToString(),
-                        reader[4].ToString(),
-                        reader[5].ToString(),
-                        reader[6].ToString()
-                    };
-
-                    var product = ConvertToEntities(item);
-                    productsList.Add((T)product);
-                }
+                var product = ConvertToProductEntity(dataRow.ItemArray);
+                productList.Add((T)product);
             }
 
-            return productsList;
+            return productList;
         }
 
-        private static T ConvertToEntities(string[] inputList)
+        private ProductEntity ConvertToProductEntity(object[] item)
         {
             var product = new ProductEntity()
             {
-                ProductId = inputList[0] == null ? 0 : Convert.ToInt32(inputList[0]),
-                Name = inputList[1],
-                Description = inputList[2],
-                Height = inputList[3] == null || inputList[3] == string.Empty ? 0 : Convert.ToInt32(inputList[3]),
-                Weight = inputList[4] == null || inputList[4] == string.Empty ? 0 : Convert.ToInt32(inputList[4]),
-                Length = inputList[5] == null || inputList[5] == string.Empty ? 0 : Convert.ToInt32(inputList[5]),
-                Width = inputList[6] == null || inputList[6] == string.Empty ? 0 : Convert.ToInt32(inputList[6]),
+                ProductId = item[0] == null ? 0 : Convert.ToInt32(item[0]),
+                Name = item[1].ToString(),
+                Description = item[2].ToString(),
+                Height = item[3] == DBNull.Value ? 0 : Convert.ToInt32(item[3]),
+                Weight = item[4] == DBNull.Value ? 0 : Convert.ToInt32(item[4]),
+                Length = item[5] == DBNull.Value ? 0 : Convert.ToInt32(item[5]),
+                Width = item[6] == DBNull.Value ? 0 : Convert.ToInt32(item[6]),
             };
 
-            return (T)product;
+            return product;
         }
 
         public void UpdateItem(T item)
         {
-            var query = "UPDATE dbo.Products " +
-                        $"SET name = '{item.Name}', description = '{item.Description}', weight = {item.Weight}," +
-                        $" height = {item.Height}, width = {item.Width}, length = {item.Length}" +
-                        $"WHERE product_id = {item.ProductId}";
+            FetchData();
+            
+            foreach (DataRow dataRow in _dataSet.Tables[TableName].Rows)
+            {
+                var itemId = dataRow[0] == null ? 0 : Convert.ToInt32(dataRow[0]);
 
-            ExecuteQuery(query);
+                if (item.ProductId == itemId)
+                {
+                    dataRow[1] = item.Name;
+                    dataRow[2] = item.Description;
+                    dataRow[3] = item.Height;
+                    dataRow[4] = item.Weight;
+                    dataRow[5] = item.Length;
+                    dataRow[6] = item.Width;
+                }
+            }
+
+            _dataAdapter.Update(_dataSet, TableName);
+            _connection.Close();
         }
 
         public void DeleteItem(int itemId)
         {
-            var query = "DELETE FROM dbo.Products " +
-                        $"WHERE product_id = {itemId}";
+            FetchData();
 
-            ExecuteQuery(query);
+            foreach (DataRow dataRow in _dataSet.Tables[TableName].Rows)
+            {
+                var id = dataRow[0] == null ? 0 : Convert.ToInt32(dataRow[0]);
+
+                if (itemId == id)
+                {
+                    dataRow.Delete();
+                    break;
+                }
+            }
+
+            _dataAdapter.Update(_dataSet, "Products");
+            _connection.Close();
         }
     }
 }

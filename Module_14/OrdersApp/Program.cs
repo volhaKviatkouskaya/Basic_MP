@@ -12,29 +12,30 @@ namespace OrdersApp
             {
                 Name = "Green apple",
                 Description = "Green apples",
-                Height = 1,
                 Weight = 50,
+                Height = 1,
                 Length = 0,
                 Width = 0
             };
 
             var repo = new ProductRepository<ProductEntity>();
-            repo.CreateItem(product);
+            repo.InsertItem(product);
             repo.UpdateItem(new ProductEntity()
             {
-                ProductId = 5,
-                Name = "Green apple",
-                Description = "Green and red apples",
-                Height = 10,
+                ProductId = 33,
+                Name = "All green apple",
+                Description = "Green apples",
                 Weight = 20,
+                Height = 10,
                 Length = 1,
                 Width = 1
             });
 
-            var result = repo.SelectItemById(6);
+            var result = repo.SelectItemById(33);
             var all = repo.SelectAll();
-            repo.DeleteItem(6);
+            repo.DeleteItem(33);
             */
+            
             var order = new OrderEntity()
             {
                 Status = 1,
@@ -44,7 +45,7 @@ namespace OrdersApp
             };
 
             var repo = new OrderRepository<OrderEntity>();
-            repo.CreateItem(order);
+            repo.InsertItem(order);
             repo.UpdateItem(new OrderEntity()
             {
                 OrderId = 5,
@@ -56,6 +57,7 @@ namespace OrdersApp
             var result = repo.SelectItemById(1);
             var all = repo.SelectAll();
             repo.DeleteItem(1);
+            
         }
     }
 }
